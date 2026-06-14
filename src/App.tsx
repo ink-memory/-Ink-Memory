@@ -42,11 +42,11 @@ type SectionScene =
   | 'audienceCards'
   | 'confirmPanel'
   | 'toolCards'
-  | 'modeCards'
+  | 'promptCards'
   | 'breathingEditor'
-  | 'memoryChat'
+  | 'memoryLayers'
   | 'voiceCast'
-  | 'echoAnalysis'
+  | 'memoryResponse'
   | 'imageTimeline'
   | 'safetyGrid'
   | 'finalCall';
@@ -84,9 +84,9 @@ const sections: LandingSection[] = [
     accent2: '#39D353',
     bg: '#F5E9D6',
     eyebrow: '给认真写作者的 AI 搭档',
-    title: '写下来，让 AI 和你一起听见自己',
-    lead: '面向长期写作者、自我探索者和日记/随笔/梦境记录用户。你写字，它倾听；需要修改时，它可以动笔，但每一次关键动作都等你确认。',
-    proof: '核心边界：不是 AI 替你写，是 AI 和你一起写。',
+    title: '写下来，听见长期的自己',
+    lead: '普通日记只保存文字，普通 AI 只回答当下。Ink & Memory 会让你的文字形成记忆，让记忆影响 AI 与你的每一次互动。',
+    proof: '先记住，再理解。先沉淀，再回应。',
     visualTitle: 'Mimo 在旁边听',
     visualText: '从第一句话开始，AI 先理解，再协作。',
     scene: 'heroProof',
@@ -107,15 +107,15 @@ const sections: LandingSection[] = [
     bg: '#EFF8DD',
     eyebrow: '明确 ICP',
     title: '这是给认真写，也认真看见自己的人',
-    lead: '如果你只是想随手试 AI，它可能太克制；如果你在意文字、隐私、长期记忆和可控协作，它会更像一个写作空间。',
-    proof: '适合长期写作者、自我探索者、情绪记录者、AI 创作用户，以及重视边界的人。',
+    lead: '它不是给所有人用的日记工具。它更适合高频书写、自我探索、需要上下文，也重视控制权的人。',
+    proof: '你不只想把文字存起来，也希望这些文字在未来还能重新回应你。',
     visualTitle: '这是写作者的工具',
     visualText: '先确认“这是给我的”，再进入能力解释。',
     scene: 'audienceCards',
     cards: [
-      '长期写日记、随笔、灵感、梦境或情绪记录的人。',
-      '希望 AI 真正参与写作、整理和修改，但每一步都可解释、可拒绝。',
-      '在意文字私密性和长期记忆，希望越写越懂自己，而不是每次从零开始。',
+      '你经常写日记、随笔、灵感、梦境、情绪记录或创作草稿。',
+      '你正在经历关系变化、职业转折、创作瓶颈、孤独、迷茫或长期压力。',
+      '你希望 AI 懂上下文，但不希望它擅自替你决定或修改。',
     ],
   },
   {
@@ -130,8 +130,8 @@ const sections: LandingSection[] = [
     bg: '#FFF7EA',
     eyebrow: '核心差异',
     title: 'AI 可以动笔，但先把手停住',
-    lead: '它不只给建议，也能改写段落、整理结构、插入内容或回复评论。但在执行前，它必须说明想做什么、改哪里、为什么改。',
-    proof: '确认面板出现之前，任何关键写操作都不会落到正文里。',
+    lead: '它不只给建议，也能改写、删除、插入组件、回复评论、根据你的风格润色。但在动手之前，它必须先展示请求。',
+    proof: '你会看到修改目标、前后内容、修改理由和风险等级，然后决定是否接受。',
     visualTitle: '修改前先停下',
     visualText: '它会说明目标、范围、前后差异和原因。',
     scene: 'confirmPanel',
@@ -148,7 +148,7 @@ const sections: LandingSection[] = [
     bg: '#FFF1AE',
     eyebrow: '能力边界',
     title: '能做什么，不能做什么，都写清楚',
-    lead: 'Ink & Memory 把 AI 的写作能力拆成四类工具。每一种都对应明确风险等级和确认方式。',
+    lead: 'Ink & Memory 把 AI 的写作行为拆成明确工具，避免模糊操作。越能行动，越要把边界说清楚。',
     proof: 'AI 可以读、分析、建议、申请修改；不能绕过你直接改文档。',
     visualTitle: '读、想、提议、等待',
     visualText: '工具越明确，信任越容易建立。',
@@ -156,27 +156,27 @@ const sections: LandingSection[] = [
     cards: [
       {title: '写入段落', text: '替换完整段落，适合润色、改写、压缩、增强画面感。'},
       {title: '删除段落', text: '删除风险更高，必须醒目确认，拒绝后不会写入。'},
-      {title: '插入组件', text: '在指定位置插入图片、对话框、提示卡片等内容。'},
+      {title: '插入组件', text: '在指定位置插入图片、提示卡、对话框或其他写作组件。'},
       {title: '回复评论', text: '不打断正文，在旁边与你对话，保留创作节奏。'},
     ],
   },
   {
-    id: 'modes',
-    nav: '参与程度',
-    layout: 'modes',
+    id: 'prompts',
+    nav: '灵感提示',
+    layout: 'prompts',
     tone: 'peach',
     video: 4,
     shape: 'window',
     accent: '#F6B26B',
     accent2: '#39D353',
     bg: '#FFE1BD',
-    eyebrow: '控制权',
-    title: '你决定 AI 靠近到什么程度',
-    lead: '顺畅写作时，让它自动理解和回应；认真打磨时，让每个关键动作逐步展示、逐步确认。',
-    proof: '自动不等于越界，精细也不等于打断。',
-    visualTitle: '自动与逐步确认',
-    visualText: '不涉及修改的理解可自动完成；关键动作暂停确认。',
-    scene: 'modeCards',
+    eyebrow: '写作灵感提示',
+    title: '停笔时，不是催促，而是轻轻推门',
+    lead: '当你停下来超过几秒，某个声音角色可能只给一句很短的提示。不是模板，不是命令，也不是让 AI 接管表达。',
+    proof: '好的提示不需要很多。一句够准，就能让你继续写下去。',
+    visualTitle: '轻提示，不接管',
+    visualText: '它只是帮你靠近那个还没说清楚的地方。',
+    scene: 'promptCards',
   },
   {
     id: 'editor',
@@ -189,9 +189,9 @@ const sections: LandingSection[] = [
     accent2: '#FFD42A',
     bg: '#EAF7FF',
     eyebrow: '日常场景',
-    title: '每天一页，慢慢长成你的记忆库',
-    lead: '自动识别日期、3 秒智能保存、支持语音输入。日记、梦境、片段和草稿会被安静地保存成长期上下文。',
-    proof: '写得越久，它越懂你的表达方式和反复出现的主题。',
+    title: '每天一页，重要的事会慢慢留下来',
+    lead: '自动识别日期、3 秒智能保存、支持语音输入。日记、梦境、片段和草稿会被安静地保存，等待未来重新回应你。',
+    proof: '第一天只是陪你写。写得越久，记忆越厚，回应越准确。',
     visualTitle: '会呼吸的编辑器',
     visualText: '空白页、保存提示和语音波形都保持安静。',
     scene: 'breathingEditor',
@@ -206,13 +206,13 @@ const sections: LandingSection[] = [
     accent: '#8BCB88',
     accent2: '#FFD42A',
     bg: '#E8F2DC',
-    eyebrow: '长期上下文',
-    title: '它不是第一次见你',
-    lead: '普通 AI 每次都像重新认识你；Ink & Memory 会带着近期写作、主题线索和语气习惯来回应。',
-    proof: '它不是凭空回答，而是带着你的写作记忆来和你对话。',
-    visualTitle: '带记忆的 AI 助手',
-    visualText: '近期段落被整理成线索，再回到对话里。',
-    scene: 'memoryChat',
+    eyebrow: '三层记忆',
+    title: '不是每句话都分析，只记真正重要的东西',
+    lead: '很多 AI 记忆会把“记住”和“解读”混在一起。Ink & Memory 先判断这句话有没有长期价值，再决定是否写入记忆。',
+    proof: '它不急着给你贴标签。它先认真记住你。',
+    visualTitle: '先记住，再理解',
+    visualText: '事实、行为表达、深层主题分层保存。',
+    scene: 'memoryLayers',
   },
   {
     id: 'voices',
@@ -225,16 +225,16 @@ const sections: LandingSection[] = [
     accent2: '#FFD42A',
     bg: '#FFE8EF',
     eyebrow: '多视角陪伴',
-    title: '不同声音，不抢你的笔',
-    lead: '理性的分析者、温柔的共情者、犀利的挑战者、安静的旁观者，可以在文字旁留下轻量评论。',
-    proof: '它们像贴纸一样出现，只提醒一句，然后退回边缘。',
+    title: '不同声音，站在文字旁边',
+    lead: '温柔共情者、理性分析者、犀利挑战者、安静旁观者、创作陪跑者和结构整理者，会结合你的文字、记忆和当前语境出现。',
+    proof: '这些评论不是为了打断你，而是给你一个新的看法。',
     visualTitle: '声音角色团',
     visualText: '像贴纸一样出现，留下评论，然后退回边缘。',
     scene: 'voiceCast',
   },
   {
-    id: 'echoes',
-    nav: '回响分析',
+    id: 'response',
+    nav: '记忆回应',
     layout: 'analysis',
     tone: 'lilac',
     video: 3,
@@ -242,13 +242,13 @@ const sections: LandingSection[] = [
     accent: '#C9B7FF',
     accent2: '#39D353',
     bg: '#F0EAFF',
-    eyebrow: '长期价值',
-    title: '写得足够久，模式会自己浮现',
-    lead: '当文字积累到一定厚度，反复出现的主题、意象、情绪循环和选择困境会被整理成可回看的线索。',
-    proof: '不是为了定义你，而是帮你多一次看见自己。',
-    visualTitle: '精神地图',
-    visualText: '散落文字被连接成 Echoes、Traits、Patterns。',
-    scene: 'echoAnalysis',
+    eyebrow: '记忆影响回应',
+    title: '记忆不是档案，是未来的回应方式',
+    lead: '记住的信息不会被放在角落里。它会影响 AI 怎样称呼你、怎样理解上下文、用什么语气回应，以及什么时候提醒你。',
+    proof: '记忆不是为了记录过去，而是让 AI 在未来更懂得如何陪你。',
+    visualTitle: '带着记忆来见你',
+    visualText: '事实、习惯和主题会变成更有分寸的回应。',
+    scene: 'memoryResponse',
   },
   {
     id: 'timeline',
@@ -261,9 +261,9 @@ const sections: LandingSection[] = [
     accent2: '#F6B26B',
     bg: '#FFF7EA',
     eyebrow: '连接但有分寸',
-    title: '分享这一天的形状，而不是原文',
-    lead: '每天根据当天文字生成极简情绪图像。好友时间线只展示图像，不展示你的文字。',
-    proof: '连接，但不打扰；亲密，但有分寸。',
+    title: '今天的情绪，变成一幅安静的图',
+    lead: '每天深夜，Ink & Memory 会根据当天文字生成一幅极简图片。好友时间线只展示图像，不展示原文。',
+    proof: '不是自拍，不是状态，也不是社交表演。只是那一天的颜色、形状和氛围。',
     visualTitle: '视觉日记',
     visualText: '朋友只看见这一天的形状，而不是你的原文。',
     scene: 'imageTimeline',
@@ -280,8 +280,8 @@ const sections: LandingSection[] = [
     bg: '#F5E9D6',
     eyebrow: '信任机制',
     title: '你的文字属于你',
-    lead: 'AI 可以读、分析、建议，也可以申请动笔；但写入、删除、插入和关键决策都必须经过你确认。',
-    proof: '被拒绝的操作不会写入文档，分析结果可保存、可回看、可追溯。',
+    lead: '你的文字属于你。AI 只能在你允许的范围内行动；记忆写入也会筛选，分析不会被包装成诊断。',
+    proof: '写操作必须确认，记忆写入有筛选，数据隔离，操作可追溯。',
     visualTitle: '确认、隔离、追溯',
     visualText: '写操作必须确认；删除类操作拥有更高等级提醒。',
     scene: 'safetyGrid',
@@ -298,8 +298,8 @@ const sections: LandingSection[] = [
     bg: '#111111',
     eyebrow: '开始协作',
     title: '从今天的一句话开始',
-    lead: '你写下第一句话。它读懂、回应、建议，必要时申请动笔。但每一次关键修改，都等你说：可以。',
-    proof: '不是 AI 替你写，是 AI 和你一起写。',
+    lead: '你不需要立刻想清楚，也不需要写得漂亮。先写下来，Ink & Memory 会陪你记录重要事实，沉淀长期记忆，并在未来更准确地回应你。',
+    proof: '不是 AI 替你成为另一个人，是 AI 帮你慢慢听见自己。',
     visualTitle: '等你写第一句',
     visualText: '它在旁边，不抢笔。',
     scene: 'finalCall',
@@ -641,23 +641,17 @@ function Scene({section}: {section: LandingSection}) {
           })}
         </div>
       );
-    case 'modeCards':
+    case 'promptCards':
       return (
-        <div className="mode-scene">
-          <div className="mode-toggle" aria-hidden="true">
-            <span>自动模式</span>
-            <span>逐步确认</span>
-          </div>
-          <div className="mode-grid">
-            <article className="mode-card">
-              <h3>自动模式</h3>
-              <p>适合顺畅记录。分析、理解和对话可自动完成；涉及修改、插入、删除或关键决策时暂停确认。</p>
-            </article>
-            <article className="mode-card">
-              <h3>逐步确认模式</h3>
-              <p>适合精细控制。每个关键动作都展示出来，由你逐步确认，再进入下一步。</p>
-            </article>
-          </div>
+        <div className="prompt-scene">
+          {['这里可以再诚实一点。', '你刚刚绕开了重点。', '继续写那个人。', '不要急着总结。'].map(
+            (prompt, index) => (
+              <article className="prompt-card" key={prompt} style={{'--i': index} as CSSProperties}>
+                <span>0{index + 1}</span>
+                <p>{prompt}</p>
+              </article>
+            ),
+          )}
         </div>
       );
     case 'breathingEditor':
@@ -683,17 +677,20 @@ function Scene({section}: {section: LandingSection}) {
           </div>
         </div>
       );
-    case 'memoryChat':
+    case 'memoryLayers':
       return (
-        <div className="memory-scene">
-          <div className="memory-stack">
-            <strong>近期写作线索</strong>
-            <p>孤独、雨声、回避、窗边。AI 先整理你的文字记忆，再回到对话里。</p>
-          </div>
-          <div className="chat-list">
-            <p>我最近写的关于孤独的段落，有什么共同点？</p>
-            <p>这几天的文字里，情绪有什么变化？</p>
-          </div>
+        <div className="memory-layer-scene">
+          {[
+            ['事实记忆', '你希望被怎样称呼、重要人物、经历、目标和承诺。'],
+            ['行为与表达记忆', '你的写作时间、表达风格、情绪倾向和反复绕开的议题。'],
+            ['深层主题记忆', '当文字足够厚，才谨慎提炼压力、关系、价值和长期循环。'],
+          ].map(([title, text], index) => (
+            <article className="memory-layer-card" key={title} style={{'--i': index} as CSSProperties}>
+              <span>0{index + 1}</span>
+              <strong>{title}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
         </div>
       );
     case 'voiceCast':
@@ -708,27 +705,24 @@ function Scene({section}: {section: LandingSection}) {
           </div>
         </div>
       );
-    case 'echoAnalysis':
+    case 'memoryResponse':
       return (
-        <div className="echo-scene">
-          <div className="thread-map" aria-hidden="true">
-            <span />
-            <span />
-            <span />
-            <span />
-            <span />
-          </div>
-          <article>
-            <strong>Echoes｜回响</strong>
-            <p>识别反复书写的主题和意象。</p>
+        <div className="memory-response-scene">
+          <article className="response-card response-card--wide">
+            <strong>不是重新认识你</strong>
+            <p>你可以直接问：我最近反复写到的主题是什么？我是不是一直在把压力写成自责？用我自己的语气，帮我重写这段。</p>
           </article>
           <article>
-            <strong>Traits｜特质</strong>
-            <p>从语气、叙事距离和情绪强度中提炼长期特征。</p>
+            <strong>事实记忆</strong>
+            <p>影响称呼、人物关系、上下文和轻提醒。</p>
           </article>
           <article>
-            <strong>Patterns｜模式</strong>
-            <p>看见反复出现的情绪循环、关系问题和选择困境。</p>
+            <strong>行为记忆</strong>
+            <p>影响语气、节奏、建议密度和写作支持方式。</p>
+          </article>
+          <article>
+            <strong>主题记忆</strong>
+            <p>影响声音角色如何反应，而不是急着解释你。</p>
           </article>
         </div>
       );
@@ -748,9 +742,10 @@ function Scene({section}: {section: LandingSection}) {
           <div className="safety-grid">
             {[
               '写操作必须确认',
-              '删除类操作更高等级提醒',
-              '用户会话完全隔离',
-              '拒绝操作不会写入文档',
+              '记忆写入有筛选',
+              '分析不等于诊断',
+              '数据隔离',
+              '操作可追溯',
             ].map((item, index) => (
               <div className="safety-card" key={item} style={{'--i': index} as CSSProperties}>
                 <Lock aria-hidden="true" size={18} />
