@@ -549,12 +549,12 @@ h1 {
 .hero-proof-grid,
 .icp-grid,
 .tool-grid,
-.mode-scene,
+.prompt-scene,
 .confirm-scene,
 .editor-mock,
-.memory-scene,
+.memory-layer-scene,
 .voice-scene,
-.echo-scene,
+.memory-response-scene,
 .timeline-scene,
 .safety-grid,
 .final-note {
@@ -603,9 +603,10 @@ h1 {
 
 .icp-card,
 .tool-card,
-.mode-card,
+.prompt-card,
+.memory-layer-card,
 .safety-card,
-.echo-scene article {
+.memory-response-scene article {
   border: 3px solid var(--ink);
   background: rgba(255, 247, 234, 0.9);
   color: var(--ink);
@@ -633,6 +634,8 @@ h1 {
 
 .stage.is-active .icp-card,
 .stage.is-active .tool-card,
+.stage.is-active .prompt-card,
+.stage.is-active .memory-layer-card,
 .stage.is-active .safety-card {
   opacity: 1;
   transform: translateY(0);
@@ -783,73 +786,74 @@ h1 {
 }
 
 .tool-card h3,
-.mode-card h3,
 .editor-mock h3 {
   margin: 14px 0 8px;
   font-size: clamp(20px, 1.7vw, 28px);
   line-height: 1.1;
 }
 
-.tool-card p,
-.mode-card p {
+.tool-card p {
   margin: 0;
   font-size: 15px;
   font-weight: 800;
   line-height: 1.55;
 }
 
-.mode-scene {
-  max-width: 760px;
-}
-
-.mode-toggle {
-  position: relative;
+.prompt-scene {
   display: grid;
-  max-width: 470px;
-  min-height: 52px;
-  grid-template-columns: repeat(2, 1fr);
-  margin-bottom: 14px;
-  overflow: hidden;
-  border: 3px solid var(--ink);
-  border-radius: var(--radius-pill);
-  background: var(--cream);
+  max-width: 730px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
-.mode-toggle::before {
-  position: absolute;
-  top: 5px;
-  left: 5px;
-  width: calc(50% - 5px);
-  height: calc(100% - 10px);
-  border-radius: var(--radius-pill);
-  background: var(--green);
-  content: "";
-  transition: transform 600ms var(--ease-soft);
+.prompt-card {
+  min-height: 138px;
+  padding: 20px;
+  border-radius: 30px;
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 560ms var(--ease-soft),
+    transform 560ms var(--ease-soft),
+    background 180ms ease-out;
 }
 
-.stage.is-active .mode-toggle::before {
-  animation: modeShift 4.8s var(--ease-soft) infinite;
+.prompt-card:nth-child(1),
+.prompt-card:nth-child(4) {
+  transform: translateY(22px) rotate(-1.5deg);
 }
 
-.mode-toggle span {
-  position: relative;
-  z-index: 1;
-  display: grid;
+.prompt-card:nth-child(2),
+.prompt-card:nth-child(3) {
+  transform: translateY(22px) rotate(1.2deg);
+}
+
+.stage.is-active .prompt-card:nth-child(1),
+.stage.is-active .prompt-card:nth-child(4) {
+  transform: translateY(0) rotate(-1.5deg);
+}
+
+.stage.is-active .prompt-card:nth-child(2),
+.stage.is-active .prompt-card:nth-child(3) {
+  transform: translateY(0) rotate(1.2deg);
+}
+
+.prompt-card span {
+  display: inline-grid;
+  width: 42px;
+  height: 42px;
   place-items: center;
-  font-size: 14px;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--accent);
   font-weight: 950;
 }
 
-.mode-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
-}
-
-.mode-card {
-  min-height: 192px;
-  padding: 18px;
-  border-radius: 26px;
+.prompt-card p {
+  margin: 16px 0 0;
+  font-size: clamp(18px, 1.45vw, 26px);
+  font-weight: 950;
+  line-height: 1.24;
 }
 
 .editor-mock {
@@ -920,53 +924,61 @@ h1 {
 .voice-wave span:nth-child(5) { height: 24px; animation-delay: 480ms; }
 .voice-wave span:nth-child(6) { height: 32px; animation-delay: 600ms; }
 
-.memory-scene {
+.memory-layer-scene {
   display: grid;
-  max-width: 720px;
-  grid-template-columns: 0.85fr 1.15fr;
+  max-width: 780px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
 
-.memory-stack {
-  display: grid;
-  align-content: center;
-  gap: 12px;
-  padding: 24px;
-  border: 3px solid var(--ink);
-  border-radius: 28px;
-  background: var(--cream);
-  box-shadow: 7px 7px 0 rgba(17, 17, 17, 0.11);
+.memory-layer-card {
+  min-height: 220px;
+  padding: 20px;
+  border-radius: 30px;
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 560ms var(--ease-soft),
+    transform 560ms var(--ease-soft),
+    background 180ms ease-out;
 }
 
-.memory-stack strong {
-  font-size: clamp(22px, 2vw, 34px);
+.memory-layer-card:nth-child(1) {
+  background: color-mix(in srgb, var(--yellow) 34%, var(--cream));
+}
+
+.memory-layer-card:nth-child(2) {
+  background: color-mix(in srgb, var(--green) 24%, var(--cream));
+}
+
+.memory-layer-card:nth-child(3) {
+  background: color-mix(in srgb, var(--accent) 24%, var(--cream));
+}
+
+.memory-layer-card span {
+  display: inline-grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  background: var(--cream);
+  font-weight: 950;
+}
+
+.memory-layer-card strong {
+  display: block;
+  margin-top: 16px;
+  font-size: clamp(22px, 1.7vw, 30px);
   font-weight: 950;
   line-height: 1.08;
 }
 
-.memory-stack p {
-  margin: 0;
-  font-size: clamp(15px, 1.15vw, 18px);
+.memory-layer-card p {
+  margin: 12px 0 0;
+  font-size: clamp(14px, 1.05vw, 17px);
   font-weight: 850;
   line-height: 1.55;
-}
-
-.chat-list {
-  display: grid;
-  gap: 10px;
-}
-
-.chat-list p {
-  margin: 0;
-  padding: 14px 16px;
-  border: 3px solid var(--ink);
-  border-radius: 24px 24px 24px 8px;
-  background: rgba(255, 247, 234, 0.88);
-  color: var(--ink);
-  box-shadow: 6px 6px 0 rgba(17, 17, 17, 0.1);
-  font-size: 15px;
-  font-weight: 900;
-  line-height: 1.5;
 }
 
 .voice-scene {
@@ -1013,72 +1025,31 @@ h1 {
   line-height: 1.35;
 }
 
-.echo-scene {
+.memory-response-scene {
   display: grid;
   grid-template-columns: 1.15fr repeat(3, minmax(0, 1fr));
   gap: 14px;
 }
 
-.thread-map {
-  position: relative;
-  min-height: 180px;
-  overflow: hidden;
-  border: 3px solid var(--ink);
-  border-radius: 32px;
-  background:
-    linear-gradient(90deg, rgba(17, 17, 17, 0.08) 1px, transparent 1px),
-    linear-gradient(rgba(17, 17, 17, 0.08) 1px, transparent 1px),
-    var(--cream);
-  background-size: 34px 34px;
-  box-shadow: 8px 8px 0 rgba(17, 17, 17, 0.11);
-}
-
-.thread-map::before,
-.thread-map::after {
-  position: absolute;
-  inset: 50% auto auto 12%;
-  width: 78%;
-  height: 4px;
-  border-radius: 99px;
-  background: var(--ink);
-  content: "";
-  transform: rotate(-11deg);
-}
-
-.thread-map::after {
-  background: var(--accent);
-  box-shadow: 0 0 0 2px var(--ink);
-  transform: rotate(16deg);
-}
-
-.thread-map span {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  border: 3px solid var(--ink);
-  border-radius: 50%;
-  background: var(--yellow);
-}
-
-.thread-map span:nth-child(1) { top: 25%; left: 18%; }
-.thread-map span:nth-child(2) { top: 60%; left: 32%; background: var(--green); }
-.thread-map span:nth-child(3) { top: 36%; left: 50%; background: var(--rose); }
-.thread-map span:nth-child(4) { top: 66%; left: 66%; background: var(--accent); }
-.thread-map span:nth-child(5) { top: 28%; left: 78%; background: var(--cream); }
-
-.echo-scene article {
+.memory-response-scene article {
   min-height: 180px;
   padding: 18px;
   border-radius: 26px;
 }
 
-.echo-scene strong {
+.memory-response-scene .response-card--wide {
+  background: var(--ink);
+  color: var(--cream);
+  box-shadow: 8px 8px 0 color-mix(in srgb, var(--accent) 58%, black);
+}
+
+.memory-response-scene strong {
   display: block;
   margin-bottom: 10px;
   font-size: 18px;
 }
 
-.echo-scene p {
+.memory-response-scene p {
   margin: 0;
   font-size: 15px;
   font-weight: 850;
@@ -1199,18 +1170,6 @@ h1 {
   line-height: 1.5;
 }
 
-@keyframes modeShift {
-  0%, 40% {
-    transform: translateX(0);
-  }
-  55%, 95% {
-    transform: translateX(100%);
-  }
-  100% {
-    transform: translateX(0);
-  }
-}
-
 @keyframes wave {
   0%, 100% {
     transform: scaleY(0.7);
@@ -1253,7 +1212,7 @@ h1 {
     grid-template-columns: minmax(0, 0.88fr) minmax(420px, 1.12fr);
   }
 
-  #modes .stage-inner,
+  #prompts .stage-inner,
   #memory .stage-inner {
     grid-template-areas:
       "visual copy"
@@ -1261,7 +1220,7 @@ h1 {
     grid-template-columns: minmax(390px, 0.92fr) minmax(0, 1.08fr);
   }
 
-  #modes .video-card {
+  #prompts .video-card {
     transform: rotate(-4deg) translateY(10px);
   }
 
@@ -1295,13 +1254,8 @@ h1 {
     grid-template-columns: minmax(0, 0.78fr) minmax(300px, 0.86fr) minmax(330px, 1.12fr);
   }
 
-  .stage--analysis .echo-scene {
+  .stage--analysis .memory-response-scene {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .stage--analysis .thread-map {
-    min-height: 132px;
-    grid-column: 1 / -1;
   }
 
   .stage--timeline .timeline-scene {
@@ -1392,8 +1346,9 @@ h1 {
   .confirm-card dd,
   .diff-card p,
   .tool-card p,
-  .mode-card p,
-  .echo-scene p {
+  .prompt-card p,
+  .memory-layer-card p,
+  .memory-response-scene p {
     font-size: 13px;
     line-height: 1.42;
   }
@@ -1414,13 +1369,13 @@ h1 {
   }
 
   .tool-card h3,
-  .mode-card h3,
   .editor-mock h3 {
     margin: 10px 0 6px;
     font-size: 20px;
   }
 
-  .mode-card {
+  .prompt-card,
+  .memory-layer-card {
     min-height: 154px;
     padding: 14px;
   }
@@ -1451,17 +1406,13 @@ h1 {
     font-size: 12px;
   }
 
-  .echo-scene {
+  .memory-response-scene {
     gap: 10px;
   }
 
-  .echo-scene article {
+  .memory-response-scene article {
     min-height: 122px;
     padding: 13px;
-  }
-
-  .thread-map {
-    min-height: 112px;
   }
 
   .emotion-card {
@@ -1484,12 +1435,10 @@ h1 {
   }
 
   .tool-grid,
-  .echo-scene {
+  .prompt-scene,
+  .memory-layer-scene,
+  .memory-response-scene {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .thread-map {
-    grid-column: 1 / -1;
   }
 }
 
@@ -1535,7 +1484,9 @@ h1 {
   }
 
   .confirm-scene,
-  .memory-scene {
+  .prompt-scene,
+  .memory-layer-scene,
+  .memory-response-scene {
     grid-template-columns: 1fr;
   }
 
@@ -1619,10 +1570,11 @@ h1 {
   .hero-proof-grid,
   .icp-grid,
   .tool-grid,
-  .mode-grid,
+  .prompt-scene,
+  .memory-layer-scene,
+  .memory-response-scene,
   .voice-scene,
-  .safety-grid,
-  .echo-scene {
+  .safety-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1655,10 +1607,10 @@ h1 {
   .sticky-note,
   .icp-card,
   .tool-card p,
-  .mode-card p,
-  .chat-list p,
+  .prompt-card p,
+  .memory-layer-card p,
   .comment-strip span,
-  .echo-scene p {
+  .memory-response-scene p {
     font-size: 14px;
   }
 
