@@ -2,10 +2,10 @@
 
 本仓库通过 GitHub Actions 构建 Vite 应用，并把 `dist/` 发布到 GitHub Pages 仓库：
 
-- 源仓库：`dmeckhg-del/-Ink-Memory`
-- 目标仓库：`dmeckhg-del/dmeckhg-del.github.io`
+- 源仓库：`ink-memory/-Ink-Memory`
+- 目标仓库：`ink-memory/ink-memory.github.io`
 - 目标分支：`main`
-- 访问地址：https://dmeckhg-del.github.io/
+- 访问地址：https://ink-memory.github.io/
 
 ## 自动部署
 
@@ -29,11 +29,11 @@
 
 在源仓库配置：
 
-https://github.com/dmeckhg-del/-Ink-Memory/settings/secrets/actions
+https://github.com/ink-memory/-Ink-Memory/settings/secrets/actions
 
 ### `DEPLOY_TOKEN`
 
-用于把构建产物写入 `dmeckhg-del/dmeckhg-del.github.io`。
+用于把构建产物写入 `ink-memory/ink-memory.github.io`。
 
 因为这是跨仓库部署，token 必须对目标仓库有写权限。
 
@@ -50,8 +50,8 @@ Fine-grained token 配置：
 1. 打开 https://github.com/settings/tokens
 2. 选择 `Generate new token (fine-grained)`
 3. Repository access 选择并授权：
-   - `dmeckhg-del/-Ink-Memory`
-   - `dmeckhg-del/dmeckhg-del.github.io`
+   - `ink-memory/-Ink-Memory`
+   - `ink-memory/ink-memory.github.io`
 4. Permissions 至少设置：
    - Contents: Read and write
    - Workflows: Read and write（如果目标仓库需要）
@@ -70,7 +70,7 @@ npm run build -- --outDir=./dist
 
 ## 手动触发部署
 
-1. 打开 https://github.com/dmeckhg-del/-Ink-Memory/actions
+1. 打开 https://github.com/ink-memory/-Ink-Memory/actions
 2. 选择 `Build and Deploy to GitHub Pages`
 3. 点击 `Run workflow`
 
@@ -82,7 +82,7 @@ npm run build -- --outDir=./dist
 
 检查项：
 
-- Fine-grained token 是否授权了 `dmeckhg-del/dmeckhg-del.github.io`
+- Fine-grained token 是否授权了 `ink-memory/ink-memory.github.io`
 - token 是否有 `Contents: Read and write`
 - 当前账号是否对目标仓库有 Write 或 Admin 权限
 - 目标仓库 `main` 分支是否启用了会阻止 bot 直接写入的分支保护
@@ -102,6 +102,6 @@ npm run build -- --outDir=./dist
 
 检查目标仓库：
 
-https://github.com/dmeckhg-del/dmeckhg-del.github.io
+https://github.com/ink-memory/ink-memory.github.io
 
 确认最新提交是否来自 GitHub Actions，并确认 GitHub Pages 正在从目标仓库 `main` 分支发布。

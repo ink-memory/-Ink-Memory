@@ -44,11 +44,11 @@ jobs:
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
-      - name: Deploy to dmeckhg-del.github.io
+      - name: Deploy to ink-memory.github.io
         uses: peaceiris/actions-gh-pages@v3
         with:
           personal_token: ${{ secrets.DEPLOY_TOKEN }}
-          external_repository: dmeckhg-del/dmeckhg-del.github.io
+          external_repository: ink-memory/ink-memory.github.io
           publish_dir: ./dist
           publish_branch: main
           user_name: 'github-actions[bot]'

@@ -30,11 +30,11 @@ Prerequisite: Node.js 20 or newer.
 
 This repo includes a GitHub Actions workflow at `.github/workflows/deploy.yml`.
 
-When changes are pushed to `main`, the workflow builds the Vite app and publishes `dist/` to `dmeckhg-del/dmeckhg-del.github.io`.
+When changes are pushed to `main`, the workflow builds the Vite app and publishes `dist/` to `ink-memory/ink-memory.github.io`.
 
 Required repository secrets:
 
-- `DEPLOY_TOKEN`: a Personal Access Token with write access to `dmeckhg-del/dmeckhg-del.github.io`.
+- `DEPLOY_TOKEN`: a Personal Access Token with write access to `ink-memory/ink-memory.github.io`.
 - `GEMINI_API_KEY`: available to the build step if the app needs Gemini API configuration.
 
 See [DEPLOYMENT.md](DEPLOYMENT.md) for setup and troubleshooting details.
