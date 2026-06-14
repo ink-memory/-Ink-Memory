@@ -7,10 +7,10 @@ function Navbar() {
     <nav className="w-full p-4 md:px-12 md:py-6 flex justify-between items-center z-50 relative">
       <div className="text-[24px] md:text-[29px] leading-[1.3] font-bold text-type-black">I&M</div>
       <div className="flex gap-3 md:gap-4">
-        <a href="http://localhost:5173/ink-and-memory/" target="_blank" rel="noopener noreferrer" className="bg-type-black text-paper-white px-4 py-2 rounded-buttons text-[14px] md:text-[16px] leading-[1.71] cursor-pointer hover:bg-type-black/80 transition-colors inline-block font-bold">
+        <a href="https://ink-frontend.suoxya.com" target="_blank" rel="noopener noreferrer" className="bg-type-black text-paper-white px-4 py-2 rounded-buttons text-[14px] md:text-[16px] leading-[1.71] cursor-pointer hover:bg-type-black/80 transition-colors inline-block font-bold">
           Log In
         </a>
-        <a href="http://localhost:5173/ink-and-memory/" target="_blank" rel="noopener noreferrer" className="bg-bubblegum-red text-paper-white px-4 py-2 rounded-buttons text-[14px] md:text-[16px] leading-[1.71] cursor-pointer hover:bg-bubblegum-red/90 transition-colors inline-block font-bold">
+        <a href="https://ink-frontend.suoxya.com" target="_blank" rel="noopener noreferrer" className="bg-bubblegum-red text-paper-white px-4 py-2 rounded-buttons text-[14px] md:text-[16px] leading-[1.71] cursor-pointer hover:bg-bubblegum-red/90 transition-colors inline-block font-bold">
           Start Writing
         </a>
       </div>
@@ -314,7 +314,7 @@ function CallToAction() {
         
         <br/>
 
-        <a href="http://localhost:5173/ink-and-memory/" target="_blank" rel="noopener noreferrer" className="bg-type-black text-paper-white text-[20px] md:text-[36px] leading-[1.4] md:leading-[1.2] font-bold px-8 md:px-12 py-4 md:py-6 rounded-[24px] md:rounded-speechbubbles shadow-[6px_6px_0px_#fff] md:shadow-[8px_8px_0px_#fff] hover:-translate-y-1 hover:bg-grape-punch transition-all cursor-pointer inline-flex items-center">
+        <a href="https://ink-frontend.suoxya.com" target="_blank" rel="noopener noreferrer" className="bg-type-black text-paper-white text-[20px] md:text-[36px] leading-[1.4] md:leading-[1.2] font-bold px-8 md:px-12 py-4 md:py-6 rounded-[24px] md:rounded-speechbubbles shadow-[6px_6px_0px_#fff] md:shadow-[8px_8px_0px_#fff] hover:-translate-y-1 hover:bg-grape-punch transition-all cursor-pointer inline-flex items-center">
           开始今天的书写 <Play size={28} className="ml-2 md:ml-3 md:w-10 md:h-10" />
         </a>
 
