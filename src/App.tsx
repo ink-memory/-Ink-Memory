@@ -1,344 +1,785 @@
-import { motion } from 'motion/react';
-import { GhostButton, SpeechBubble, QuirkyCard, ColorfulRoundCard, Section } from './components/UI';
-import { Pencil, MessageCircle, Eye, Hand, Sparkles, RefreshCcw, Layers, Image as ImageIcon, History, BarChart, Users, Play } from 'lucide-react';
+import {type CSSProperties, useEffect, useRef, useState} from 'react';
+import {
+  ArrowRight,
+  BookOpen,
+  CheckCircle2,
+  Lock,
+  Menu,
+  Mic2,
+  Pencil,
+  ShieldCheck,
+  Sparkles,
+  X,
+} from 'lucide-react';
 
-function Navbar() {
+import videoThree from '../assets/video-3.mp4?url';
+import videoThreeAlpha from '../assets/video-3-alpha.webm?url';
+import videoFour from '../assets/video-4.mp4?url';
+import videoFourAlpha from '../assets/video-4-alpha.webm?url';
+import videoFive from '../assets/video-5.mp4?url';
+import videoFiveAlpha from '../assets/video-5-alpha.webm?url';
+
+const startWritingUrl = 'https://ink-frontend.suoxya.com';
+const videoSources = [videoThree, videoFour, videoFive, videoThree, videoFour];
+const alphaVideoSources = [videoThreeAlpha, videoFourAlpha, videoFiveAlpha, videoThreeAlpha, videoFourAlpha];
+
+type Cta = {
+  label: string;
+  href: string;
+  primary?: boolean;
+  external?: boolean;
+};
+
+type SectionCard =
+  | string
+  | {
+      title: string;
+      text: string;
+    };
+
+type SectionScene =
+  | 'heroProof'
+  | 'audienceCards'
+  | 'confirmPanel'
+  | 'toolCards'
+  | 'modeCards'
+  | 'breathingEditor'
+  | 'memoryChat'
+  | 'voiceCast'
+  | 'echoAnalysis'
+  | 'imageTimeline'
+  | 'safetyGrid'
+  | 'finalCall';
+
+type LandingSection = {
+  id: string;
+  nav: string;
+  layout: string;
+  tone: string;
+  video: number;
+  shape: string;
+  accent: string;
+  accent2: string;
+  bg: string;
+  eyebrow: string;
+  title: string;
+  lead: string;
+  proof: string;
+  scene: SectionScene;
+  visualTitle: string;
+  visualText: string;
+  cards?: SectionCard[];
+  ctas?: Cta[];
+};
+
+const sections: LandingSection[] = [
+  {
+    id: 'hero',
+    nav: 'Ink & Memory',
+    layout: 'hero',
+    tone: 'paper',
+    video: 0,
+    shape: 'hero',
+    accent: '#FFD42A',
+    accent2: '#39D353',
+    bg: '#F5E9D6',
+    eyebrow: '给认真写作者的 AI 搭档',
+    title: '写下来，让 AI 和你一起听见自己',
+    lead: '面向长期写作者、自我探索者和日记/随笔/梦境记录用户。你写字，它倾听；需要修改时，它可以动笔，但每一次关键动作都等你确认。',
+    proof: '核心边界：不是 AI 替你写，是 AI 和你一起写。',
+    visualTitle: 'Mimo 在旁边听',
+    visualText: '从第一句话开始，AI 先理解，再协作。',
+    scene: 'heroProof',
+    ctas: [
+      {label: '开始今天的书写', href: startWritingUrl, primary: true, external: true},
+      {label: '了解 AI 协作方式', href: '#ai-collab'},
+    ],
+  },
+  {
+    id: 'audience',
+    nav: 'ICP',
+    layout: 'split',
+    tone: 'mint',
+    video: 1,
+    shape: 'rounded',
+    accent: '#39D353',
+    accent2: '#FFD42A',
+    bg: '#EFF8DD',
+    eyebrow: '明确 ICP',
+    title: '这是给认真写，也认真看见自己的人',
+    lead: '如果你只是想随手试 AI，它可能太克制；如果你在意文字、隐私、长期记忆和可控协作，它会更像一个写作空间。',
+    proof: '适合长期写作者、自我探索者、情绪记录者、AI 创作用户，以及重视边界的人。',
+    visualTitle: '这是写作者的工具',
+    visualText: '先确认“这是给我的”，再进入能力解释。',
+    scene: 'audienceCards',
+    cards: [
+      '长期写日记、随笔、灵感、梦境或情绪记录的人。',
+      '希望 AI 真正参与写作、整理和修改，但每一步都可解释、可拒绝。',
+      '在意文字私密性和长期记忆，希望越写越懂自己，而不是每次从零开始。',
+    ],
+  },
+  {
+    id: 'ai-collab',
+    nav: 'AI 协作',
+    layout: 'editor',
+    tone: 'cream',
+    video: 2,
+    shape: 'tilt',
+    accent: '#F6B26B',
+    accent2: '#FFD42A',
+    bg: '#FFF7EA',
+    eyebrow: '核心差异',
+    title: 'AI 可以动笔，但先把手停住',
+    lead: '它不只给建议，也能改写段落、整理结构、插入内容或回复评论。但在执行前，它必须说明想做什么、改哪里、为什么改。',
+    proof: '确认面板出现之前，任何关键写操作都不会落到正文里。',
+    visualTitle: '修改前先停下',
+    visualText: '它会说明目标、范围、前后差异和原因。',
+    scene: 'confirmPanel',
+  },
+  {
+    id: 'tools',
+    nav: '工具边界',
+    layout: 'cards',
+    tone: 'yellow',
+    video: 3,
+    shape: 'capsule',
+    accent: '#FFD42A',
+    accent2: '#39D353',
+    bg: '#FFF1AE',
+    eyebrow: '能力边界',
+    title: '能做什么，不能做什么，都写清楚',
+    lead: 'Ink & Memory 把 AI 的写作能力拆成四类工具。每一种都对应明确风险等级和确认方式。',
+    proof: 'AI 可以读、分析、建议、申请修改；不能绕过你直接改文档。',
+    visualTitle: '读、想、提议、等待',
+    visualText: '工具越明确，信任越容易建立。',
+    scene: 'toolCards',
+    cards: [
+      {title: '写入段落', text: '替换完整段落，适合润色、改写、压缩、增强画面感。'},
+      {title: '删除段落', text: '删除风险更高，必须醒目确认，拒绝后不会写入。'},
+      {title: '插入组件', text: '在指定位置插入图片、对话框、提示卡片等内容。'},
+      {title: '回复评论', text: '不打断正文，在旁边与你对话，保留创作节奏。'},
+    ],
+  },
+  {
+    id: 'modes',
+    nav: '参与程度',
+    layout: 'modes',
+    tone: 'peach',
+    video: 4,
+    shape: 'window',
+    accent: '#F6B26B',
+    accent2: '#39D353',
+    bg: '#FFE1BD',
+    eyebrow: '控制权',
+    title: '你决定 AI 靠近到什么程度',
+    lead: '顺畅写作时，让它自动理解和回应；认真打磨时，让每个关键动作逐步展示、逐步确认。',
+    proof: '自动不等于越界，精细也不等于打断。',
+    visualTitle: '自动与逐步确认',
+    visualText: '不涉及修改的理解可自动完成；关键动作暂停确认。',
+    scene: 'modeCards',
+  },
+  {
+    id: 'editor',
+    nav: '编辑器',
+    layout: 'wide',
+    tone: 'sky',
+    video: 0,
+    shape: 'wide',
+    accent: '#9BD8FF',
+    accent2: '#FFD42A',
+    bg: '#EAF7FF',
+    eyebrow: '日常场景',
+    title: '每天一页，慢慢长成你的记忆库',
+    lead: '自动识别日期、3 秒智能保存、支持语音输入。日记、梦境、片段和草稿会被安静地保存成长期上下文。',
+    proof: '写得越久，它越懂你的表达方式和反复出现的主题。',
+    visualTitle: '会呼吸的编辑器',
+    visualText: '空白页、保存提示和语音波形都保持安静。',
+    scene: 'breathingEditor',
+  },
+  {
+    id: 'memory',
+    nav: '写作记忆',
+    layout: 'split',
+    tone: 'sage',
+    video: 1,
+    shape: 'rounded',
+    accent: '#8BCB88',
+    accent2: '#FFD42A',
+    bg: '#E8F2DC',
+    eyebrow: '长期上下文',
+    title: '它不是第一次见你',
+    lead: '普通 AI 每次都像重新认识你；Ink & Memory 会带着近期写作、主题线索和语气习惯来回应。',
+    proof: '它不是凭空回答，而是带着你的写作记忆来和你对话。',
+    visualTitle: '带记忆的 AI 助手',
+    visualText: '近期段落被整理成线索，再回到对话里。',
+    scene: 'memoryChat',
+  },
+  {
+    id: 'voices',
+    nav: '声音角色',
+    layout: 'voices',
+    tone: 'rose',
+    video: 2,
+    shape: 'blob',
+    accent: '#FFB4C8',
+    accent2: '#FFD42A',
+    bg: '#FFE8EF',
+    eyebrow: '多视角陪伴',
+    title: '不同声音，不抢你的笔',
+    lead: '理性的分析者、温柔的共情者、犀利的挑战者、安静的旁观者，可以在文字旁留下轻量评论。',
+    proof: '它们像贴纸一样出现，只提醒一句，然后退回边缘。',
+    visualTitle: '声音角色团',
+    visualText: '像贴纸一样出现，留下评论，然后退回边缘。',
+    scene: 'voiceCast',
+  },
+  {
+    id: 'echoes',
+    nav: '回响分析',
+    layout: 'analysis',
+    tone: 'lilac',
+    video: 3,
+    shape: 'tilt',
+    accent: '#C9B7FF',
+    accent2: '#39D353',
+    bg: '#F0EAFF',
+    eyebrow: '长期价值',
+    title: '写得足够久，模式会自己浮现',
+    lead: '当文字积累到一定厚度，反复出现的主题、意象、情绪循环和选择困境会被整理成可回看的线索。',
+    proof: '不是为了定义你，而是帮你多一次看见自己。',
+    visualTitle: '精神地图',
+    visualText: '散落文字被连接成 Echoes、Traits、Patterns。',
+    scene: 'echoAnalysis',
+  },
+  {
+    id: 'timeline',
+    nav: '情绪图像',
+    layout: 'timeline',
+    tone: 'cream',
+    video: 4,
+    shape: 'wide',
+    accent: '#FFD42A',
+    accent2: '#F6B26B',
+    bg: '#FFF7EA',
+    eyebrow: '连接但有分寸',
+    title: '分享这一天的形状，而不是原文',
+    lead: '每天根据当天文字生成极简情绪图像。好友时间线只展示图像，不展示你的文字。',
+    proof: '连接，但不打扰；亲密，但有分寸。',
+    visualTitle: '视觉日记',
+    visualText: '朋友只看见这一天的形状，而不是你的原文。',
+    scene: 'imageTimeline',
+  },
+  {
+    id: 'safety',
+    nav: '安全边界',
+    layout: 'safety',
+    tone: 'paper',
+    video: 0,
+    shape: 'capsule',
+    accent: '#39D353',
+    accent2: '#FFD42A',
+    bg: '#F5E9D6',
+    eyebrow: '信任机制',
+    title: '你的文字属于你',
+    lead: 'AI 可以读、分析、建议，也可以申请动笔；但写入、删除、插入和关键决策都必须经过你确认。',
+    proof: '被拒绝的操作不会写入文档，分析结果可保存、可回看、可追溯。',
+    visualTitle: '确认、隔离、追溯',
+    visualText: '写操作必须确认；删除类操作拥有更高等级提醒。',
+    scene: 'safetyGrid',
+  },
+  {
+    id: 'start',
+    nav: '开始',
+    layout: 'final',
+    tone: 'ink',
+    video: 1,
+    shape: 'hero',
+    accent: '#FFD42A',
+    accent2: '#39D353',
+    bg: '#111111',
+    eyebrow: '开始协作',
+    title: '从今天的一句话开始',
+    lead: '你写下第一句话。它读懂、回应、建议，必要时申请动笔。但每一次关键修改，都等你说：可以。',
+    proof: '不是 AI 替你写，是 AI 和你一起写。',
+    visualTitle: '等你写第一句',
+    visualText: '它在旁边，不抢笔。',
+    scene: 'finalCall',
+    ctas: [
+      {label: '开始今天的书写', href: startWritingUrl, primary: true, external: true},
+      {label: '查看协作演示', href: '#ai-collab'},
+      {label: '了解确认机制', href: '#safety'},
+    ],
+  },
+];
+
+function App() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const syncPreference = () => setPrefersReducedMotion(media.matches);
+    syncPreference();
+    media.addEventListener('change', syncPreference);
+    return () => media.removeEventListener('change', syncPreference);
+  }, []);
+
+  useEffect(() => {
+    const stageElements = Array.from(document.querySelectorAll<HTMLElement>('.stage'));
+    const observer = new IntersectionObserver(
+      () => {
+        const viewportHeight = window.innerHeight || 1;
+        const visible = stageElements
+          .map((stage, index) => {
+            const rect = stage.getBoundingClientRect();
+            const visibleHeight = Math.max(0, Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 0));
+            return {index, visibleHeight};
+          })
+          .sort((a, b) => b.visibleHeight - a.visibleHeight)[0];
+
+        if (visible?.visibleHeight) {
+          setActiveIndex(visible.index);
+        }
+      },
+      {threshold: [0.2, 0.42, 0.68]},
+    );
+
+    stageElements.forEach((stage) => observer.observe(stage));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    videoRefs.current.forEach((video, index) => {
+      if (!video) return;
+
+      if (index === activeIndex && !prefersReducedMotion) {
+        video.play().catch(() => undefined);
+      } else {
+        video.pause();
+      }
+    });
+  }, [activeIndex, prefersReducedMotion]);
+
+  useEffect(() => {
+    const scrollToHash = () => {
+      if (!window.location.hash) return;
+
+      const targetIndex = sections.findIndex((section) => `#${section.id}` === window.location.hash);
+      const target = document.querySelector<HTMLElement>(window.location.hash);
+      if (!target) return;
+
+      window.scrollTo({top: target.offsetTop, behavior: 'auto'});
+      if (targetIndex >= 0) setActiveIndex(targetIndex);
+    };
+
+    const handleHashChange = () => scrollToHash();
+
+    window.requestAnimationFrame(() => scrollToHash());
+    window.setTimeout(scrollToHash, 120);
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion) return undefined;
+
+    let ticking = false;
+    const update = () => {
+      document.querySelectorAll<HTMLElement>('.stage').forEach((stage) => {
+        const rect = stage.getBoundingClientRect();
+        const viewportHeight = window.innerHeight || 1;
+        if (rect.bottom < 0 || rect.top > viewportHeight) return;
+        const progress = rect.top / viewportHeight;
+        stage.style.setProperty('--video-shift', `${progress * -46}px`);
+        stage.style.setProperty('--copy-shift', `${progress * 18}px`);
+      });
+      ticking = false;
+    };
+
+    const requestUpdate = () => {
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', requestUpdate, {passive: true});
+    update();
+
+    return () => window.removeEventListener('scroll', requestUpdate);
+  }, [prefersReducedMotion]);
+
   return (
-    <nav className="w-full p-4 md:px-12 md:py-6 flex justify-between items-center z-50 relative">
-      <div className="text-[24px] md:text-[29px] leading-[1.3] font-bold text-type-black">I&M</div>
-      <div className="flex gap-3 md:gap-4">
-        <a href="https://ink-frontend.suoxya.com" target="_blank" rel="noopener noreferrer" className="bg-type-black text-paper-white px-4 py-2 rounded-buttons text-[14px] md:text-[16px] leading-[1.71] cursor-pointer hover:bg-type-black/80 transition-colors inline-block font-bold">
-          Log In
+    <>
+      <a className="skip-link" href="#sections">
+        跳到主要内容
+      </a>
+
+      <header className="site-header" aria-label="Ink & Memory 导航">
+        <a className="brand" href="#hero" aria-label="Ink & Memory 首页" onClick={() => setMenuOpen(false)}>
+          <span className="brand-mark">I&amp;M</span>
+          <span className="brand-name">Ink &amp; Memory</span>
         </a>
-        <a href="https://ink-frontend.suoxya.com" target="_blank" rel="noopener noreferrer" className="bg-bubblegum-red text-paper-white px-4 py-2 rounded-buttons text-[14px] md:text-[16px] leading-[1.71] cursor-pointer hover:bg-bubblegum-red/90 transition-colors inline-block font-bold">
-          Start Writing
-        </a>
-      </div>
-    </nav>
+
+        <button
+          className="nav-toggle"
+          type="button"
+          aria-label={menuOpen ? '关闭导航' : '打开导航'}
+          aria-controls="siteNav"
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          {menuOpen ? <X aria-hidden="true" size={22} /> : <Menu aria-hidden="true" size={22} />}
+        </button>
+
+        <nav className={menuOpen ? 'site-nav is-open' : 'site-nav'} id="siteNav" aria-label="主导航">
+          {[
+            ['适合谁', '#audience'],
+            ['AI 协作', '#ai-collab'],
+            ['写作记忆', '#memory'],
+            ['声音角色', '#voices'],
+            ['安全边界', '#safety'],
+          ].map(([label, href]) => (
+            <a
+              className={href === `#${sections[activeIndex].id}` ? 'is-active' : undefined}
+              href={href}
+              key={href}
+              onClick={() => setMenuOpen(false)}
+            >
+              {label}
+            </a>
+          ))}
+          <a className="nav-cta" href="#start" onClick={() => setMenuOpen(false)}>
+            开始书写
+          </a>
+        </nav>
+      </header>
+
+      <main id="sections" className={prefersReducedMotion ? 'sections reduce-motion' : 'sections'} tabIndex={-1}>
+        {sections.map((section, index) => (
+          <LandingStage
+            active={index === activeIndex}
+            index={index}
+            key={section.id}
+            section={section}
+            videoRef={(node) => {
+              videoRefs.current[index] = node;
+            }}
+          />
+        ))}
+      </main>
+    </>
   );
 }
 
-function Hero() {
+type LandingStageProps = {
+  active: boolean;
+  index: number;
+  key?: string;
+  section: LandingSection;
+  videoRef: (node: HTMLVideoElement | null) => void;
+};
+
+function LandingStage({active, index, section, videoRef}: LandingStageProps) {
+  const Heading = index === 0 ? 'h1' : 'h2';
+  const stageStyle = {
+    '--section-bg': section.bg,
+    '--accent': section.accent,
+    '--accent-2': section.accent2,
+    '--section-index': index,
+  } as CSSProperties;
+
   return (
-    <div className="relative w-full min-h-[90vh] flex flex-col items-center justify-center overflow-hidden bg-canvas-almond pt-10 pb-20">
-      
-      {/* Background Decorative Stickers */}
-      <motion.div 
-        animate={{ rotate: 360 }} 
-        transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-        className="absolute top-[10%] left-[5%] md:left-[15%] z-0"
-      >
-        <ColorfulRoundCard bg="bg-sunshine-yellow" className="w-[100px] h-[100px] md:w-[180px] md:h-[180px]">
-          <Pencil size={48} className="text-type-black md:hidden" />
-          <Pencil size={64} className="text-type-black hidden md:block" />
-        </ColorfulRoundCard>
-      </motion.div>
+    <section
+      aria-current={active ? 'true' : 'false'}
+      className={`stage stage--${section.layout} tone-${section.tone} ${active ? 'is-active' : ''}`}
+      data-index={index}
+      id={section.id}
+      style={stageStyle}
+    >
+      <div className="stage-inner">
+        <article className="stage-copy" data-reveal="true">
+          <p className="eyebrow">{section.eyebrow}</p>
+          <Heading>{section.title}</Heading>
+          <p className="lead">{section.lead}</p>
+          <p className="proof">{section.proof}</p>
+          <Actions ctas={section.ctas} />
+        </article>
 
-      <motion.div 
-        animate={{ y: [0, -20, 0] }} 
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-[20%] right-[3%] md:right-[15%] z-0"
-      >
-        <SpeechBubble className="transform rotate-12 bg-bubblegum-red text-paper-white border-[3px] md:border-[4px] border-type-black border-solid shadow-none px-5 py-3 md:px-[43.2px] md:py-[28.8px]">
-          <span className="text-[20px] md:text-[36px] font-bold">Hello!</span>
-        </SpeechBubble>
-      </motion.div>
+        <aside className="stage-visual" data-reveal="true">
+          <VideoCard index={index} section={section} videoRef={videoRef} />
+        </aside>
 
-      <motion.div 
-        animate={{ scale: [1, 1.1, 1] }} 
-        transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[20%] right-[5%] z-0"
-      >
-        <ColorfulRoundCard bg="bg-leafy-green" className="w-[60px] h-[60px] md:w-[100px] md:h-[100px] border-[3px] md:border-[4px] border-type-black">
-          <Sparkles size={32} className="text-type-black md:hidden" />
-          <Sparkles size={40} className="text-type-black hidden md:block" />
-        </ColorfulRoundCard>
-      </motion.div>
-
-      {/* Main Content */}
-      <div className="relative z-10 flex flex-col items-center text-center max-w-[90vw] md:max-w-none">
-        <motion.h1 
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-[90px] sm:text-[180px] md:text-[240px] lg:text-[346px] leading-[0.9] text-type-black font-bold uppercase tracking-tighter"
-        >
-          INK
-        </motion.h1>
-        <motion.h1 
-          initial={{ opacity: 0, y: 50 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-[70px] sm:text-[140px] md:text-[180px] lg:text-[250px] leading-[0.9] text-type-black font-bold uppercase tracking-tighter -mt-2 md:-mt-12 text-outline"
-          style={{ WebkitTextStroke: '0.04em #000', color: 'transparent' }}
-        >
-          & MEMORY
-        </motion.h1>
-
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mt-6 md:mt-[-40px] z-20 px-2"
-        >
-          <SpeechBubble className="bg-paper-white border-[3px] md:border-[4px] border-type-black border-solid max-w-2xl mx-auto shadow-[6px_6px_0px_#000] md:shadow-[8px_8px_0px_#000] px-5 py-4 md:px-[43.2px] md:py-[28.8px]">
-            <p className="text-[18px] md:text-[29px] leading-[1.5] md:leading-[1.3] font-bold text-center">
-              写作的 AI 搭档，从倾听到协作
-            </p>
-          </SpeechBubble>
-        </motion.div>
-
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-8 md:mt-10 mx-auto max-w-xl md:max-w-3xl text-left bg-canvas-almond/90 p-5 md:p-8 rounded-cards border-2 border-transparent"
-        >
-          <p className="text-[16px] md:text-[22px] leading-[1.6] md:leading-[1.4] mb-4 md:mb-6">
-            AI 不只是助手。<br/>
-            它可以读懂你的文字，理解你的意图，甚至直接帮你修改作品。
-          </p>
-          <p className="text-[16px] md:text-[22px] leading-[1.6] md:leading-[1.4] mb-6 md:mb-8 font-bold">
-            但每一次动笔之前，它都会先停下来，告诉你：<br/>
-            它想改哪里，为什么这样改，改完会变成什么样。
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 md:gap-4 items-center justify-center p-3 md:p-4 bg-type-black text-paper-white rounded-cards text-[16px] md:text-[22px]">
-            <span>你点头，它才执行。</span>
-            <RefreshCcw size={20} className="hidden sm:block"/>
-            <span>你拒绝，它就重新思考。</span>
-          </div>
-        </motion.div>
+        <div className="stage-details" data-reveal="true">
+          <Scene section={section} />
+        </div>
       </div>
+    </section>
+  );
+}
+
+function VideoCard({index, section, videoRef}: {index: number; section: LandingSection; videoRef: (node: HTMLVideoElement | null) => void}) {
+  return (
+    <figure className={`video-card video-card--${section.shape}`}>
+      <div className="video-mask">
+        <video
+          aria-hidden="true"
+          className="section-video"
+          loop
+          muted
+          playsInline
+          preload={index === 0 ? 'auto' : 'metadata'}
+          ref={videoRef}
+        >
+          <source src={alphaVideoSources[section.video % alphaVideoSources.length]} type="video/webm" />
+          <source src={videoSources[section.video % videoSources.length]} type="video/mp4" />
+        </video>
+      </div>
+    </figure>
+  );
+}
+
+function Actions({ctas = []}: {ctas?: Cta[]}) {
+  if (!ctas.length) return null;
+
+  return (
+    <div className="actions">
+      {ctas.map((cta) => (
+        <a
+          aria-label={cta.label}
+          className={`button ${cta.primary ? 'button--primary' : 'button--ghost'}`}
+          href={cta.href}
+          key={`${cta.label}-${cta.href}`}
+          rel={cta.external ? 'noopener noreferrer' : undefined}
+          target={cta.external ? '_blank' : undefined}
+        >
+          <span>{cta.label}</span>
+          <ArrowRight aria-hidden="true" size={16} />
+        </a>
+      ))}
     </div>
   );
 }
 
-function AudienceSection() {
-  return (
-    <Section bg="bg-grape-punch">
-      <div className="max-w-5xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-[60px] items-center">
-        <div>
-          <h2 className="text-[36px] md:text-[72px] leading-[1.2] md:leading-[1.1] text-paper-white font-bold mb-6 md:mb-8">
-            谁最适合使用 <br/> Ink & Memory？
-          </h2>
-          <div className="bg-paper-white text-type-black rounded-cards p-6 md:p-8 text-[16px] md:text-[22px] leading-[1.6] md:leading-[1.4] border-[3px] md:border-[4px] border-type-black shadow-[6px_6px_0px_#000] md:shadow-[8px_8px_0px_#000]">
-            <p className="mb-4">如果你只是想随手记几句，普通日记 App 也许已经够用。但如果你符合下面这些特征，Ink & Memory 会更适合你：</p>
-            <ul className="space-y-3 md:space-y-4 list-disc pl-5 mb-6">
-              <li>你经常写日记、随笔、灵感、梦境、情绪记录</li>
-              <li>你希望 AI 不只是聊天，而是能真正参与写作过程</li>
-              <li>你在意文字的私密性，不希望 AI 擅自改动你的内容</li>
-              <li>你想长期积累个人写作记忆，让 AI 越来越懂你</li>
-              <li>你希望从自己的文字中看见情绪、主题和行为模式</li>
-            </ul>
-            <p className="font-bold underline decoration-[3px] md:decoration-4 decoration-bubblegum-red underline-offset-4">
-              Ink & Memory 不是给“随便试试”的人。它更适合那些愿意认真写，也愿意认真看见自己的人。
-            </p>
+function Scene({section}: {section: LandingSection}) {
+  switch (section.scene) {
+    case 'heroProof':
+      return (
+        <div className="hero-proof-grid">
+          <div className="sticky-note note-yellow">
+            <Pencil aria-hidden="true" size={18} />
+            为日记、随笔、梦境和情绪记录而设计。
+          </div>
+          <div className="sticky-note note-green">
+            <Sparkles aria-hidden="true" size={18} />
+            AI 可以申请动笔，但不能越界。
           </div>
         </div>
-        <div className="relative flex justify-center items-center mt-6 md:mt-0 pb-6 md:pb-0">
-          <ColorfulRoundCard bg="bg-sunshine-yellow" className="w-[220px] h-[220px] md:w-[300px] md:h-[300px] border-[4px] md:border-[6px] border-type-black shadow-[8px_8px_0px_#000] md:shadow-[12px_12px_0px_#000000]">
-            <Users size={80} className="text-type-black md:hidden" />
-            <Users size={120} className="text-type-black hidden md:block" />
-          </ColorfulRoundCard>
-          <SpeechBubble className="absolute -top-4 right-2 md:top-10 md:-right-10 border-[3px] md:border-[4px] border-type-black rotate-6 shadow-[4px_4px_0px_#000] px-4 py-3 md:px-8 md:py-6">
-            <span className="text-[16px] md:text-[22px] font-bold">It's for YOU!</span>
-          </SpeechBubble>
+      );
+    case 'audienceCards':
+      return (
+        <div className="icp-grid">
+          {section.cards?.map((item, index) => (
+            <div className="icp-card" key={String(item)} style={{'--i': index} as CSSProperties}>
+              {String(item)}
+            </div>
+          ))}
         </div>
-      </div>
-    </Section>
-  );
-}
-
-function ValueProps() {
-  return (
-    <Section bg="bg-canvas-almond">
-      <div className="text-center max-w-4xl mx-auto mb-10 md:mb-16">
-        <h2 className="text-[36px] md:text-[72px] leading-[1.2] md:leading-[1.1] text-type-black font-bold -rotate-2">
-          写下来，<br className="md:hidden"/>让 AI 和你一起听见自己
-        </h2>
-        <p className="text-[20px] md:text-[29px] leading-[1.5] md:leading-[1.3] mt-6 md:mt-8">
-          你写字，它倾听。你停顿，它提示。你需要修改时，它可以动笔。<br/>
-          <span className="bg-sunshine-yellow px-2 font-bold leading-[1.6] md:leading-normal inline-block mt-2">但所有关键动作，都要经过你确认。</span>
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[20px] md:gap-[30px] max-w-7xl mx-auto w-full">
-        {/* Card 1 */}
-        <QuirkyCard bg="bg-leafy-green" className="border-[3px] md:border-[4px] border-type-black shadow-[6px_6px_0px_#000] md:shadow-[8px_8px_0px_#000] rotate-1 hover:rotate-0 transition-transform">
-          <div className="bg-paper-white w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center border-[3px] border-type-black mb-4 md:mb-6">
-            <Hand size={28} className="text-type-black md:hidden" />
-            <Hand size={32} className="text-type-black hidden md:block" />
-          </div>
-          <h3 className="text-[28px] md:text-[36px] leading-[1.25] md:leading-[1.2] font-bold text-type-black mb-3 md:mb-4">AI 真的能改你的稿</h3>
-          <p className="text-[16px] md:text-[22px] leading-[1.6] md:leading-[1.4] text-type-black">
-            不是建议，是行动。但每一步都等你说“可以”。AI 可以直接对你的文档执行操作，但在动手前会弹出确认。
-          </p>
-        </QuirkyCard>
-
-        {/* Card 2 */}
-        <QuirkyCard bg="bg-bubblegum-red" className="border-[3px] md:border-[4px] border-type-black shadow-[6px_6px_0px_#000] md:shadow-[8px_8px_0px_#000] -rotate-1 hover:rotate-0 transition-transform">
-          <div className="bg-paper-white w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center border-[3px] border-type-black mb-4 md:mb-6">
-            <Layers size={28} className="text-type-black md:hidden" />
-            <Layers size={32} className="text-type-black hidden md:block" />
-          </div>
-          <h3 className="text-[28px] md:text-[36px] leading-[1.25] md:leading-[1.2] font-bold text-paper-white mb-3 md:mb-4">四种 AI 写作工具</h3>
-          <p className="text-[16px] md:text-[22px] leading-[1.6] md:leading-[1.4] text-paper-white">
-            写入段落、删除段落、插入组件、回复评论。边界清楚，不越界。
-          </p>
-        </QuirkyCard>
-
-        {/* Card 3 */}
-        <QuirkyCard bg="bg-deep-indigo" className="border-[3px] md:border-[4px] border-type-black shadow-[6px_6px_0px_#000] md:shadow-[8px_8px_0px_#000] rotate-2 hover:rotate-0 transition-transform">
-          <div className="bg-paper-white w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center border-[3px] border-type-black mb-4 md:mb-6">
-            <Eye size={28} className="text-type-black md:hidden" />
-            <Eye size={32} className="text-type-black hidden md:block" />
-          </div>
-          <h3 className="text-[28px] md:text-[36px] leading-[1.25] md:leading-[1.2] font-bold text-paper-white mb-3 md:mb-4">自动与逐步确认</h3>
-          <p className="text-[16px] md:text-[22px] leading-[1.6] md:leading-[1.4] text-paper-white">
-            你决定 AI 参与到什么程度。想要顺畅？自动模式。想要控制？逐步确认。随时切换。
-          </p>
-        </QuirkyCard>
-
-        {/* Card 4 */}
-        <QuirkyCard bg="bg-paper-white" className="border-[3px] md:border-[4px] border-type-black shadow-[6px_6px_0px_#000] md:shadow-[8px_8px_0px_#000] hover:-translate-y-1 transition-transform md:col-span-2 lg:col-span-3 mt-2 md:mt-0">
-          <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center">
-            <ColorfulRoundCard bg="bg-sunshine-yellow" className="w-[80px] h-[80px] md:w-[120px] md:h-[120px] shrink-0 border-[3px] md:border-[4px] border-type-black">
-              <History size={40} className="text-type-black md:hidden" />
-              <History size={64} className="text-type-black hidden md:block" />
-            </ColorfulRoundCard>
-            <div>
-              <h3 className="text-[28px] md:text-[48px] leading-[1.2] font-bold text-type-black mb-3 md:mb-4">会呼吸的编辑器 & 带记忆的助手</h3>
-              <p className="text-[16px] md:text-[22px] leading-[1.6] md:leading-[1.4] text-type-black mb-2 md:mb-4">
-                不用新建文件，每天准备好空白页。自动记录、保存、归档。
-                AI 带着你近期的写作记忆来和你对话。知道你反复写到什么，哪些情绪没有说完。
-              </p>
+      );
+    case 'confirmPanel':
+      return (
+        <div className="confirm-scene">
+          <div className="confirm-card">
+            <div className="confirm-head">
+              <span>AI 修改请求</span>
+              <strong>等待确认</strong>
+            </div>
+            <dl>
+              <div>
+                <dt>动作</dt>
+                <dd>申请改写第 3 段，让画面更具体</dd>
+              </div>
+              <div>
+                <dt>范围</dt>
+                <dd>仅替换当前段落，不影响全文结构</dd>
+              </div>
+              <div>
+                <dt>原因</dt>
+                <dd>原句有情绪，但缺少可感知的场景</dd>
+              </div>
+            </dl>
+            <div className="confirm-actions">
+              <button type="button">可以执行</button>
+              <button type="button">重新思考</button>
             </div>
           </div>
-        </QuirkyCard>
-      </div>
-    </Section>
-  );
+          <div className="diff-row">
+            <div className="diff-card">
+              <span>修改前</span>
+              <p>我今天很累，好像什么都没有发生。</p>
+            </div>
+            <div className="diff-card after">
+              <span>修改后</span>
+              <p>我把钥匙放在桌上，灯没有开，整间屋子像等我先承认疲惫。</p>
+            </div>
+          </div>
+        </div>
+      );
+    case 'toolCards':
+      return (
+        <div className="tool-grid">
+          {section.cards?.map((card, index) => {
+            const item = card as {title: string; text: string};
+            return (
+              <article className="tool-card" key={item.title} style={{'--i': index} as CSSProperties}>
+                <span className="tool-index">0{index + 1}</span>
+                <h3>{item.title}</h3>
+                <p>{item.text}</p>
+              </article>
+            );
+          })}
+        </div>
+      );
+    case 'modeCards':
+      return (
+        <div className="mode-scene">
+          <div className="mode-toggle" aria-hidden="true">
+            <span>自动模式</span>
+            <span>逐步确认</span>
+          </div>
+          <div className="mode-grid">
+            <article className="mode-card">
+              <h3>自动模式</h3>
+              <p>适合顺畅记录。分析、理解和对话可自动完成；涉及修改、插入、删除或关键决策时暂停确认。</p>
+            </article>
+            <article className="mode-card">
+              <h3>逐步确认模式</h3>
+              <p>适合精细控制。每个关键动作都展示出来，由你逐步确认，再进入下一步。</p>
+            </article>
+          </div>
+        </div>
+      );
+    case 'breathingEditor':
+      return (
+        <div className="editor-mock">
+          <div className="editor-date">
+            <BookOpen aria-hidden="true" size={15} />
+            June 14 / Sunday
+          </div>
+          <h3>今天的空白页已经准备好</h3>
+          <p>我醒来时还记得梦里那条很长的走廊。它不像回忆，更像某种提醒。先别急着总结，我想把它写完整。</p>
+          <div className="save-chip">
+            <CheckCircle2 aria-hidden="true" size={15} />
+            3 秒前已自动保存
+          </div>
+          <div className="voice-wave" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+        </div>
+      );
+    case 'memoryChat':
+      return (
+        <div className="memory-scene">
+          <div className="memory-stack">
+            <strong>近期写作线索</strong>
+            <p>孤独、雨声、回避、窗边。AI 先整理你的文字记忆，再回到对话里。</p>
+          </div>
+          <div className="chat-list">
+            <p>我最近写的关于孤独的段落，有什么共同点？</p>
+            <p>这几天的文字里，情绪有什么变化？</p>
+          </div>
+        </div>
+      );
+    case 'voiceCast':
+      return (
+        <div className="voice-scene">
+          <div className="voice-card">理性的分析者</div>
+          <div className="voice-card">温柔的共情者</div>
+          <div className="voice-card">安静的旁观者</div>
+          <div className="comment-strip">
+            <span>这句话背后有委屈。</span>
+            <span>不要急着总结。</span>
+          </div>
+        </div>
+      );
+    case 'echoAnalysis':
+      return (
+        <div className="echo-scene">
+          <div className="thread-map" aria-hidden="true">
+            <span />
+            <span />
+            <span />
+            <span />
+            <span />
+          </div>
+          <article>
+            <strong>Echoes｜回响</strong>
+            <p>识别反复书写的主题和意象。</p>
+          </article>
+          <article>
+            <strong>Traits｜特质</strong>
+            <p>从语气、叙事距离和情绪强度中提炼长期特征。</p>
+          </article>
+          <article>
+            <strong>Patterns｜模式</strong>
+            <p>看见反复出现的情绪循环、关系问题和选择困境。</p>
+          </article>
+        </div>
+      );
+    case 'imageTimeline':
+      return (
+        <div className="timeline-scene">
+          {['雨后黄昏', '像素月亮', '草地回声', '半透明房间', '蓝色信封'].map((label, index) => (
+            <div className={`emotion-card emotion-${index + 1}`} key={label}>
+              <span>{label}</span>
+            </div>
+          ))}
+        </div>
+      );
+    case 'safetyGrid':
+      return (
+        <>
+          <div className="safety-grid">
+            {[
+              '写操作必须确认',
+              '删除类操作更高等级提醒',
+              '用户会话完全隔离',
+              '拒绝操作不会写入文档',
+            ].map((item, index) => (
+              <div className="safety-card" key={item} style={{'--i': index} as CSSProperties}>
+                <Lock aria-hidden="true" size={18} />
+                {item}
+              </div>
+            ))}
+          </div>
+        </>
+      );
+    case 'finalCall':
+      return (
+        <div className="final-note">
+          <p>
+            <Mic2 aria-hidden="true" size={18} />
+            你写下第一句话。
+          </p>
+          <p>
+            <Sparkles aria-hidden="true" size={18} />
+            它读懂、回应、建议，必要时申请动笔。
+          </p>
+          <p>
+            <ShieldCheck aria-hidden="true" size={18} />
+            关键修改前，它会停下来等你。
+          </p>
+        </div>
+      );
+    default:
+      return null;
+  }
 }
 
-function DeepFeatures() {
-  return (
-    <Section bg="bg-sunshine-yellow">
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[25px] md:gap-[30px]">
-        {/* Your voice cast */}
-        <div className="bg-canvas-almond border-[3px] md:border-[4px] border-type-black shadow-[6px_6px_0px_#000] p-6 md:p-8 rounded-cards lg:col-span-2">
-          <div className="flex items-center gap-4 mb-4">
-            <MessageCircle size={32} className="text-leafy-green md:hidden" />
-            <MessageCircle size={40} className="text-leafy-green hidden md:block" />
-            <h3 className="text-[28px] md:text-[36px] font-bold leading-[1.2]">你的声音角色团 & 声音卡组系统</h3>
-          </div>
-          <p className="text-[16px] md:text-[22px] leading-[1.6] md:leading-[1.4]">
-            理性分析者、极度共情者、犀利挑战者... 选择不同的“声音角色”，开启一场多视角的自我对话。你可以创建专属声音角色，浏览社区卡组，甚至一键 Fork 喜欢的卡组并修改成自己的版本。
-          </p>
-        </div>
-
-        {/* AI Images */}
-        <div className="bg-grape-punch text-paper-white border-[3px] md:border-[4px] border-type-black shadow-[6px_6px_0px_#000] p-6 md:p-8 rounded-[60px] md:rounded-[100px] text-center flex flex-col items-center justify-center -rotate-2 hover:rotate-0 transition-transform">
-          <ImageIcon size={48} className="mb-4 text-sunshine-yellow md:hidden" />
-          <ImageIcon size={64} className="mb-4 text-sunshine-yellow hidden md:block" />
-          <h3 className="text-[28px] md:text-[36px] font-bold mb-3 md:mb-4 leading-[1.2]">每日生成图</h3>
-          <p className="text-[16px] md:text-[22px] leading-[1.6] md:leading-[1.4]">
-            不是照片，是你这一天情绪状态的视觉轮廓。
-          </p>
-        </div>
-
-        {/* Deep Echo Analysis */}
-        <div className="bg-bubblegum-red text-paper-white border-[3px] md:border-[4px] border-type-black shadow-[6px_6px_0px_#000] p-6 md:p-8 rounded-cards rotate-1 hover:rotate-0 transition-transform lg:col-span-2">
-          <div className="flex items-center gap-4 mb-4">
-            <BarChart size={32} className="text-paper-white md:hidden" />
-            <BarChart size={40} className="text-paper-white hidden md:block" />
-            <h3 className="text-[28px] md:text-[36px] font-bold leading-[1.2]">深度回响分析</h3>
-          </div>
-          <p className="text-[16px] md:text-[22px] leading-[1.6] md:leading-[1.4]">
-            当文字积累到一定厚度，模式开始浮现。识别你反复提及的主题 (Echoes)，性格特质 (Traits) 与行为情绪模式 (Patterns)。不是为了定义你，而是多一次看见自己。
-          </p>
-        </div>
-
-        {/* Writing Prompts */}
-        <div className="bg-paper-white border-[3px] md:border-[4px] border-type-black shadow-[6px_6px_0px_#000] p-6 md:p-8 rounded-cards">
-          <div className="flex items-center gap-4 mb-4">
-            <Sparkles size={32} className="text-grape-punch md:hidden" />
-            <Sparkles size={40} className="text-grape-punch hidden md:block" />
-            <h3 className="text-[28px] md:text-[36px] font-bold leading-[1.2]">写作灵感</h3>
-          </div>
-          <p className="text-[16px] md:text-[22px] leading-[1.6] md:leading-[1.4]">
-            停笔的那一刻，灵感轻轻落下。不是命令。而是一句轻轻的推门声。
-          </p>
-        </div>
-
-        {/* History */}
-        <div className="bg-deep-indigo text-paper-white border-[3px] md:border-[4px] border-type-black shadow-[6px_6px_0px_#000] p-6 md:p-8 rounded-cards text-center">
-          <History size={32} className="mx-auto mb-4 text-sunshine-yellow md:hidden" />
-          <History size={40} className="mx-auto mb-4 text-sunshine-yellow hidden md:block" />
-          <h3 className="text-[28px] md:text-[36px] font-bold mb-3 md:mb-4 leading-[1.2]">操作历史可追溯</h3>
-          <p className="text-[16px] md:text-[22px] leading-[1.6] md:leading-[1.4]">
-            AI 做了什么，你都看得见。无黑箱操作，不污染原文。
-          </p>
-        </div>
-
-        {/* Friends Timeline */}
-        <div className="bg-leafy-green text-type-black border-[3px] md:border-[4px] border-type-black shadow-[6px_6px_0px_#000] p-6 md:p-8 rounded-cards lg:col-span-2 flex flex-col sm:flex-row items-center sm:items-start md:items-center gap-5 md:gap-8 -rotate-1 hover:rotate-0 transition-transform">
-          <ColorfulRoundCard bg="bg-paper-white" className="w-[70px] h-[70px] md:w-[100px] md:h-[100px] shrink-0 border-[3px] md:border-[4px] border-type-black">
-            <Users size={32} className="text-type-black md:hidden" />
-            <Users size={48} className="text-type-black hidden md:block" />
-          </ColorfulRoundCard>
-          <div className="text-center sm:text-left">
-            <h3 className="text-[28px] md:text-[36px] font-bold mb-2 md:mb-3 leading-[1.2]">好友时间线</h3>
-            <p className="text-[16px] md:text-[22px] leading-[1.6] md:leading-[1.4]">
-              亲密，但有分寸。连接，但不打扰。在对方的时间线上，看见他们每天生成的情绪图片，而不是公开状态。
-            </p>
-          </div>
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-function CallToAction() {
-  return (
-    <Section bg="bg-leafy-green" className="border-t-[6px] md:border-t-[8px] border-type-black">
-      <div className="max-w-4xl mx-auto w-full text-center py-10 md:py-16">
-        <SpeechBubble className="bg-paper-white mx-auto inline-block border-[4px] md:border-[6px] border-type-black shadow-[8px_8px_0px_#000] md:shadow-[12px_12px_0px_#000] rotate-2 mb-8 md:mb-12 px-5 py-4 md:px-12 md:py-8">
-          <h2 className="text-[36px] md:text-[72px] leading-[1.2] md:leading-[1.1] font-bold text-type-black">
-            开始与 AI 协作写作
-          </h2>
-        </SpeechBubble>
-
-        <p className="text-[20px] md:text-[29px] leading-[1.5] md:leading-[1.3] text-type-black font-bold mb-8 md:mb-12 bg-canvas-almond inline-block px-5 py-3 md:px-6 md:py-4 border-[3px] md:border-[4px] border-type-black -rotate-1 rounded-cards">
-          不是 AI 替你写。<br/>
-          是 AI 和你一起写。
-        </p>
-        
-        <br/>
-
-        <a href="https://ink-frontend.suoxya.com" target="_blank" rel="noopener noreferrer" className="bg-type-black text-paper-white text-[20px] md:text-[36px] leading-[1.4] md:leading-[1.2] font-bold px-8 md:px-12 py-4 md:py-6 rounded-[24px] md:rounded-speechbubbles shadow-[6px_6px_0px_#fff] md:shadow-[8px_8px_0px_#fff] hover:-translate-y-1 hover:bg-grape-punch transition-all cursor-pointer inline-flex items-center">
-          开始今天的书写 <Play size={28} className="ml-2 md:ml-3 md:w-10 md:h-10" />
-        </a>
-
-        <div className="mt-16 md:mt-20 pt-6 md:pt-8 border-t-[3px] md:border-t-[4px] border-type-black flex flex-col md:flex-row justify-between items-center text-[12px] md:text-[16px] font-bold text-type-black/80">
-          <p className="mb-4 md:mb-0">© 2026 Ink & Memory. All rights reserved.</p>
-          <div className="flex gap-4">
-            <span className="underline cursor-pointer">Privacy Policy</span>
-            <span className="underline cursor-pointer">Terms of Service</span>
-          </div>
-        </div>
-      </div>
-    </Section>
-  );
-}
-
-export default function App() {
-  return (
-    <div className="min-h-screen bg-canvas-almond text-type-black font-fictional selection:bg-grape-punch selection:text-paper-white">
-      <Navbar />
-      <Hero />
-      <AudienceSection />
-      <ValueProps />
-      <DeepFeatures />
-      <CallToAction />
-    </div>
-  );
-}
+export default App;
