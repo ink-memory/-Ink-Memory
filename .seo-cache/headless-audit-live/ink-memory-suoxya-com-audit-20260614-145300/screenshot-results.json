@@ -1,0 +1,32 @@
+{
+  "screenshots": [
+    {
+      "url": "http://ink-memory.suoxya.com/",
+      "output": "/Users/dmeck/project/-Ink-Memory/.seo-cache/headless-audit-live/ink-memory-suoxya-com-audit-20260614-145300/screenshots/ink-memory-suoxya-com-desktop.png",
+      "viewport": "desktop",
+      "success": true,
+      "error": null
+    },
+    {
+      "url": "http://ink-memory.suoxya.com/",
+      "output": "/Users/dmeck/project/-Ink-Memory/.seo-cache/headless-audit-live/ink-memory-suoxya-com-audit-20260614-145300/screenshots/ink-memory-suoxya-com-laptop.png",
+      "viewport": "laptop",
+      "success": true,
+      "error": null
+    },
+    {
+      "url": "http://ink-memory.suoxya.com/",
+      "output": "/Users/dmeck/project/-Ink-Memory/.seo-cache/headless-audit-live/ink-memory-suoxya-com-audit-20260614-145300/screenshots/ink-memory-suoxya-com-tablet.png",
+      "viewport": "tablet",
+      "success": true,
+      "error": null
+    },
+    {
+      "url": "http://ink-memory.suoxya.com/",
+      "output": "/Users/dmeck/project/-Ink-Memory/.seo-cache/headless-audit-live/ink-memory-suoxya-com-audit-20260614-145300/screenshots/ink-memory-suoxya-com-mobile.png",
+      "viewport": "mobile",
+      "success": true,
+      "error": null
+    }
+  ]
+}
