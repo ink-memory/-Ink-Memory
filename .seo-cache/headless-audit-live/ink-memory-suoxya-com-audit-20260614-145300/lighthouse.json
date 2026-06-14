@@ -1,0 +1,30 @@
+{
+  "categories": {
+    "performance": {
+      "score": 0.96
+    },
+    "accessibility": {
+      "score": 0.9
+    },
+    "best-practices": {
+      "score": 0.88
+    },
+    "seo": {
+      "score": 0.76
+    }
+  },
+  "audits": {
+    "largest-contentful-paint": {
+      "numericValue": 1943.26
+    },
+    "interaction-to-next-paint": {
+      "numericValue": 110.0
+    },
+    "cumulative-layout-shift": {
+      "numericValue": 0.03
+    },
+    "total-blocking-time": {
+      "numericValue": 77.0
+    }
+  }
+}
