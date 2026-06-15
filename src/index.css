@@ -46,6 +46,17 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
+body[data-language="en"] {
+  font-family:
+    "Arial Rounded MT Bold",
+    "Trebuchet MS",
+    "Avenir Next",
+    "PingFang SC",
+    "Microsoft YaHei",
+    system-ui,
+    sans-serif;
+}
+
 body::before {
   display: none;
   content: none;
@@ -168,6 +179,46 @@ button {
 .site-nav .nav-cta:focus-visible {
   background: var(--yellow);
   color: var(--ink);
+}
+
+.language-toggle {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: 2px solid rgba(17, 17, 17, 0.16);
+  border-radius: var(--radius-pill);
+  background: rgba(255, 247, 234, 0.62);
+  color: var(--ink);
+  cursor: pointer;
+  padding: 3px;
+  font-size: 13px;
+  font-weight: 950;
+  white-space: nowrap;
+  transition:
+    border-color 220ms ease-out,
+    background 220ms ease-out;
+}
+
+.language-toggle:hover,
+.language-toggle:focus-visible {
+  border-color: var(--ink);
+  background: rgba(255, 212, 42, 0.5);
+  outline: none;
+}
+
+.language-toggle span {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  padding: 0 9px;
+}
+
+.language-toggle .is-current {
+  background: var(--ink);
+  color: var(--yellow);
 }
 
 .nav-toggle {
@@ -358,6 +409,27 @@ h1 {
   font-size: clamp(54px, 7.8vw, 122px);
 }
 
+body[data-language="en"] h1 {
+  max-width: 14ch;
+  font-size: clamp(48px, 7vw, 104px);
+  line-height: 1.02;
+}
+
+body[data-language="en"] h2 {
+  max-width: 15.5ch;
+  font-size: clamp(42px, 5.9vw, 88px);
+  line-height: 1.03;
+}
+
+body[data-language="en"] .lead,
+body[data-language="en"] .proof {
+  max-width: 740px;
+}
+
+body[data-language="en"] .lead {
+  font-size: clamp(16px, 1.36vw, 21px);
+}
+
 .stage--final h2 {
   color: var(--cream);
 }
@@ -475,9 +547,7 @@ h1 {
   overflow: visible;
   aspect-ratio: 16 / 9;
   border-radius: calc(var(--radius-xl) - 14px);
-  background:
-    radial-gradient(circle at 50% 72%, color-mix(in srgb, var(--accent) 32%, white) 0 28%, transparent 29%),
-    radial-gradient(circle at 58% 48%, rgba(255, 255, 255, 0.7) 0 36%, transparent 37%);
+  background: transparent;
 }
 
 .section-video {
@@ -1300,6 +1370,20 @@ h1 {
     font-size: clamp(42px, 5.8vw, 76px);
   }
 
+  body[data-language="en"] h1 {
+    max-width: 15ch;
+    font-size: clamp(42px, 5.8vw, 76px);
+  }
+
+  body[data-language="en"] h2 {
+    max-width: 16ch;
+    font-size: clamp(36px, 5vw, 64px);
+  }
+
+  body[data-language="en"] .lead {
+    font-size: clamp(14px, 1.1vw, 17px);
+  }
+
   .eyebrow {
     margin-bottom: 8px;
   }
@@ -1479,6 +1563,11 @@ h1 {
     max-width: 12ch;
   }
 
+  body[data-language="en"] h1,
+  body[data-language="en"] h2 {
+    max-width: 15.5ch;
+  }
+
   .stage-visual {
     width: min(100%, 560px);
   }
@@ -1545,6 +1634,11 @@ h1 {
     transform: translateY(0);
   }
 
+  .language-toggle {
+    width: 100%;
+    justify-content: center;
+  }
+
   .stage {
     padding-inline: 18px;
   }
@@ -1597,6 +1691,12 @@ h1 {
   h1,
   h2 {
     font-size: clamp(40px, 15vw, 62px);
+  }
+
+  body[data-language="en"] h1,
+  body[data-language="en"] h2 {
+    max-width: 14ch;
+    font-size: clamp(36px, 12.5vw, 54px);
   }
 
   .lead {
