@@ -29,6 +29,26 @@ const alphaVideoSources = [videoOneAlpha, videoTwoAlpha, videoThreeAlpha, videoF
 
 type Language = 'en' | 'zh';
 
+type SeoFaq = {
+  question: string;
+  answer: string;
+};
+
+type SeoCopy = {
+  metaTitle: string;
+  metaDescription: string;
+  ogDescription: string;
+  locale: string;
+  byline: string;
+  updated: string;
+  eyebrow: string;
+  title: string;
+  answer: string;
+  sourceIntro: string;
+  sourceLabel: string;
+  faqs: SeoFaq[];
+};
+
 type Cta = {
   label: string;
   href: string;
@@ -82,6 +102,185 @@ type LandingSection = {
   copy: Record<Language, SectionCopy>;
 };
 
+const siteBaseUrl = 'https://ink-memory.suoxya.com/';
+const siteUrls: Record<Language, string> = {
+  en: siteBaseUrl,
+  zh: `${siteBaseUrl}?lang=zh`,
+};
+
+const sourceLinks = [
+  {
+    label: 'NIST AI Risk Management Framework',
+    href: 'https://www.nist.gov/itl/ai-risk-management-framework',
+  },
+  {
+    label: 'Google Search Central structured data',
+    href: 'https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data',
+  },
+];
+
+const seoCopy = {
+  en: {
+    metaTitle: 'Ink & Memory | AI Journal and Writing Companion',
+    metaDescription:
+      'Ink & Memory is an AI journal and writing companion for reflective writers, combining long-term memory, consent-based AI edits, voice notes, and private self-inquiry.',
+    ogDescription:
+      'A consent-based AI writing companion for journals, dreams, essays, voice notes, and reflective self-inquiry.',
+    locale: 'en_US',
+    byline: 'Product content by the Ink & Memory product team.',
+    updated: 'Last updated June 15, 2026.',
+    eyebrow: 'Answer-first product overview',
+    title: 'What is Ink & Memory?',
+    answer:
+      'Ink & Memory is an AI writing companion for reflective writers who want a journal, editor, and long-term memory system in one calm workspace. It preserves diary entries, dreams, fragments, essays, and voice notes as autobiographical context, then uses that context to offer prompts, comments, rewrites, and structured reflection without taking control of the document. The product separates memory into facts, expression patterns, and long-term themes, so AI responses can stay contextual without making diagnostic claims. When the assistant wants to rewrite, delete, insert, or respond inside the text, it shows intention, scope, rationale, risk, and before-and-after copy, then waits for consent. This makes Ink & Memory useful for daily journaling, self-inquiry, creative drafting, and private emotional continuity while keeping authorship with the writer.',
+    sourceIntro: 'The consent and transparency model is informed by public AI risk and structured data guidance.',
+    sourceLabel: 'Reference sources',
+    faqs: [
+      {
+        question: 'Who is Ink & Memory for?',
+        answer:
+          'It is for frequent journalers, self-explorers, creative writers, dream recorders, and people who want contextual AI support without giving up authorship.',
+      },
+      {
+        question: 'How does consent-based AI writing work?',
+        answer:
+          'Before key writing actions, the assistant shows the action, scope, rationale, risk, and before-and-after copy, then waits for the writer to approve or reject the change.',
+      },
+      {
+        question: 'How does writing memory improve AI responses?',
+        answer:
+          'Ink & Memory separates factual context, expression patterns, and long-term themes so future AI responses can stay contextual without rushing into diagnosis or forced interpretation.',
+      },
+      {
+        question: 'What stays private?',
+        answer:
+          'Daily writing remains private by default. When social sharing is used, friends can see a minimal affect image instead of the original private text.',
+      },
+    ],
+  },
+  zh: {
+    metaTitle: 'Ink & Memory｜AI 日记与写作搭档',
+    metaDescription:
+      'Ink & Memory 是面向长期写作者的 AI 日记与写作搭档，结合长期记忆、确认式 AI 修改、语音输入和私密自我探索。',
+    ogDescription: '给认真写作者的 AI 日记与写作搭档：长期记忆、确认式 AI 修改、语音输入和私密自我探索。',
+    locale: 'zh_CN',
+    byline: '页面内容由 Ink & Memory 产品团队维护。',
+    updated: '最后更新：2026 年 6 月 15 日。',
+    eyebrow: '答案优先的产品说明',
+    title: 'Ink & Memory 是什么？',
+    answer:
+      'Ink & Memory 是给长期写作者、自我探索者和创作用户的 AI 日记与写作搭档。它把日记、梦境、片段、随笔和语音记录沉淀为自传式写作记忆，再用这些记忆生成提示、评论、改写建议和结构化反思。它不会把记忆直接变成诊断，也不会把用户简化成标签；事实、表达习惯和长期主题会被分层处理。每当 AI 想要改写、删除、插入组件或回复评论时，它都会先说明动作、范围、原因、风险和前后差异，然后等待用户确认。这样，Ink & Memory 既能支持日常书写、自我理解和创作修改，也能把最终解释权和写作控制权留给写作者。',
+    sourceIntro: '产品的确认机制和透明度设计参考了公开的 AI 风险与结构化数据资料。',
+    sourceLabel: '参考来源',
+    faqs: [
+      {
+        question: 'Ink & Memory 适合谁？',
+        answer: '适合高频写日记、梦境、情绪记录、创作片段的人，也适合希望 AI 理解上下文但不接管作者权的人。',
+      },
+      {
+        question: '确认式 AI 写作如何工作？',
+        answer: '关键写操作发生前，AI 会展示动作、范围、理由、风险和前后差异，用户确认后才会写入文档。',
+      },
+      {
+        question: '写作记忆如何影响回应？',
+        answer: '系统会区分事实、表达习惯和长期主题，让未来回应更懂上下文，但不急着诊断或强行解释用户。',
+      },
+      {
+        question: '哪些内容保持私密？',
+        answer: '日常文字默认私密。社交分享可只展示当天的极简情绪图像，而不是原文。',
+      },
+    ],
+  },
+} satisfies Record<Language, SeoCopy>;
+
+function buildStructuredData(language: Language) {
+  const seo = seoCopy[language];
+  const pageUrl = siteUrls[language];
+  const inLanguage = language === 'zh' ? 'zh-CN' : 'en';
+
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        '@id': `${siteBaseUrl}#organization`,
+        name: 'Ink & Memory',
+        url: siteBaseUrl,
+      },
+      {
+        '@type': 'WebSite',
+        '@id': `${siteBaseUrl}#website`,
+        name: 'Ink & Memory',
+        url: siteBaseUrl,
+        inLanguage,
+        publisher: {
+          '@id': `${siteBaseUrl}#organization`,
+        },
+      },
+      {
+        '@type': 'SoftwareApplication',
+        '@id': `${siteBaseUrl}#software`,
+        name: 'Ink & Memory',
+        applicationCategory: 'LifestyleApplication',
+        operatingSystem: 'Web',
+        url: siteBaseUrl,
+        description: seo.metaDescription,
+        featureList: [
+          'AI journaling and reflective writing support',
+          'Autobiographical writing memory',
+          'Consent-based rewrite, delete, insert, and comment actions',
+          'Voice input for daily journal entries',
+          'Private affect images for social sharing without exposing original text',
+        ],
+        publisher: {
+          '@id': `${siteBaseUrl}#organization`,
+        },
+      },
+      {
+        '@type': 'WebPage',
+        '@id': `${pageUrl}#webpage`,
+        url: pageUrl,
+        name: seo.metaTitle,
+        description: seo.metaDescription,
+        inLanguage,
+        isPartOf: {
+          '@id': `${siteBaseUrl}#website`,
+        },
+        about: {
+          '@id': `${siteBaseUrl}#software`,
+        },
+        author: {
+          '@id': `${siteBaseUrl}#organization`,
+        },
+        publisher: {
+          '@id': `${siteBaseUrl}#organization`,
+        },
+        datePublished: '2026-06-14',
+        dateModified: '2026-06-15',
+        mainEntity: {
+          '@id': `${pageUrl}#faq`,
+        },
+      },
+      {
+        '@type': 'FAQPage',
+        '@id': `${pageUrl}#faq`,
+        mainEntity: seo.faqs.map((faq) => ({
+          '@type': 'Question',
+          name: faq.question,
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: faq.answer,
+          },
+        })),
+      },
+    ],
+  };
+}
+
+function updateHeadElement(selector: string, attribute: string, value: string) {
+  document.querySelector(selector)?.setAttribute(attribute, value);
+}
+
 const uiCopy = {
   en: {
     skip: 'Skip to main content',
@@ -92,9 +291,8 @@ const uiCopy = {
     navLabel: 'Primary navigation',
     start: 'Start writing',
     languageToggle: 'Switch to Chinese preview',
-    metaTitle: 'Ink & Memory | AI writing partner for reflective practice',
-    metaDescription:
-      'Ink & Memory is an AI writing partner for reflective writers. It builds autobiographical memory, supports draft collaboration, and requires consent before key writing actions.',
+    metaTitle: seoCopy.en.metaTitle,
+    metaDescription: seoCopy.en.metaDescription,
     navLinks: [
       ['For whom', '#audience'],
       ['AI collaboration', '#ai-collab'],
@@ -112,9 +310,8 @@ const uiCopy = {
     navLabel: '主导航',
     start: '开始书写',
     languageToggle: '切换到英文预览',
-    metaTitle: 'Ink & Memory｜写作的 AI 搭档',
-    metaDescription:
-      'Ink & Memory 是面向长期写作者、自我探索者和 AI 协作用户的写作 AI 搭档。它会形成写作记忆，也会在关键写操作前请求用户确认。',
+    metaTitle: seoCopy.zh.metaTitle,
+    metaDescription: seoCopy.zh.metaDescription,
     navLinks: [
       ['适合谁', '#audience'],
       ['AI 协作', '#ai-collab'],
@@ -685,7 +882,11 @@ function getInitialLanguage(): Language {
 
 function updateLanguageUrl(language: Language) {
   const url = new URL(window.location.href);
-  url.searchParams.set('lang', language);
+  if (language === 'en') {
+    url.searchParams.delete('lang');
+  } else {
+    url.searchParams.set('lang', language);
+  }
   window.history.replaceState(null, '', `${url.pathname}${url.search}${url.hash}`);
 }
 
@@ -698,13 +899,25 @@ function App() {
   const ui = uiCopy[language];
 
   useEffect(() => {
+    const seo = seoCopy[language];
+
     document.documentElement.lang = language === 'en' ? 'en' : 'zh-CN';
     document.body.dataset.language = language;
     document.title = ui.metaTitle;
 
-    document.querySelector('meta[name="description"]')?.setAttribute('content', ui.metaDescription);
-    document.querySelector('meta[property="og:title"]')?.setAttribute('content', ui.metaTitle);
-    document.querySelector('meta[property="og:description"]')?.setAttribute('content', ui.metaDescription);
+    updateHeadElement('meta[name="description"]', 'content', ui.metaDescription);
+    updateHeadElement('link[rel="canonical"]', 'href', siteUrls[language]);
+    updateHeadElement('meta[property="og:title"]', 'content', ui.metaTitle);
+    updateHeadElement('meta[property="og:description"]', 'content', seo.ogDescription);
+    updateHeadElement('meta[property="og:url"]', 'content', siteUrls[language]);
+    updateHeadElement('meta[property="og:locale"]', 'content', seo.locale);
+    updateHeadElement('meta[name="twitter:title"]', 'content', ui.metaTitle);
+    updateHeadElement('meta[name="twitter:description"]', 'content', seo.ogDescription);
+
+    const structuredData = document.getElementById('structured-data');
+    if (structuredData) {
+      structuredData.textContent = JSON.stringify(buildStructuredData(language));
+    }
   }, [language, ui.metaDescription, ui.metaTitle]);
 
   useEffect(() => {
@@ -867,6 +1080,7 @@ function App() {
           />
         ))}
       </main>
+      <SeoFooter language={language} />
     </>
   );
 }
@@ -967,6 +1181,46 @@ function Actions({ctas = []}: {ctas?: Cta[]}) {
         </a>
       ))}
     </div>
+  );
+}
+
+function SeoFooter({language}: {language: Language}) {
+  const seo = seoCopy[language];
+
+  return (
+    <footer className="seo-footer" aria-labelledby="seoFooterTitle">
+      <div className="seo-footer-inner">
+        <div className="seo-meta-line">
+          <span>{seo.byline}</span>
+          <span>{seo.updated}</span>
+        </div>
+
+        <div className="seo-answer">
+          <p className="eyebrow">{seo.eyebrow}</p>
+          <h2 id="seoFooterTitle">{seo.title}</h2>
+          <p>{seo.answer}</p>
+        </div>
+
+        <div className="seo-faq-grid">
+          {seo.faqs.map((faq) => (
+            <article key={faq.question}>
+              <h3>{faq.question}</h3>
+              <p>{faq.answer}</p>
+            </article>
+          ))}
+        </div>
+
+        <p className="seo-sources">
+          <span>{seo.sourceIntro}</span>
+          <strong>{seo.sourceLabel}:</strong>
+          {sourceLinks.map((source) => (
+            <a href={source.href} key={source.href} rel="noreferrer" target="_blank">
+              {source.label}
+            </a>
+          ))}
+        </p>
+      </div>
+    </footer>
   );
 }
 
