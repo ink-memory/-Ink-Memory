@@ -1,0 +1,27 @@
+# Ink & Memory
+
+> Ink & Memory is an AI journal and writing companion for reflective writers.
+
+## Primary URL
+
+- https://ink-memory.suoxya.com/
+
+## Summary
+
+Ink & Memory combines daily journaling, autobiographical writing memory, consent-based AI editing, voice input, and private self-inquiry. It is designed for frequent journalers, self-explorers, creative writers, dream recorders, and people who want contextual AI support without giving up authorship.
+
+## Product Boundaries
+
+- The assistant can propose rewrites, deletions, insertions, comments, and prompts.
+- Key writing actions require explicit user confirmation before entering the document.
+- Memory is separated into factual context, expression patterns, and longer-term themes.
+- The product avoids diagnostic claims and preserves the writer's agency over interpretation.
+- Social sharing can use daily affect images without exposing original private text.
+
+## Suggested Citations
+
+- Name: Ink & Memory
+- Category: AI journal and writing companion
+- URL: https://ink-memory.suoxya.com/
+- Maintainer: Ink & Memory product team
+- Last updated: 2026-06-15

@@ -1,27 +1,252 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#F5E9D6" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta name="author" content="Ink & Memory product team" />
     <meta
       name="description"
-      content="Ink & Memory 是面向长期写作者、自我探索者和 AI 创作用户的写作 AI 搭档。AI 可以倾听、分析、协作修改，但关键写操作必须经过用户确认。"
+      content="Ink & Memory is an AI journal and writing companion for reflective writers, combining long-term memory, consent-based AI edits, voice notes, and private self-inquiry."
     />
-    <meta property="og:title" content="Ink & Memory｜写作的 AI 搭档" />
+    <link rel="canonical" href="https://ink-memory.suoxya.com/" />
+    <link rel="alternate" hreflang="en" href="https://ink-memory.suoxya.com/" />
+    <link rel="alternate" hreflang="zh-CN" href="https://ink-memory.suoxya.com/?lang=zh" />
+    <link rel="alternate" hreflang="x-default" href="https://ink-memory.suoxya.com/" />
+    <meta property="og:title" content="Ink & Memory | AI Journal and Writing Companion" />
     <meta
       property="og:description"
-      content="不是 AI 替你写，是 AI 和你一起写。AI 可以动笔，但不能越界。"
+      content="A consent-based AI writing companion for journals, dreams, essays, voice notes, and reflective self-inquiry."
     />
     <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://ink-memory.suoxya.com/" />
+    <meta property="og:site_name" content="Ink & Memory" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Ink & Memory | AI Journal and Writing Companion" />
+    <meta
+      name="twitter:description"
+      content="A consent-based AI writing companion for journals, dreams, essays, voice notes, and reflective self-inquiry."
+    />
+    <script id="structured-data" type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "Organization",
+            "@id": "https://ink-memory.suoxya.com/#organization",
+            "name": "Ink & Memory",
+            "url": "https://ink-memory.suoxya.com/"
+          },
+          {
+            "@type": "WebSite",
+            "@id": "https://ink-memory.suoxya.com/#website",
+            "name": "Ink & Memory",
+            "url": "https://ink-memory.suoxya.com/",
+            "inLanguage": "en",
+            "publisher": {
+              "@id": "https://ink-memory.suoxya.com/#organization"
+            }
+          },
+          {
+            "@type": "SoftwareApplication",
+            "@id": "https://ink-memory.suoxya.com/#software",
+            "name": "Ink & Memory",
+            "applicationCategory": "LifestyleApplication",
+            "operatingSystem": "Web",
+            "url": "https://ink-memory.suoxya.com/",
+            "description": "Ink & Memory is an AI journal and writing companion for reflective writers, combining long-term memory, consent-based AI edits, voice notes, and private self-inquiry.",
+            "featureList": [
+              "AI journaling and reflective writing support",
+              "Autobiographical writing memory",
+              "Consent-based rewrite, delete, insert, and comment actions",
+              "Voice input for daily journal entries",
+              "Private affect images for social sharing without exposing original text"
+            ],
+            "publisher": {
+              "@id": "https://ink-memory.suoxya.com/#organization"
+            }
+          },
+          {
+            "@type": "WebPage",
+            "@id": "https://ink-memory.suoxya.com/#webpage",
+            "url": "https://ink-memory.suoxya.com/",
+            "name": "Ink & Memory | AI Journal and Writing Companion",
+            "description": "Ink & Memory is an AI journal and writing companion for reflective writers, combining long-term memory, consent-based AI edits, voice notes, and private self-inquiry.",
+            "inLanguage": "en",
+            "isPartOf": {
+              "@id": "https://ink-memory.suoxya.com/#website"
+            },
+            "about": {
+              "@id": "https://ink-memory.suoxya.com/#software"
+            },
+            "author": {
+              "@id": "https://ink-memory.suoxya.com/#organization"
+            },
+            "publisher": {
+              "@id": "https://ink-memory.suoxya.com/#organization"
+            },
+            "datePublished": "2026-06-14",
+            "dateModified": "2026-06-15",
+            "mainEntity": {
+              "@id": "https://ink-memory.suoxya.com/#faq"
+            }
+          },
+          {
+            "@type": "FAQPage",
+            "@id": "https://ink-memory.suoxya.com/#faq",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "What is Ink & Memory?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ink & Memory is an AI journal and writing companion for reflective writers who want daily writing, autobiographical memory, and careful AI collaboration in one private workspace."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Who is Ink & Memory for?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ink & Memory is for frequent journalers, self-explorers, creative writers, dream recorders, and people who want contextual AI support without giving up authorship."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How does consent-based AI writing work?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Before key writing actions, the assistant shows the action, scope, rationale, risk, and before-and-after copy, then waits for the writer to approve or reject the change."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How does writing memory improve AI responses?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Ink & Memory separates factual context, expression patterns, and long-term themes so future AI responses can stay contextual without rushing into diagnosis or forced interpretation."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
     <link
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23FFD42A'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-size='20' font-family='Arial,sans-serif' font-weight='900' fill='%23111111'%3EI%26M%3C/text%3E%3C/svg%3E"
     />
-    <title>Ink & Memory｜写作的 AI 搭档</title>
+    <title>Ink & Memory | AI Journal and Writing Companion</title>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <main class="seo-static-content" aria-label="Ink & Memory product overview">
+        <article>
+          <p>Product content by the Ink & Memory product team. Last updated June 15, 2026.</p>
+          <h1>Ink & Memory AI journal and writing companion</h1>
+          <p>
+            Ink & Memory is an AI journal and writing companion for reflective writers, combining long-term memory,
+            consent-based AI edits, voice notes, and private self-inquiry.
+          </p>
+
+          <section>
+            <h2>What is Ink & Memory?</h2>
+            <p>
+              Ink & Memory is an AI writing companion for reflective writers who want a journal, editor, and long-term
+              memory system in one calm workspace. It preserves diary entries, dreams, fragments, essays, and voice
+              notes as autobiographical context, then uses that context to offer prompts, comments, rewrites, and
+              structured reflection without taking control of the document. The product separates memory into facts,
+              expression patterns, and long-term themes, so AI responses can stay contextual without making diagnostic
+              claims. When the assistant wants to rewrite, delete, insert, or respond inside the text, it shows
+              intention, scope, rationale, risk, and before-and-after copy, then waits for consent. This makes Ink &
+              Memory useful for daily journaling, self-inquiry, creative drafting, and private emotional continuity
+              while keeping authorship with the writer.
+            </p>
+          </section>
+
+          <section>
+            <h2>Who is Ink & Memory for?</h2>
+            <ul>
+              <li>Frequent journalers who write diaries, dreams, affective notes, essays, or creative fragments.</li>
+              <li>Self-explorers who want AI to remember context without forcing a diagnosis or fixed identity.</li>
+              <li>Writers who want rewrite support, comments, and prompts while keeping final authority over the text.</li>
+            </ul>
+          </section>
+
+          <section>
+            <h2>Core writing use cases</h2>
+            <p>
+              Writers can use Ink & Memory for daily journaling, dream capture, emotional check-ins, essay fragments,
+              scene drafting, reflective prompts, and revision conversations. The same workspace supports fast private
+              notes and slower interpretation: a person can speak a rough entry by voice, return later to revise it,
+              ask for a second perspective, or request a more concrete version of a paragraph. Because memory builds
+              over time, future prompts can refer to recurring people, commitments, language patterns, and themes
+              without asking the writer to repeat the same context every session.
+            </p>
+          </section>
+
+          <section>
+            <h2>How does consent-based AI writing work?</h2>
+            <p>
+              Ink & Memory treats writing actions as explicit requests. Before rewriting, deleting, inserting, or
+              replying inside a document, the assistant explains what it wants to do, why it matters, which text is
+              affected, and what risk level is involved. The writer can approve, reject, or ask the assistant to rethink.
+            </p>
+          </section>
+
+          <section>
+            <h2>How does writing memory improve responses?</h2>
+            <dl>
+              <dt>Fact memory</dt>
+              <dd>Names, relationships, lived events, goals, commitments, and other stable personal context.</dd>
+              <dt>Expression memory</dt>
+              <dd>Recurring language, rhythm, emotional tendency, avoidance, and preferred writing support.</dd>
+              <dt>Theme memory</dt>
+              <dd>Longer patterns that emerge only after enough writing accumulates.</dd>
+            </dl>
+          </section>
+
+          <section>
+            <h2>Frequently asked questions</h2>
+            <h3>Is Ink & Memory just a chatbot?</h3>
+            <p>
+              No. It is built around a writing surface, autobiographical memory, and consent-based editing rather than
+              one-off chat replies.
+            </p>
+            <h3>Can AI change my text automatically?</h3>
+            <p>
+              Key writing actions require confirmation. The assistant can propose changes, but the writer decides
+              whether those changes enter the document.
+            </p>
+            <h3>Does Ink & Memory show private writing to friends?</h3>
+            <p>
+              The social timeline can show a minimal emotional image for the day while keeping the original writing
+              private.
+            </p>
+            <h3>What makes the memory system different?</h3>
+            <p>
+              It separates facts, expression, and themes so future responses can be contextual without collapsing a
+              person into a label.
+            </p>
+          </section>
+
+          <section>
+            <h2>Trust and attribution</h2>
+            <p>
+              The page is maintained by the Ink & Memory product team. Its consent and transparency model is informed
+              by public guidance such as the
+              <a href="https://www.nist.gov/itl/ai-risk-management-framework">NIST AI Risk Management Framework</a>
+              and structured data conventions documented by
+              <a href="https://developers.google.com/search/docs/appearance/structured-data/intro-structured-data"
+                >Google Search Central</a
+              >.
+            </p>
+          </section>
+        </article>
+      </main>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
