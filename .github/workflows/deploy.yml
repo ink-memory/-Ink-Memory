@@ -51,6 +51,7 @@ jobs:
           external_repository: ink-memory/ink-memory.github.io
           publish_dir: ./dist
           publish_branch: main
+          cname: ink-memory.suoxya.com
           user_name: 'github-actions[bot]'
           user_email: 'github-actions[bot]@users.noreply.github.com'
           commit_message: 'Deploy from -Ink-Memory ${{ github.sha }}'
