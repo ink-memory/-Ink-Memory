@@ -1,35 +1,24 @@
-import {useEffect, useState, type CSSProperties} from 'react';
+import {useEffect, useState, type AnchorHTMLAttributes, type ReactNode} from 'react';
 import {
   ArrowRight,
   BookOpen,
-  Folder,
-  Heart,
+  Brain,
+  CheckCircle2,
   Menu,
+  MessageSquare,
+  Mic,
   PenLine,
-  Search,
-  ShoppingBag,
+  ShieldCheck,
+  Smile,
   Sparkles,
-  Sprout,
   Star,
   X,
   type LucideIcon,
 } from 'lucide-react';
 
-import candle from './assets/home/candle.png';
-import deskNotebookOpen from './assets/home/desk-notebook-open.png';
-import heroMimoDesk from './assets/home/hero-mimo-desk.png';
-import heroWallNotes from './assets/home/hero-wall-notes.png';
-import inkPen from './assets/home/ink-pen.png';
+import heroMimoPortal from './assets/home/hero-mimo-portal.png';
 import logoHorizontal from './assets/home/logo-horizontal.png';
-import logoPrimary from './assets/home/logo-primary.png';
-import mascotBust from './assets/home/mascot-bust.png';
-import mascotFront from './assets/home/mascot-front.png';
-import mascotNotebook from './assets/home/mascot-notebook.png';
-import mascotPen from './assets/home/mascot-pen.png';
-import polaroids from './assets/home/polaroids.png';
-import satchel from './assets/home/satchel.png';
-import sparkBadge from './assets/home/spark-badge.png';
-import stickyNotes from './assets/home/sticky-notes.png';
+import mimoCharacterPortal from './assets/home/mimo-character-portal.png';
 
 const startWritingUrl = 'https://ink-frontend.suoxya.com';
 const repositoryUrl = 'https://github.com/glide-the/ink-and-memory';
@@ -37,86 +26,163 @@ const repositoryUrl = 'https://github.com/glide-the/ink-and-memory';
 type NavItem = {
   label: string;
   href: string;
+  external?: boolean;
 };
 
-type ActionTile = {
-  label: string;
-  zh: string;
-  icon: LucideIcon;
-  accent: string;
-};
-
-type FeatureCard = {
+type QuickEntry = {
   title: string;
-  zh: string;
-  text: string;
-  image: string;
+  description: string;
+  href: string;
+  icon: LucideIcon;
+  anchorId?: string;
+  external?: boolean;
+};
+
+type ValueCard = {
+  title: string;
+  description: string;
+  icon: LucideIcon;
   tone: 'yellow' | 'green' | 'cream';
 };
 
+type PortalCard = {
+  title: string;
+  zh: string;
+  description: string;
+  action: string;
+  href: string;
+  icon: LucideIcon;
+  external?: boolean;
+};
+
 const navItems: NavItem[] = [
-  {label: 'Home', href: '#home'},
-  {label: 'Characters', href: '#characters'},
-  {label: 'Memory Club', href: '#memory-club'},
+  {label: 'Write', href: startWritingUrl, external: true},
+  {label: 'Memory', href: '#memory'},
+  {label: 'Mimo', href: '#mimo'},
   {label: 'Stories', href: '#stories'},
-  {label: 'Shop', href: '#shop'},
+  {label: 'Brand Kit', href: '#brand-kit'},
 ];
 
-const actionTiles: ActionTile[] = [
-  {label: 'Write', zh: '记录', icon: PenLine, accent: '#39D353'},
-  {label: 'Reflect', zh: '回望', icon: Heart, accent: '#FFD42A'},
-  {label: 'Collect', zh: '收藏', icon: Folder, accent: '#39D353'},
-  {label: 'Grow', zh: '成长', icon: Sprout, accent: '#FFD42A'},
-];
-
-const featureCards: FeatureCard[] = [
+const quickEntries: QuickEntry[] = [
   {
-    title: 'Record Ideas',
-    zh: '记录灵感',
-    text: 'Capture the little sparks that light up your day.',
-    image: mascotPen,
+    title: '开始写作',
+    description: '打开一页新的记忆。',
+    href: startWritingUrl,
+    icon: PenLine,
+    external: true,
+  },
+  {
+    title: '记忆库',
+    description: '查看被沉淀下来的事实、主题和线索。',
+    href: '#memory',
+    icon: BookOpen,
+  },
+  {
+    title: '认识 Mimo',
+    description: '你的灵感记录员。',
+    href: '#mimo',
+    icon: Smile,
+  },
+  {
+    title: '品牌素材',
+    description: 'Logo、角色、配色和图标。',
+    href: '#brand-kit',
+    icon: Star,
+    anchorId: 'brand-kit',
+  },
+];
+
+const valueCards: ValueCard[] = [
+  {
+    title: '先记住，再理解',
+    description: '系统不会急着给你贴标签，它先记录真正重要的事实、事件、关系、情绪和承诺。',
+    icon: Brain,
     tone: 'yellow',
   },
   {
-    title: 'Reflect Memories',
-    zh: '回望记忆',
-    text: 'Look back, feel deeply, understand yourself.',
-    image: mascotNotebook,
-    tone: 'cream',
+    title: '带着记忆回应你',
+    description: 'AI 不再每次从零开始，它会结合你的近期写作和长期记忆理解你。',
+    icon: MessageSquare,
+    tone: 'green',
   },
   {
-    title: 'Collect Moments',
-    zh: '收藏瞬间',
-    text: 'Save what matters and build your story.',
-    image: mascotFront,
-    tone: 'green',
+    title: 'AI 能动笔，但必须确认',
+    description: '改写、删除、插入和评论都需要你确认。',
+    icon: CheckCircle2,
+    tone: 'yellow',
   },
 ];
 
-const accessories = [
-  {name: 'Memory Notebook', image: deskNotebookOpen},
-  {name: 'Ink Pen Ear', image: inkPen},
-  {name: 'Spark Badge', image: sparkBadge},
-  {name: 'Tiny Satchel', image: satchel},
+const mimoTags = ['记录', '陪伴', '回看', '灵感', '克制'];
+
+const portalCards: PortalCard[] = [
+  {
+    title: 'Writing Space',
+    zh: '写作空间',
+    description: '开始一篇日记、随笔、灵感或创作草稿。',
+    action: '进入写作',
+    href: startWritingUrl,
+    icon: PenLine,
+    external: true,
+  },
+  {
+    title: 'Memory Reports',
+    zh: '记忆报告',
+    description: '查看近期主题、情绪线索和长期反复出现的问题。',
+    action: '查看报告',
+    href: '#memory',
+    icon: BookOpen,
+  },
+  {
+    title: 'Voice Cards',
+    zh: '声音卡组',
+    description: '选择不同的 AI 声音，让它以不同方式阅读你的文字。',
+    action: '管理声音',
+    href: '#stories',
+    icon: Mic,
+  },
 ];
+
+type ExternalAwareLinkProps = {
+  children: ReactNode;
+  className?: string;
+  href: string;
+  external?: boolean;
+  onClick?: () => void;
+} & Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href' | 'target' | 'rel' | 'children' | 'onClick'>;
+
+function ExternalAwareLink({children, className, href, external, onClick, ...anchorProps}: ExternalAwareLinkProps) {
+  return (
+    <a
+      className={className}
+      href={href}
+      onClick={onClick}
+      rel={external ? 'noreferrer' : undefined}
+      target={external ? '_blank' : undefined}
+      {...anchorProps}
+    >
+      {children}
+    </a>
+  );
+}
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
-    document.documentElement.lang = 'en';
-    document.body.dataset.page = 'home';
-    document.title = 'Ink & Memory | AI Journal and Writing Companion';
+    document.documentElement.lang = 'zh-CN';
+    document.body.dataset.page = 'portal-home';
+    document.title = 'Ink & Memory | 写下来，让 AI 慢慢记住你';
   }, []);
 
   return (
     <>
-      <a className="skip-link" href="#home">
+      <a className="skip-link" href="#main">
         Skip to main content
       </a>
 
       <header className="site-header" aria-label="Ink & Memory navigation">
-        <a className="brand-link" href="#home" aria-label="Ink & Memory home" onClick={() => setMenuOpen(false)}>
+        <a className="brand-link" href="#main" aria-label="Ink & Memory home" onClick={() => setMenuOpen(false)}>
           <img src={logoHorizontal} alt="Ink & Memory" />
         </a>
 
@@ -132,154 +198,179 @@ function App() {
         </button>
 
         <nav className={menuOpen ? 'site-nav is-open' : 'site-nav'} id="primaryNav" aria-label="Primary navigation">
-          {navItems.map((item, index) => (
-            <a className={index === 0 ? 'is-active' : undefined} href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>
+          {navItems.map((item) => (
+            <ExternalAwareLink external={item.external} href={item.href} key={item.href} onClick={() => setMenuOpen(false)}>
               {item.label}
-            </a>
+            </ExternalAwareLink>
           ))}
         </nav>
 
         <div className="header-actions">
-          <button aria-label="Search" className="icon-button" type="button">
-            <Search aria-hidden="true" size={23} />
-          </button>
-          <button aria-label="Open memory bag" className="icon-button bag-button" type="button">
-            <ShoppingBag aria-hidden="true" size={22} />
-            <span>2</span>
-          </button>
-          <a className="start-button" href={startWritingUrl} rel="noreferrer" target="_blank">
-            <span>Start Writing</span>
-            <Sparkles aria-hidden="true" size={16} />
+          <a className="login-link" href="#login">
+            Log in
+          </a>
+          <a className="header-cta" href={startWritingUrl} rel="noreferrer" target="_blank">
+            Start Writing
           </a>
         </div>
       </header>
 
-      <main className="home-page" id="home">
-        <section className="hero-board" aria-labelledby="heroTitle">
-          <div className="doodle doodle-one" aria-hidden="true">
-            ✦
-          </div>
-          <div className="doodle doodle-two" aria-hidden="true">
-            ☺
-          </div>
-          <div className="doodle doodle-three" aria-hidden="true">
-            ⟡
-          </div>
-
+      <main className="home-page" id="main">
+        <section className="hero-section" aria-labelledby="heroTitle">
           <div className="hero-copy">
-            <img className="hero-logo" src={logoPrimary} alt="" />
-            <h1 id="heroTitle">Write today. Remember forever.</h1>
-            <p className="hero-zh">把灵感写下来，让记忆留下来。</p>
-            <p className="hero-lead">A warm little companion for writing, reflecting, and collecting everyday memories.</p>
-
-            <div className="action-tiles" aria-label="Memory actions">
-              {actionTiles.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <a className="action-tile" href="#memory-club" key={item.label} style={{'--tile-accent': item.accent} as CSSProperties}>
-                    <Icon aria-hidden="true" size={36} strokeWidth={2.2} />
-                    <span>{item.label}</span>
-                    <small>{item.zh}</small>
-                  </a>
-                );
-              })}
+            <div className="hero-kicker">
+              <Sparkles aria-hidden="true" size={17} />
+              <span>Memory Companion for Writers</span>
             </div>
+
+            <h1 id="heroTitle">
+              写下来，
+              <br />
+              让 AI 慢慢记住你
+            </h1>
+            <span className="hero-stroke" aria-hidden="true" />
+
+            <p className="hero-lead">
+              <strong>Ink &amp; Memory</strong> 是一个有记忆的写作入口。
+              <br />
+              它陪你记录、回看、整理长期文字，
+              <br />
+              让散落的想法逐渐形成属于你的记忆层。
+            </p>
+
+            <div className="hero-actions">
+              <a className="button button-primary" href={startWritingUrl} rel="noreferrer" target="_blank">
+                <span>开始今天的书写</span>
+                <PenLine aria-hidden="true" size={22} />
+              </a>
+              <a className="button button-secondary" href="#mimo">
+                <span>看看 Mimo</span>
+                <Smile aria-hidden="true" size={23} />
+              </a>
+            </div>
+
+            <p className="trust-note">
+              <ShieldCheck aria-hidden="true" size={18} />
+              <span>AI 可以参与，但不会越界。所有关键写入都需要你确认。</span>
+            </p>
           </div>
 
-          <figure className="hero-mimo" aria-label="Mimo writing at a wooden desk">
-            <img src={heroMimoDesk} alt="Mimo writing in a notebook beside an ink bottle" />
+          <figure className="hero-visual" aria-label="Mimo memory companion">
+            <img src={heroMimoPortal} alt="Mimo holding a notebook beside a small writing card" />
           </figure>
+        </section>
 
-          <aside className="memory-notes" aria-hidden="true">
-            <img src={heroWallNotes} alt="" />
-          </aside>
+        <section className="quick-entry" aria-label="快速入口">
+          {quickEntries.map((entry) => {
+            const Icon = entry.icon;
+            return (
+              <ExternalAwareLink
+                className="quick-card"
+                external={entry.external}
+                href={entry.href}
+                key={entry.title}
+                id={entry.anchorId}
+              >
+                <span className="quick-icon" aria-hidden="true">
+                  <Icon size={32} strokeWidth={2.2} />
+                </span>
+                <span>
+                  <strong>{entry.title}</strong>
+                  <small>{entry.description}</small>
+                </span>
+              </ExternalAwareLink>
+            );
+          })}
+        </section>
 
-          <aside className="profile-card" id="characters" aria-label="Meet Mimo">
-            <img className="profile-bust" src={mascotBust} alt="" />
-            <h2>Meet Mimo <Sparkles aria-hidden="true" size={17} /></h2>
-            <dl>
-              <div>
-                <dt>Role</dt>
-                <dd>Memory Companion<br />灵感记录员</dd>
-              </div>
-              <div>
-                <dt>Personality</dt>
-                <dd>Curious, gentle, slightly weird, always listening.</dd>
-              </div>
-            </dl>
-            <div className="accessory-row" aria-label="Mimo accessories">
-              {accessories.map((item) => (
-                <figure key={item.name}>
-                  <img src={item.image} alt="" />
-                  <figcaption>{item.name}</figcaption>
-                </figure>
+        <section className="value-section" id="memory" aria-labelledby="valueTitle">
+          <div className="section-heading">
+            <p>Product Value</p>
+            <h2 id="valueTitle">
+              不是普通日记 App，
+              <br />
+              是一个会随时间变厚的写作记忆层。
+            </h2>
+          </div>
+
+          <div className="value-grid">
+            {valueCards.map((card) => {
+              const Icon = card.icon;
+              return (
+                <article className={`value-card value-card--${card.tone}`} key={card.title}>
+                  <span className="value-icon" aria-hidden="true">
+                    <Icon size={36} strokeWidth={2.1} />
+                  </span>
+                  <div>
+                    <h3>{card.title}</h3>
+                    <p>{card.description}</p>
+                  </div>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+
+        <section className="mimo-section" id="mimo" aria-labelledby="mimoTitle">
+          <div className="mimo-art" aria-hidden="true">
+            <span className="mimo-doodle mimo-doodle-one">✦</span>
+            <span className="mimo-doodle mimo-doodle-two">⟡</span>
+            <img src={mimoCharacterPortal} alt="" />
+          </div>
+
+          <div className="mimo-copy">
+            <p className="eyebrow">Mimo Character</p>
+            <h2 id="mimoTitle">Mimo 是谁？</h2>
+            <p>
+              Mimo 是 Ink &amp; Memory 的记忆小搭子。它不是替你写作的机器人，而是一个陪你记录、整理、回看和轻轻提醒的灵感记录员。
+            </p>
+            <div className="tag-row" aria-label="Mimo traits">
+              {mimoTags.map((tag) => (
+                <span key={tag}>{tag}</span>
               ))}
             </div>
-            <a className="profile-button" href="#memory-club">
-              <span>Get to know Mimo</span>
-              <ArrowRight aria-hidden="true" size={17} />
+            <a className="text-link" href="#brand-kit">
+              <span>查看角色设定</span>
+              <ArrowRight aria-hidden="true" size={18} />
             </a>
-          </aside>
+          </div>
         </section>
 
-        <section className="feature-band" id="memory-club" aria-label="Memory club features">
-          {featureCards.map((card) => (
-            <article className={`feature-card feature-card--${card.tone}`} key={card.title}>
-              <div className="feature-image">
-                <img src={card.image} alt="" />
-              </div>
-              <div className="feature-copy">
-                <h2>{card.title}</h2>
-                <p className="feature-zh">{card.zh}</p>
-                <p>{card.text}</p>
-                <a href="#stories">
-                  <span>Learn more</span>
-                  <ArrowRight aria-hidden="true" size={17} />
-                </a>
-              </div>
-            </article>
-          ))}
-        </section>
-
-        <section className="memory-desk" id="stories" aria-label="Ink and Memory story desk">
-          <article className="notebook-note">
-            <img src={deskNotebookOpen} alt="" />
-            <div>
-              <span>Ink &amp; Memory</span>
-              <p>One page a day.</p>
-            </div>
-          </article>
-
-          <div className="mantra-grid">
-            <article>
-              <BookOpen aria-hidden="true" size={30} />
-              <h2>One page a day.</h2>
-              <p>每天一页。</p>
-            </article>
-            <article>
-              <Star aria-hidden="true" size={31} />
-              <h2>Small steps write great stories.</h2>
-              <p>点滴记录，成就故事。</p>
-            </article>
-            <article>
-              <Heart aria-hidden="true" size={31} />
-              <h2>Memories are inked softly in our hearts.</h2>
-              <p>记忆，温柔地写在心里。</p>
-            </article>
+        <section className="portal-section" id="stories" aria-labelledby="portalTitle">
+          <div className="section-heading">
+            <p>Portal Cards</p>
+            <h2 id="portalTitle">进入你的写作、记忆和声音工作台。</h2>
           </div>
 
-          <aside className="desk-objects" id="shop" aria-label="Memory keepsakes">
-            <img className="polaroids" src={polaroids} alt="Mimo polaroid photos" />
-            <img className="sticky" src={stickyNotes} alt="Sticky notes with a reminder" />
-            <img className="candle" src={candle} alt="Ink and Memory candle" />
-          </aside>
+          <div className="portal-grid">
+            {portalCards.map((card) => {
+              const Icon = card.icon;
+              return (
+                <article className="portal-card" key={card.title}>
+                  <span className="portal-icon" aria-hidden="true">
+                    <Icon size={28} strokeWidth={2.2} />
+                  </span>
+                  <p>{card.title}</p>
+                  <h3>{card.zh}</h3>
+                  <span>{card.description}</span>
+                  <ExternalAwareLink className="portal-action" external={card.external} href={card.href}>
+                    <span>{card.action}</span>
+                    <ArrowRight aria-hidden="true" size={17} />
+                  </ExternalAwareLink>
+                </article>
+              );
+            })}
+          </div>
         </section>
       </main>
 
       <footer className="site-footer" aria-label="Project links">
-        <a href="https://ink-memory.suoxya.com/">Website</a>
+        <span>Ink &amp; Memory</span>
+        <a href={startWritingUrl} rel="noreferrer" target="_blank">
+          Start Writing
+        </a>
         <a href={repositoryUrl} rel="noreferrer" target="_blank">
-          GitHub Repository
+          GitHub
         </a>
         <a href="/sitemap.xml">Sitemap</a>
       </footer>
