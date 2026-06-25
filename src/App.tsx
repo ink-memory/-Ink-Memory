@@ -32,6 +32,7 @@ import sparkBadge from './assets/home/spark-badge.png';
 import stickyNotes from './assets/home/sticky-notes.png';
 
 const startWritingUrl = 'https://ink-frontend.suoxya.com';
+const repositoryUrl = 'https://github.com/glide-the/ink-and-memory';
 
 type NavItem = {
   label: string;
@@ -105,7 +106,7 @@ function App() {
   useEffect(() => {
     document.documentElement.lang = 'en';
     document.body.dataset.page = 'home';
-    document.title = 'Ink & Memory | Write today. Remember forever.';
+    document.title = 'Ink & Memory | AI Journal and Writing Companion';
   }, []);
 
   return (
@@ -274,6 +275,14 @@ function App() {
           </aside>
         </section>
       </main>
+
+      <footer className="site-footer" aria-label="Project links">
+        <a href="https://ink-memory.suoxya.com/">Website</a>
+        <a href={repositoryUrl} rel="noreferrer" target="_blank">
+          GitHub Repository
+        </a>
+        <a href="/sitemap.xml">Sitemap</a>
+      </footer>
     </>
   );
 }

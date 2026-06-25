@@ -1,6 +1,6 @@
 {
   "name": "Ink & Memory",
-  "description": "Landing page for the Ink & Memory AI writing companion app, styled with the Fictional sticker bomb design system.",
+  "description": "Landing page for the Ink & Memory AI writing workspace and journal companion app, styled with the Fictional sticker bomb design system.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

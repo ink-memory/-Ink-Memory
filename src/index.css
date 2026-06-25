@@ -661,6 +661,32 @@ img {
   pointer-events: none;
 }
 
+.site-footer {
+  display: flex;
+  width: min(1508px, calc(100% - 28px));
+  min-height: 64px;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin: 12px auto 24px;
+  color: rgba(17, 17, 17, 0.72);
+  font-size: 0.84rem;
+  font-weight: 820;
+}
+
+.site-footer a {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  padding: 0 14px;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible {
+  background: rgba(255, 245, 230, 0.78);
+}
+
 .notebook-note,
 .mantra-grid,
 .desk-objects {
@@ -950,6 +976,11 @@ img {
     justify-self: center;
     width: min(420px, 100%);
     margin-top: 0;
+  }
+
+  .site-footer {
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
 }

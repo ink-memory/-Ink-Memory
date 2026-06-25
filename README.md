@@ -1,6 +1,39 @@
 # Ink & Memory
 
-React + Vite 实现的沉浸式转化宣传页。页面面向长期写作者、自我探索者、日记/随笔/梦境/情绪记录用户和重视 AI 写作边界的人。
+Ink & Memory is an AI writing workspace for reflection, memory, writing timelines, and personal knowledge conversations. It combines an AI journal, long-form writing assistant, memory-based chat, voice notes, and consent-based editing for people who want AI support without giving up authorship.
+
+这个仓库包含 Ink & Memory 官网/项目页的 React + Vite 实现。页面面向长期写作者、自我探索者、日记/随笔/梦境/情绪记录用户和重视 AI 写作边界的人。
+
+## Website
+
+https://ink-memory.suoxya.com/
+
+## Repository
+
+https://github.com/glide-the/ink-and-memory
+
+## Features
+
+- AI writing workspace
+- AI journal and reflective writing companion
+- Writing timeline and past reflections
+- Memory-based chat for personal knowledge conversations
+- Long-form writing assistant
+- Voice notes for daily journal entries
+- Consent-based AI rewrite, delete, insert, and comment actions
+- Private affect images for social sharing without exposing original text
+
+## SEO 与索引入口
+
+- `index.html` 提供 title、description、canonical、robots、Open Graph、Twitter Card、hreflang 和 Schema.org JSON-LD。
+- `public/robots.txt` 允许抓取并指向 `https://ink-memory.suoxya.com/sitemap.xml`。
+- `public/sitemap.xml` 声明英文首页和中文入口。
+- `public/llms.txt` 给 AI 搜索和引用系统提供项目摘要。
+- `public/og-image.png` 提供 1200x630 的 Open Graph / Twitter 预览图。
+- `.github/workflows/deploy-pages.yml` 可以把 Vite 构建产物部署到 GitHub Pages。
+- `public/CNAME` 声明自定义域名 `ink-memory.suoxya.com`。
+
+Search Console 应提交项目站点 `https://ink-memory.suoxya.com/` 和 sitemap，而不是 GitHub 仓库 URL。GitHub 仓库页应该通过 README、官网回链和外部链接被发现。
 
 ## 项目结构
 
