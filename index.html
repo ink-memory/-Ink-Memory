@@ -6,9 +6,10 @@
     <meta name="theme-color" content="#F5E9D6" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta name="author" content="Ink & Memory product team" />
+    <meta name="application-name" content="Ink & Memory" />
     <meta
       name="description"
-      content="Ink & Memory is an AI journal and writing companion for reflective writers, combining long-term memory, consent-based AI edits, voice notes, and private self-inquiry."
+      content="Ink & Memory is an AI writing workspace and journal companion for reflection, writing timelines, memory-based chat, voice notes, and consent-based AI edits."
     />
     <link rel="canonical" href="https://ink-memory.suoxya.com/" />
     <link rel="alternate" hreflang="en" href="https://ink-memory.suoxya.com/" />
@@ -23,12 +24,18 @@
     <meta property="og:url" content="https://ink-memory.suoxya.com/" />
     <meta property="og:site_name" content="Ink & Memory" />
     <meta property="og:locale" content="en_US" />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content="https://ink-memory.suoxya.com/og-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Ink & Memory AI writing workspace" />
+    <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Ink & Memory | AI Journal and Writing Companion" />
     <meta
       name="twitter:description"
       content="A consent-based AI writing companion for journals, dreams, essays, voice notes, and reflective self-inquiry."
     />
+    <meta name="twitter:image" content="https://ink-memory.suoxya.com/og-image.png" />
     <script id="structured-data" type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -37,7 +44,8 @@
             "@type": "Organization",
             "@id": "https://ink-memory.suoxya.com/#organization",
             "name": "Ink & Memory",
-            "url": "https://ink-memory.suoxya.com/"
+            "url": "https://ink-memory.suoxya.com/",
+            "sameAs": ["https://github.com/glide-the/ink-and-memory"]
           },
           {
             "@type": "WebSite",
@@ -59,13 +67,28 @@
             "description": "Ink & Memory is an AI journal and writing companion for reflective writers, combining long-term memory, consent-based AI edits, voice notes, and private self-inquiry.",
             "featureList": [
               "AI journaling and reflective writing support",
+              "Writing timeline and past reflections",
+              "Memory-based chat for personal knowledge conversations",
               "Autobiographical writing memory",
               "Consent-based rewrite, delete, insert, and comment actions",
               "Voice input for daily journal entries",
               "Private affect images for social sharing without exposing original text"
             ],
+            "sameAs": ["https://github.com/glide-the/ink-and-memory"],
             "publisher": {
               "@id": "https://ink-memory.suoxya.com/#organization"
+            }
+          },
+          {
+            "@type": "SoftwareSourceCode",
+            "@id": "https://github.com/glide-the/ink-and-memory#source",
+            "name": "Ink & Memory source repository",
+            "url": "https://github.com/glide-the/ink-and-memory",
+            "codeRepository": "https://github.com/glide-the/ink-and-memory",
+            "programmingLanguage": ["TypeScript", "React"],
+            "runtimePlatform": "Web browser",
+            "isPartOf": {
+              "@id": "https://ink-memory.suoxya.com/#software"
             }
           },
           {
@@ -88,7 +111,7 @@
               "@id": "https://ink-memory.suoxya.com/#organization"
             },
             "datePublished": "2026-06-14",
-            "dateModified": "2026-06-15",
+            "dateModified": "2026-06-25",
             "mainEntity": {
               "@id": "https://ink-memory.suoxya.com/#faq"
             }
@@ -138,17 +161,26 @@
       rel="icon"
       href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23FFD42A'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-size='20' font-family='Arial,sans-serif' font-weight='900' fill='%23111111'%3EI%26M%3C/text%3E%3C/svg%3E"
     />
+    <script>
+      document.documentElement.classList.add('js-enabled');
+    </script>
+    <style>
+      .js-enabled #root > .seo-static-content {
+        display: none;
+      }
+    </style>
     <title>Ink & Memory | AI Journal and Writing Companion</title>
   </head>
   <body>
     <div id="root">
       <main class="seo-static-content" aria-label="Ink & Memory product overview">
         <article>
-          <p>Product content by the Ink & Memory product team. Last updated June 15, 2026.</p>
+          <p>Product content by the Ink & Memory product team. Last updated June 25, 2026.</p>
           <h1>Ink & Memory AI journal and writing companion</h1>
           <p>
-            Ink & Memory is an AI journal and writing companion for reflective writers, combining long-term memory,
-            consent-based AI edits, voice notes, and private self-inquiry.
+            Ink & Memory is an AI writing workspace and journal companion for reflective writers, combining writing
+            timelines, long-term memory, memory-based chat, consent-based AI edits, voice notes, and private
+            self-inquiry.
           </p>
 
           <section>
@@ -184,6 +216,16 @@
               ask for a second perspective, or request a more concrete version of a paragraph. Because memory builds
               over time, future prompts can refer to recurring people, commitments, language patterns, and themes
               without asking the writer to repeat the same context every session.
+            </p>
+          </section>
+
+          <section>
+            <h2>Website and source repository</h2>
+            <p>
+              The canonical project website is
+              <a href="https://ink-memory.suoxya.com/">https://ink-memory.suoxya.com/</a>. The public source repository
+              is
+              <a href="https://github.com/glide-the/ink-and-memory">https://github.com/glide-the/ink-and-memory</a>.
             </p>
           </section>
 
