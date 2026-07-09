@@ -6,7 +6,7 @@ Ink & Memory is an AI writing workspace for reflection, memory, writing timeline
 
 ## Website
 
-https://ink-memory.suoxya.com/
+https://suoxya.com/
 
 ## Repository
 
@@ -26,14 +26,14 @@ https://github.com/glide-the/ink-and-memory
 ## SEO 与索引入口
 
 - `index.html` 提供 title、description、canonical、robots、Open Graph、Twitter Card、hreflang 和 Schema.org JSON-LD。
-- `public/robots.txt` 允许抓取并指向 `https://ink-memory.suoxya.com/sitemap.xml`。
+- `public/robots.txt` 显式允许 OpenAI、Claude、Perplexity 等 AI 搜索爬虫和常规搜索爬虫访问，并指向 `https://suoxya.com/sitemap.xml`。
 - `public/sitemap.xml` 声明英文首页和中文入口。
 - `public/llms.txt` 给 AI 搜索和引用系统提供项目摘要。
 - `public/og-image.png` 提供 1200x630 的 Open Graph / Twitter 预览图。
 - `.github/workflows/deploy-pages.yml` 可以把 Vite 构建产物部署到 GitHub Pages。
-- `public/CNAME` 声明自定义域名 `ink-memory.suoxya.com`。
+- `public/CNAME` 声明 GitHub Pages 自定义域名 `suoxya.com`；生产 SEO 规范地址统一为 `https://suoxya.com/`。
 
-Search Console 应提交项目站点 `https://ink-memory.suoxya.com/` 和 sitemap，而不是 GitHub 仓库 URL。GitHub 仓库页应该通过 README、官网回链和外部链接被发现。
+Search Console 应提交项目站点 `https://suoxya.com/` 和 sitemap，而不是 GitHub 仓库 URL。GitHub 仓库页应该通过 README、官网回链和外部链接被发现。
 
 ## 项目结构
 

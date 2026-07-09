@@ -1,4 +1,20 @@
+# Ink & Memory is a public product site. Keep content accessible for
+# traditional search engines and AI-powered search experiences.
+
+User-agent: GPTBot
+User-agent: OAI-SearchBot
+User-agent: ChatGPT-User
+User-agent: ClaudeBot
+User-agent: PerplexityBot
+Allow: /
+Disallow: /api/
+Disallow: /polycli/
+Disallow: /ws/
+
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /polycli/
+Disallow: /ws/
 
-Sitemap: https://ink-memory.suoxya.com/sitemap.xml
+Sitemap: https://suoxya.com/sitemap.xml
