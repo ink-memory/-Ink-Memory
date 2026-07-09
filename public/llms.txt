@@ -10,6 +10,14 @@
 
 - https://github.com/glide-the/ink-and-memory
 
+## Blog and Knowledge Base
+
+- Blog index: https://suoxya.com/blog/
+- Article page: https://suoxya.com/blog/how-does-an-ai-know-what-you-are-writing/
+- Article page: https://suoxya.com/blog/workspace-state-management/
+- English article: https://medium.com/@glide-the/how-does-an-ai-know-what-you-are-writing-b545edbfe8b2
+- Chinese article: https://mp.weixin.qq.com/s/RIdUu6gs3FlJI6tzRPEphA
+
 ## Summary
 
 Ink & Memory is an AI writing workspace and journal companion for reflection, writing timelines, memory-based chat, personal knowledge conversations, long-form writing, voice input, and private self-inquiry. It is designed for frequent journalers, self-explorers, creative writers, dream recorders, and people who want contextual AI support without giving up authorship.

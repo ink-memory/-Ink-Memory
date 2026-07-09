@@ -4,7 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "generate:blog": "tsx scripts/generate-blog-pages.ts",
+    "predev": "npm run generate:blog",
     "dev": "vite --port=3000 --host=0.0.0.0",
+    "prebuild": "npm run generate:blog",
     "build": "vite build",
     "preview": "vite preview --host=0.0.0.0",
     "clean": "rm -rf dist server.js",
