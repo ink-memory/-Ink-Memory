@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#F5E9D6" />
+    <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+    <meta name="application-name" content="Ink &amp; Memory" />
+    <meta name="author" content="glide the" />
+    <meta name="description" content="从 Ink &amp; Memory 的工作空间设计出发，梳理 AI 如何跟随当前文档、区分 thread / workspace / editor session，并在没有打开文档时自然回到聊天。" />
+    <link rel="canonical" href="https://suoxya.com/blog/workspace-state-management/" />
+    <meta property="og:title" content="Workspace 工作空间状态管理与交互入口设计 | Ink &amp; Memory Blog" />
+    <meta property="og:description" content="从 Ink &amp; Memory 的工作空间设计出发，梳理 AI 如何跟随当前文档、区分 thread / workspace / editor session，并在没有打开文档时自然回到聊天。" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://suoxya.com/blog/workspace-state-management/" />
+    <meta property="og:site_name" content="Ink &amp; Memory" />
+    <meta property="og:image" content="https://suoxya.com/blog/workspace/01-cover.jpeg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Workspace 工作空间状态管理与交互入口设计 | Ink &amp; Memory Blog" />
+    <meta name="twitter:description" content="从 Ink &amp; Memory 的工作空间设计出发，梳理 AI 如何跟随当前文档、区分 thread / workspace / editor session，并在没有打开文档时自然回到聊天。" />
+    <meta name="twitter:image" content="https://suoxya.com/blog/workspace/01-cover.jpeg" />
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","@id":"https://suoxya.com/blog/workspace-state-management/#article","headline":"Workspace 工作空间状态管理与交互入口设计","description":"从 Ink & Memory 的工作空间设计出发，梳理 AI 如何跟随当前文档、区分 thread / workspace / editor session，并在没有打开文档时自然回到聊天。","image":"https://suoxya.com/blog/workspace/01-cover.jpeg","url":"https://suoxya.com/blog/workspace-state-management/","datePublished":"2026-07-09","dateModified":"2026-07-10","inLanguage":"zh-CN","author":{"@type":"Person","name":"glide the"},"isPartOf":{"@type":"Blog","name":"Ink & Memory Blog","url":"https://suoxya.com/blog/"},"publisher":{"@type":"Organization","name":"Ink & Memory","url":"https://suoxya.com/"},"sameAs":"https://mp.weixin.qq.com/s/RIdUu6gs3FlJI6tzRPEphA"}</script>
+    <title>Workspace 工作空间状态管理与交互入口设计 | Ink &amp; Memory Blog</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23FFD42A'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-size='20' font-family='Arial,sans-serif' font-weight='900' fill='%23111111'%3EI%26M%3C/text%3E%3C/svg%3E" />
+    <script>document.documentElement.classList.add('js-enabled');</script>
+    <style>.js-enabled #root > .seo-static-content { display: none; }</style>
+  </head>
+  <body>
+    <div id="root">
+      <main class="seo-static-content" aria-label="Ink &amp; Memory article">
+        <article>
+          <p><a href="https://suoxya.com/blog/">Back to Blog</a></p>
+          <header>
+            <p>微信公众号 · 中文</p>
+            <h1>Workspace 工作空间状态管理与交互入口设计</h1>
+            
+            <p>glide the · <time datetime="2026-07-09">2026-07-09</time> · 6 分钟阅读</p>
+          </header>
+          <figure><img src="/blog/workspace/01-cover.jpeg" alt="Workspace 工作空间状态管理与交互入口设计文章封面" width="1280" height="545" loading="lazy" /></figure>
+          <p>最近想写一篇关于Agent外部资源交互设计文章，一直在想。</p>
+          <p>这个文章包含了之前的一些产品设计想法</p>
+          <p>文章全部是AI生成的，主要是分享思路</p>
+          <blockquote><p><a href="https://github.com/glide-the/ink-and-memory/blob/develop/docs/design/claude-agent/edit-point/workspace-context.md">workspace-context.md</a> 上下文的设计的方案稿</p><p><a href="https://github.com/glide-the/ink-and-memory/blob/develop/docs/design/claude-agent/edit-point/workspace-adapter.md">workspace-adapter.md</a> 资源策略交互设计的方案稿</p><p><a href="https://github.com/glide-the/ink-and-memory/blob/develop/docs/design/claude-agent/edit-point/workspace-switch.md">workspace-switch.md</a> 切换资源的设计的方案稿</p></blockquote>
+          <figure><img src="/blog/workspace/02-design-notes.png" alt="Ink &amp; Memory 工作空间上下文与资源策略设计稿" width="1080" height="537" loading="lazy" /></figure>
+          <p><a href="https://ink-memory.suoxya.com/">Ink &amp; Memory</a> 在设计之初有一个很简单的出发点：你写，它读。</p>
+          <p>这不是一个知识管理工具，不是第二大脑，也不是双向链接的实验场。它就是一个地方——你写下东西，AI 会读，读完跟你聊。不说“加油”，不说“你可以的”。</p>
+          <p>但这个简单的出发点，推到产品层面，会撞上一个看似无聊、实则关键的问题：AI 怎么知道你当前在写哪篇？</p>
+          <p>如果 AI 看不到你的文档，它就只是个聊天窗口。如果 AI 看得到你的文档但不知道你切换了文档，它就会对着上一篇文章的内容，点评你刚打开的新文章。</p>
+          <p>这就是工作空间（Workspace）要解决的问题。它不是架构问题，是交互问题。</p>
+          <figure><img src="/blog/workspace/03-ai-eyes.png" alt="写作者与 AI 在同一写作空间中共享当前文档" width="1080" height="360" loading="lazy" /></figure>
+          <h2>问题的起点：AI 的眼睛应该看哪里</h2>
+          <p>在 Ink &amp; Memory 里，用户和 AI 不是两个独立的界面——它们是同一个写作空间的两面。左边是编辑器，你写；右边是对话，AI 读你写的东西并回应。</p>
+          <p>但这里有一个缝隙：编辑器里的内容存在前端内存里，AI 在后端，中间隔着一层服务。如果每次对话都让 AI 去查数据库，那是工程师的思维——对 AI 来说，“读文档”和“读数据库”是两种完全不同的心智模型。</p>
+          <p>我们选择了一条更贴近人直觉的路：让 AI 像读文件一样读你的文档。</p>
+          <p>AI 看到的是<code>.editor/cells.json</code>，一个“文件”。但这个文件并不真的存在磁盘上——它是一面镜子，把编辑器里的内容实时投射到 AI 的视野里。AI 以为自己在读文件，实际上读到的是你正在写的东西。</p>
+          <p>这个设计决策背后是一个更深的直觉：不要让 AI 觉得自己在操作一个系统，让它觉得自己在陪你写作。</p>
+          <h2>切换文档这件事，比想象中重</h2>
+          <p>如果用户只有一篇文档，AI 永远知道上下文，一切都很简单。</p>
+          <p>但真实使用场景是：你上午写了一篇日记，下午打开另一篇想继续写。你喊 AI：“帮我看看这篇”。AI 怎么办？</p>
+          <p>最初的想法很简单：让用户手动告诉 AI “我现在在看哪篇”。但这就把认知负担甩给了人——你必须记住通知 AI，而且 AI 看不出你在切换。</p>
+          <p>我们要的是一个更自然的动作：你切换到哪篇文档，AI 的眼睛就跟到哪篇。</p>
+          <p>所以<code>switch_editor</code>不是一个“编辑操作”，它不修改任何内容。它更像一个视线转移——AI 的注意力从一篇文档切换到另一篇。这应该是一个足够轻的动作，不需要用户每次都确认“你确定要切过去吗？”——就像你不会每次转头都先征求自己同意一样。</p>
+          <p>但轻归轻，它得有痕迹。切过去之后，AI 要能说出“好的，我现在看到的是《xxx》”——不是为了炫技，是为了让你确认 AI 的眼睛确实跟过来了。</p>
+          <h2>为什么不让 AI 直接写文件</h2>
+          <p>在设计早期，一个很自然的想法是：就让 AI 直接改<code>.editor/cells.json</code>呗，反正它已经能读到了。</p>
+          <p>但如果 AI 能直接写这个文件，就破坏了一件事：文档的修改应该被“看见”。</p>
+          <p>写作是一个很脆弱的过程。AI 帮你改了一句话，你可能没注意到；AI 帮你删了一段，你可能事后才发现。所以我们设计了一条边界：AI 可以读你的文档，但改文档必须经过一扇门——你要看见，你要点头。</p>
+          <p>这个设计不是为了限制 AI，是为了保护写作者的主控感。你不是在审查 AI 的工作，你是在确认“这个改动确实是我想要的”。</p>
+          <p>而且——在 AI 改完文档之后，有一个很微妙的细节：AI 自己也要重新读一遍文档。不是因为它不信任自己，而是因为“改完之后的全文是什么样”，和“我刚才改了什么”，是两种不同的感知。AI 改完重读，就像你改完一段文字后退一步看一眼——确认整体节奏没被破坏。</p>
+          <h2>状态不是技术术语，是注意力</h2>
+          <p>这个项目里出现了很多“状态”：前端快照、数据库记录、缓存、事件通知……如果从工程角度去看，很容易陷入“哪个是真实源、哪个是投影”的辨析。</p>
+          <p>但从产品设计的角度，其实只有两个状态是你需要关心的：</p>
+          <p>你正在看什么。</p>
+          <p>AI 正在看什么。</p>
+          <p>当这两个状态一致时，对话是流畅的。当它们不一致时——比如你切了文档但 AI 没跟上，或者 AI 改完文档但你的界面没刷新——交互就会出现裂缝。</p>
+          <p>所以设计工作空间的核心，不是设计状态机，是设计注意力同步。</p>
+          <figure><img src="/blog/workspace/04-attention.png" alt="工作空间状态设计的核心是同步写作者与 AI 的注意力" width="1080" height="1350" loading="lazy" /></figure>
+          <h2>一个隐藏的洞察：命名本身就是交互</h2>
+          <p>在开发过程中，我们发现“给东西起什么名字”直接影响了团队的思考和 AI 的行为。</p>
+          <p>比如，如果管<code>editor_session_id</code>叫<code>file_id</code>，AI 就会认为它在操作文件系统，开始试图用文件路径去推断文档。如果管线程 ID 和文档 ID 用同一个变量名，切换文档时就可能把整个对话上下文搞乱。</p>
+          <p>这不是命名规范的问题——是命名会影响 AI 的心智模型。AI 看到一个叫<code>session_id</code>的参数，会自然地把它理解为“当前会话”；看到一个叫<code>editor_session_id</code>的参数，会理解为“当前正在编辑的文档”。这两个概念在代码里可能是两种完全不同的东西，但名字相近时，人类都会混淆，AI 更会。</p>
+          <p>所以我们花了时间明确几个边界：</p>
+          <p>对话线程是一个东西。</p>
+          <p>工作空间目录是另一个东西。</p>
+          <p>你正在编辑的文档是第三个东西。</p>
+          <p>把它们分开命名，不是工程洁癖——是让 AI 能做出更准确的判断，也让写 prompt 的人不再踩坑。</p>
+          <h2>关于鲁棒性：允许“看不到”</h2>
+          <p>设计工作空间时有一个很容易被忽视的场景：用户只是想聊天，没有打开任何文档。</p>
+          <p>这时候 AI 的视野里就没有<code>.editor/</code>的内容。我们不希望 AI 因此报错或者困惑，所以设计了一个明确的 fallback：当没有文档上下文时，AI 读到的<code>.editor/cells.json</code>是一个空的<code>{}</code>，并且在系统提示里明确告诉它：“读到空文件，意味着当前没有打开的文档，请按纯聊天模式处理。”</p>
+          <p>这个处理看似微不足道，但它保护了一个重要的体验：用户不需要先打开一篇文档才能跟 AI 说话。AI 也不应该因为“看不到文档”而拒绝工作。</p>
+          <h2>最后</h2>
+          <p>Ink &amp; Memory 的工作空间设计，说到底不是在解决分布式状态一致性问题。是在解决一个更简单的问题：</p>
+          <p>写作者和 AI 在同一个空间里，怎么做到你不用分心去管理 AI 的注意力，AI 自己就能跟上你的节奏。</p>
+          <p>做到这一点，靠的不是更多参数、更复杂的架构。靠的是：让 AI 用读文件的方式读文档，让切文档的动作像转头的动作一样轻，让每一次修改都被看见，让 AI 改完之后自己再读一遍确认，让没有文档时也能自然地聊天。</p>
+          <p>写笔记，就是找那个主宰。工作空间的设计，就是让 AI 成为这个过程中的同行者——不打扰，不缺位。</p>
+          <figure><img src="/blog/workspace/05-closing.png" alt="Ink &amp; Memory 工作空间让 AI 成为写作过程中的同行者" width="1080" height="1287" loading="lazy" /></figure>
+          <p><a href="https://mp.weixin.qq.com/s/RIdUu6gs3FlJI6tzRPEphA">查看微信公众号原文</a></p>
+        </article>
+      </main>
+    </div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

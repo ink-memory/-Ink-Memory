@@ -19,9 +19,12 @@ import {
 import heroMimoPortal from './assets/home/hero-mimo-portal.png';
 import logoHorizontal from './assets/home/logo-horizontal.png';
 import mimoCharacterPortal from './assets/home/mimo-character-portal.png';
+import {blogArticles} from './blog/articles';
+import {BlogArticlePage, BlogPage} from './blog/BlogPages';
 
 const startWritingUrl = 'https://ink-frontend.suoxya.com';
 const repositoryUrl = 'https://github.com/glide-the/ink-and-memory';
+const blogUrl = '/blog/';
 
 type NavItem = {
   label: string;
@@ -57,10 +60,11 @@ type PortalCard = {
 
 const navItems: NavItem[] = [
   {label: 'Write', href: startWritingUrl, external: true},
-  {label: 'Memory', href: '#memory'},
-  {label: 'Mimo', href: '#mimo'},
-  {label: 'Stories', href: '#stories'},
-  {label: 'Brand Kit', href: '#brand-kit'},
+  {label: 'Blog', href: blogUrl},
+  {label: 'Memory', href: '/#memory'},
+  {label: 'Mimo', href: '/#mimo'},
+  {label: 'Stories', href: '/#stories'},
+  {label: 'Brand Kit', href: '/#brand-kit'},
 ];
 
 const quickEntries: QuickEntry[] = [
@@ -168,12 +172,44 @@ function ExternalAwareLink({children, className, href, external, onClick, ...anc
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const normalizedPath =
+    typeof window !== 'undefined' ? window.location.pathname.replace(/\/+$/, '') || '/' : '/';
+  const currentArticle =
+    normalizedPath.startsWith('/blog/') ?
+      blogArticles.find((article) => normalizedPath === `/blog/${article.slug}`)
+    : undefined;
+  const isBlogPage = normalizedPath === '/blog' || Boolean(currentArticle);
 
   useEffect(() => {
-    document.documentElement.lang = 'zh-CN';
-    document.body.dataset.page = 'portal-home';
-    document.title = 'Ink & Memory | 写下来，让 AI 慢慢记住你';
-  }, []);
+    document.documentElement.lang = currentArticle?.language === 'English' ? 'en' : 'zh-CN';
+    document.body.dataset.page = isBlogPage ? 'portal-blog' : 'portal-home';
+    document.title =
+      currentArticle ? `${currentArticle.title} | Ink & Memory Blog`
+      : isBlogPage ? 'Ink & Memory Blog | AI 写作记忆与工作空间设计'
+      : 'Ink & Memory | 写下来，让 AI 慢慢记住你';
+
+    const description =
+      currentArticle?.summary ??
+      (isBlogPage ?
+        'Ink & Memory Blog 收录 AI 写作、长期记忆、Workspace 状态管理和交互设计文章。'
+      : 'Ink & Memory 是面向长期写作者、自我探索者和 AI 创作用户的写作记忆工具，提供日记记录、长期记忆、AI 反馈、语音笔记和需确认的协作修改。');
+    const canonicalUrl =
+      currentArticle ? `https://suoxya.com/blog/${currentArticle.slug}/`
+      : isBlogPage ? 'https://suoxya.com/blog/'
+      : 'https://suoxya.com/';
+    const socialImageUrl =
+      currentArticle ? `https://suoxya.com${currentArticle.coverImage.src}` : 'https://suoxya.com/og-image.png';
+
+    document.querySelector('meta[name="description"]')?.setAttribute('content', description);
+    document.querySelector('meta[property="og:title"]')?.setAttribute('content', document.title);
+    document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', canonicalUrl);
+    document.querySelector('meta[property="og:image"]')?.setAttribute('content', socialImageUrl);
+    document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', document.title);
+    document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', description);
+    document.querySelector('meta[name="twitter:image"]')?.setAttribute('content', socialImageUrl);
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonicalUrl);
+  }, [currentArticle, isBlogPage]);
 
   return (
     <>
@@ -182,7 +218,7 @@ function App() {
       </a>
 
       <header className="site-header" aria-label="Ink & Memory navigation">
-        <a className="brand-link" href="#main" aria-label="Ink & Memory home" onClick={() => setMenuOpen(false)}>
+        <a className="brand-link" href="/" aria-label="Ink & Memory home" onClick={() => setMenuOpen(false)}>
           <img src={logoHorizontal} alt="Ink & Memory" />
         </a>
 
@@ -215,7 +251,26 @@ function App() {
         </div>
       </header>
 
-      <main className="home-page" id="main">
+      {currentArticle ? <BlogArticlePage article={currentArticle} /> : isBlogPage ? <BlogPage /> : <HomePage />}
+
+      <footer className="site-footer" aria-label="Project links">
+        <span>Ink &amp; Memory</span>
+        <a href={startWritingUrl} rel="noreferrer" target="_blank">
+          Start Writing
+        </a>
+        <a href={blogUrl}>Blog</a>
+        <a href={repositoryUrl} rel="noreferrer" target="_blank">
+          GitHub
+        </a>
+        <a href="/sitemap.xml">Sitemap</a>
+      </footer>
+    </>
+  );
+}
+
+function HomePage() {
+  return (
+    <main className="home-page" id="main">
         <section className="hero-section" aria-labelledby="heroTitle">
           <div className="hero-copy">
             <div className="hero-kicker">
@@ -363,18 +418,6 @@ function App() {
           </div>
         </section>
       </main>
-
-      <footer className="site-footer" aria-label="Project links">
-        <span>Ink &amp; Memory</span>
-        <a href={startWritingUrl} rel="noreferrer" target="_blank">
-          Start Writing
-        </a>
-        <a href={repositoryUrl} rel="noreferrer" target="_blank">
-          GitHub
-        </a>
-        <a href="/sitemap.xml">Sitemap</a>
-      </footer>
-    </>
   );
 }
 
