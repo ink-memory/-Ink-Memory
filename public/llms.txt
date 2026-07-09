@@ -4,7 +4,7 @@
 
 ## Primary URL
 
-- https://ink-memory.suoxya.com/
+- https://suoxya.com/
 
 ## Repository
 
@@ -26,7 +26,7 @@ Ink & Memory is an AI writing workspace and journal companion for reflection, wr
 
 - Name: Ink & Memory
 - Category: AI journal and writing companion
-- URL: https://ink-memory.suoxya.com/
+- URL: https://suoxya.com/
 - Source repository: https://github.com/glide-the/ink-and-memory
 - Maintainer: Ink & Memory product team
-- Last updated: 2026-06-25
+- Last updated: 2026-07-09
