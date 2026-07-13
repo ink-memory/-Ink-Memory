@@ -169,7 +169,7 @@ img {
 .site-header.is-compact .header-back-link {
   position: fixed;
   top: 18px;
-  left: max(20px, calc((100vw - 1280px) / 2));
+  left: 20px;
   z-index: 201;
   border-color: rgba(138, 106, 69, 0.18);
   background: rgba(255, 248, 237, 0.9);
@@ -282,7 +282,7 @@ img {
 .site-header.is-compact .header-cta {
   position: fixed;
   top: 18px;
-  right: max(20px, calc((100vw - 1280px) / 2));
+  right: 20px;
   z-index: 201;
   box-shadow: 0 12px 30px rgba(17, 17, 17, 0.2);
   transform: translateY(-4px);
@@ -1291,12 +1291,12 @@ img {
   .site-header.is-compact .brand-link,
   .site-header.is-compact .header-back-link {
     top: 12px;
-    left: 14px;
+    left: 20px;
   }
 
   .site-header.is-compact .header-cta {
     top: 12px;
-    right: 14px;
+    right: 20px;
   }
 
   .nav-toggle {
