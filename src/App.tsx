@@ -63,8 +63,6 @@ const navItems: NavItem[] = [
   {label: 'Blog', href: blogUrl},
   {label: 'Memory', href: '/#memory'},
   {label: 'Mimo', href: '/#mimo'},
-  {label: 'Stories', href: '/#stories'},
-  {label: 'Brand Kit', href: '/#brand-kit'},
 ];
 
 const quickEntries: QuickEntry[] = [
@@ -172,6 +170,7 @@ function ExternalAwareLink({children, className, href, external, onClick, ...anc
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [headerCompact, setHeaderCompact] = useState(false);
   const normalizedPath =
     typeof window !== 'undefined' ? window.location.pathname.replace(/\/+$/, '') || '/' : '/';
   const currentArticle =
@@ -179,6 +178,69 @@ function App() {
       blogArticles.find((article) => normalizedPath === `/blog/${article.slug}`)
     : undefined;
   const isBlogPage = normalizedPath === '/blog' || Boolean(currentArticle);
+
+  useEffect(() => {
+    let previousScrollY = window.scrollY;
+    let travelled = 0;
+    let direction = 0;
+    let animationFrame = 0;
+
+    const updateHeader = (initial = false) => {
+      const currentScrollY = window.scrollY;
+
+      if (currentArticle) {
+        const articleHeader = document.querySelector<HTMLElement>('.blog-detail-header');
+        setHeaderCompact(Boolean(articleHeader && articleHeader.getBoundingClientRect().bottom <= 0));
+      } else if (currentScrollY <= 16) {
+        setHeaderCompact(false);
+      } else if (initial) {
+        setHeaderCompact(currentScrollY > 80);
+      } else {
+        const delta = currentScrollY - previousScrollY;
+        const nextDirection = Math.sign(delta);
+
+        if (nextDirection !== 0) {
+          if (nextDirection !== direction) {
+            direction = nextDirection;
+            travelled = 0;
+          }
+
+          travelled += Math.abs(delta);
+          if (travelled >= 12) {
+            setHeaderCompact(direction > 0);
+            travelled = 0;
+          }
+        }
+      }
+
+      previousScrollY = currentScrollY;
+      animationFrame = 0;
+    };
+
+    const requestHeaderUpdate = () => {
+      if (!animationFrame) {
+        animationFrame = window.requestAnimationFrame(() => updateHeader());
+      }
+    };
+
+    updateHeader(true);
+    window.addEventListener('scroll', requestHeaderUpdate, {passive: true});
+    window.addEventListener('resize', requestHeaderUpdate);
+
+    return () => {
+      window.removeEventListener('scroll', requestHeaderUpdate);
+      window.removeEventListener('resize', requestHeaderUpdate);
+      if (animationFrame) {
+        window.cancelAnimationFrame(animationFrame);
+      }
+    };
+  }, [currentArticle]);
+
+  useEffect(() => {
+    if (headerCompact) {
+      setMenuOpen(false);
+    }
+  }, [headerCompact]);
 
   useEffect(() => {
     document.documentElement.lang = currentArticle?.language === 'English' ? 'en' : 'zh-CN';
@@ -217,10 +279,20 @@ function App() {
         Skip to main content
       </a>
 
-      <header className="site-header" aria-label="Ink & Memory navigation">
+      <header
+        className={`site-header${headerCompact ? ' is-compact' : ''}${currentArticle ? ' is-article' : ''}`}
+        aria-label="Ink & Memory navigation"
+      >
         <a className="brand-link" href="/" aria-label="Ink & Memory home" onClick={() => setMenuOpen(false)}>
           <img src={logoHorizontal} alt="Ink & Memory" />
         </a>
+
+        {currentArticle ? (
+          <a className="blog-back-link header-back-link" href="/blog/">
+            <ArrowRight aria-hidden="true" size={17} />
+            <span>Back to Blog</span>
+          </a>
+        ) : null}
 
         <button
           aria-controls="primaryNav"
@@ -242,9 +314,6 @@ function App() {
         </nav>
 
         <div className="header-actions">
-          <a className="login-link" href="#login">
-            Log in
-          </a>
           <a className="header-cta" href={startWritingUrl} rel="noreferrer" target="_blank">
             Start Writing
           </a>

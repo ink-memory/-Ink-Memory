@@ -122,25 +122,111 @@ img {
   border-bottom: 1px solid var(--line-soft);
   background: rgba(245, 233, 214, 0.94);
   backdrop-filter: blur(18px);
+  transition:
+    background-color 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    backdrop-filter 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-header.is-compact {
+  border-bottom-color: transparent;
+  background: transparent;
+  backdrop-filter: blur(0);
 }
 
 .brand-link {
+  grid-column: 1;
+  grid-row: 1;
   display: inline-flex;
   width: 188px;
   align-items: center;
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  transition:
+    width 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    padding 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 220ms ease-out,
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 220ms ease-out;
 }
 
 .brand-link img {
   width: 188px;
   height: auto;
+  transition: width 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-header.is-compact .brand-link,
+.site-header.is-compact .header-back-link {
+  border-color: rgba(138, 106, 69, 0.18);
+  background: rgba(255, 248, 237, 0.9);
+  box-shadow: 0 12px 30px rgba(92, 64, 35, 0.13);
+  transform: translateY(-4px);
+}
+
+.site-header.is-compact .brand-link {
+  width: auto;
+  padding: 10px 14px;
+}
+
+.header-back-link {
+  grid-column: 1;
+  grid-row: 1;
+  width: max-content;
+  margin: 0;
+  padding: 9px 14px;
+  border: 1px solid transparent;
+  background: transparent;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-18px);
+  visibility: hidden;
+  transition:
+    background-color 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    color 180ms ease-out,
+    opacity 220ms ease-out,
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 220ms ease-out;
+}
+
+.site-header.is-article.is-compact .brand-link {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-18px);
+  visibility: hidden;
+}
+
+.site-header.is-article.is-compact .header-back-link {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(-4px);
+  visibility: visible;
 }
 
 .site-nav {
+  grid-column: 2;
+  grid-row: 1;
   display: flex;
   min-width: 0;
   align-items: center;
   justify-content: center;
   gap: 44px;
+  transition:
+    opacity 220ms ease-out,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 220ms ease-out;
+}
+
+.site-header.is-compact .site-nav {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-18px);
+  visibility: hidden;
 }
 
 .site-nav a {
@@ -154,20 +240,12 @@ img {
 }
 
 .header-actions {
+  grid-column: 3;
+  grid-row: 1;
   display: inline-flex;
   align-items: center;
   justify-content: end;
   gap: 28px;
-}
-
-.login-link {
-  display: inline-flex;
-  min-height: 42px;
-  align-items: center;
-  color: var(--ink-black);
-  font-size: 15px;
-  font-weight: 560;
-  white-space: nowrap;
 }
 
 .header-cta,
@@ -186,6 +264,14 @@ img {
   color: var(--soft-cream);
   font-size: 15px;
   font-weight: 820;
+  transition:
+    box-shadow 360ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 360ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.site-header.is-compact .header-cta {
+  box-shadow: 0 12px 30px rgba(17, 17, 17, 0.2);
+  transform: translateY(-4px);
 }
 
 .nav-toggle {
@@ -197,11 +283,24 @@ img {
   background: rgba(255, 248, 237, 0.76);
   color: var(--ink-black);
   cursor: pointer;
+  overflow: hidden;
+  transition:
+    width 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 180ms ease-out,
+    transform 320ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 180ms ease-out;
+}
+
+.site-header.is-compact .nav-toggle {
+  width: 0;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-18px);
+  visibility: hidden;
 }
 
 .site-nav a:focus-visible,
 .brand-link:focus-visible,
-.login-link:focus-visible,
 .header-cta:focus-visible,
 .button:focus-visible,
 .quick-card:focus-visible,
@@ -1070,10 +1169,6 @@ img {
     gap: 16px;
   }
 
-  .login-link {
-    display: none;
-  }
-
   .home-page {
     width: min(100% - 28px, 1280px);
     padding-top: 30px;
@@ -1161,6 +1256,14 @@ img {
   .brand-link,
   .brand-link img {
     width: 150px;
+  }
+
+  .site-header.is-compact .brand-link img {
+    width: 126px;
+  }
+
+  .site-header.is-compact .brand-link {
+    padding: 9px 12px;
   }
 
   .nav-toggle {
