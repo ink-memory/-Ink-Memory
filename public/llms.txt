@@ -1,6 +1,6 @@
 # Ink & Memory
 
-> Ink & Memory is a cross-platform personal writing memory layer and AI writing companion.
+> Ink & Memory is an AI journal and writing companion for reflective writers.
 
 ## Primary URL
 
