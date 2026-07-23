@@ -20,7 +20,7 @@
 
 ## Summary
 
-Ink & Memory is an AI writing workspace and journal companion for reflection, writing timelines, memory-based chat, personal knowledge conversations, long-form writing, voice input, and private self-inquiry. It is designed for frequent journalers, self-explorers, creative writers, dream recorders, and people who want contextual AI support without giving up authorship.
+Ink & Memory is a cross-platform personal writing memory layer. It stands on the writer's side, reorganizing personal writing scattered across Notion, Feishu, Obsidian, and Flomo into a searchable, conversational, and lasting writing memory system. It supports reflection, writing timelines, memory-based chat, personal knowledge conversations, long-form writing, voice input, and private self-inquiry. It is designed for frequent journalers, self-explorers, creative writers, dream recorders, and people who want contextual AI support without giving up authorship.
 
 ## Product Boundaries
 

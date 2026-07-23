@@ -15,6 +15,7 @@ export default defineConfig(() => {
       rollupOptions: {
         input: {
           main: path.resolve(__dirname, 'index.html'),
+          en: path.resolve(__dirname, 'en/index.html'),
           blog: path.resolve(__dirname, 'blog/index.html'),
           blogAiWriting: path.resolve(__dirname, 'blog/how-does-an-ai-know-what-you-are-writing/index.html'),
           blogWorkspace: path.resolve(__dirname, 'blog/workspace-state-management/index.html'),
