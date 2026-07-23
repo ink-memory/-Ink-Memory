@@ -2,10 +2,11 @@ import {useEffect, useState, type AnchorHTMLAttributes, type ReactNode} from 're
 import {
   ArrowRight,
   BookOpen,
-  Brain,
   CheckCircle2,
+  Database,
+  HeartHandshake,
+  Import,
   Menu,
-  MessageSquare,
   Mic,
   PenLine,
   ShieldCheck,
@@ -25,6 +26,8 @@ import {BlogArticlePage, BlogPage} from './blog/BlogPages';
 const startWritingUrl = 'https://ink-frontend.suoxya.com';
 const repositoryUrl = 'https://github.com/glide-the/ink-and-memory';
 const blogUrl = '/blog/';
+
+type Locale = 'zh' | 'en';
 
 type NavItem = {
   label: string;
@@ -50,7 +53,7 @@ type ValueCard = {
 
 type PortalCard = {
   title: string;
-  zh: string;
+  subtitle: string;
   description: string;
   action: string;
   href: string;
@@ -58,92 +61,250 @@ type PortalCard = {
   external?: boolean;
 };
 
-const navItems: NavItem[] = [
-  {label: 'Write', href: startWritingUrl, external: true},
-  {label: 'Blog', href: blogUrl},
-  {label: 'Memory', href: '/#memory'},
-  {label: 'Mimo', href: '/#mimo'},
-];
+type HomeCopy = {
+  metaTitle: string;
+  metaDescription: string;
+  canonicalUrl: string;
+  homeHref: string;
+  heroKicker: string;
+  heroTitle: [string, string];
+  heroLead: [string, string];
+  primaryAction: string;
+  secondaryAction: string;
+  trustNote: string;
+  quickEntriesLabel: string;
+  quickEntries: QuickEntry[];
+  valueEyebrow: string;
+  valueTitle: [string, string];
+  valueCards: ValueCard[];
+  mimoEyebrow: string;
+  mimoTitle: string;
+  mimoDescription: string;
+  mimoTags: string[];
+  mimoLink: string;
+  portalEyebrow: string;
+  portalTitle: string;
+  portalCards: PortalCard[];
+};
 
-const quickEntries: QuickEntry[] = [
-  {
-    title: '开始写作',
-    description: '打开一页新的记忆。',
-    href: startWritingUrl,
-    icon: PenLine,
-    external: true,
+const homeCopy: Record<Locale, HomeCopy> = {
+  zh: {
+    metaTitle: 'Ink & Memory | 跨平台个人写作记忆层，AI 陪你读你自己',
+    metaDescription:
+      'Ink & Memory 站在用户一侧，把分散在 Notion、飞书、Obsidian、Flomo 等平台中的个人文字，重新组织成可检索、可对话、可沉淀的写作记忆系统。AI 可协作写作，但关键写入需用户确认。',
+    canonicalUrl: 'https://suoxya.com/',
+    homeHref: '/',
+    heroKicker: '跨平台个人写作记忆层 · AI 陪你读你自己',
+    heroTitle: ['你的文字写在哪都行，', '我们帮你记住、整理和回响。'],
+    heroLead: [
+      ' 站在用户一侧，把分散在 Notion、飞书、Obsidian、Flomo 等平台中的个人文字，',
+      '重新组织成一个可检索、可对话、可沉淀的写作记忆系统。',
+    ],
+    primaryAction: '开始今天的书写',
+    secondaryAction: '看看 Mimo',
+    trustNote: '它不是替你写，而是带着记忆和你一起写。所有关键写入都需要你确认。',
+    quickEntriesLabel: '快速入口',
+    quickEntries: [
+      {
+        title: '开始写作',
+        description: '打开一页新的记忆。',
+        href: startWritingUrl,
+        icon: PenLine,
+        external: true,
+      },
+      {
+        title: '统一记忆库',
+        description: '可检索、可追问、可长期使用的个人记忆层。',
+        href: '#memory',
+        icon: BookOpen,
+      },
+      {
+        title: '认识 Mimo',
+        description: '你的灵感记录员。',
+        href: '#mimo',
+        icon: Smile,
+      },
+      {
+        title: '品牌素材',
+        description: 'Logo、角色、配色和图标。',
+        href: '#brand-kit',
+        icon: Star,
+        anchorId: 'brand-kit',
+      },
+    ],
+    valueEyebrow: 'Product Value',
+    valueTitle: ['这不是一个普通日记工具，', '而是一个有记忆、有边界感的写作搭档。'],
+    valueCards: [
+      {
+        title: '多平台导入',
+        description: '连接 Notion、飞书、Obsidian、Flomo，收回散落在各处的文字。',
+        icon: Import,
+        tone: 'yellow',
+      },
+      {
+        title: '统一记忆库',
+        description: '把零散文字整理成可检索、可追问、可长期使用的个人记忆层。',
+        icon: Database,
+        tone: 'green',
+      },
+      {
+        title: '深度回响',
+        description: '识别重复主题、情绪线索与行为模式，帮助你重新看见自己。',
+        icon: HeartHandshake,
+        tone: 'cream',
+      },
+      {
+        title: 'AI 协作写作',
+        description: 'AI 可改写、插入、回复评论，但关键写入必须由你确认。',
+        icon: CheckCircle2,
+        tone: 'yellow',
+      },
+    ],
+    mimoEyebrow: 'Mimo Character',
+    mimoTitle: 'Mimo 是谁？',
+    mimoDescription:
+      'Mimo 是 Ink & Memory 的记忆小搭子。它不是替你写作的机器人，而是一个陪你记录、整理、回看和轻轻提醒的灵感记录员。',
+    mimoTags: ['记录', '陪伴', '回看', '灵感', '克制'],
+    mimoLink: '查看角色设定',
+    portalEyebrow: 'Portal Cards',
+    portalTitle: '导入内容、沉淀记忆、跨平台问答，重新看见自己。',
+    portalCards: [
+      {
+        title: 'Writing Space',
+        subtitle: '写作空间',
+        description: '开始一篇日记、随笔、灵感或创作草稿。',
+        action: '进入写作',
+        href: startWritingUrl,
+        icon: PenLine,
+        external: true,
+      },
+      {
+        title: 'Memory Reports',
+        subtitle: '记忆报告',
+        description: '查看近期主题、情绪线索和长期反复出现的问题。',
+        action: '查看报告',
+        href: '#memory',
+        icon: BookOpen,
+      },
+      {
+        title: 'Voice Cards',
+        subtitle: '声音卡组',
+        description: '选择不同的 AI 声音，让它以不同方式阅读你的文字。',
+        action: '管理声音',
+        href: '#stories',
+        icon: Mic,
+      },
+    ],
   },
-  {
-    title: '记忆库',
-    description: '查看被沉淀下来的事实、主题和线索。',
-    href: '#memory',
-    icon: BookOpen,
+  en: {
+    metaTitle: 'Ink & Memory | Cross-platform Writing Memory Layer',
+    metaDescription:
+      'Ink & Memory stands on the writer’s side, reorganizing personal writing scattered across Notion, Feishu, Obsidian, and Flomo into a searchable, conversational, and lasting writing memory system — with consent-based AI writing collaboration.',
+    canonicalUrl: 'https://suoxya.com/en/',
+    homeHref: '/en/',
+    heroKicker: 'Cross-platform writing memory layer · AI reads you, with you',
+    heroTitle: ['Your words can live anywhere.', 'We help you remember, organize, and resonate.'],
+    heroLead: [
+      ' stands on the writer’s side, reorganizing personal writing scattered across Notion, Feishu, Obsidian, and Flomo',
+      ' into a searchable, conversational, and lasting writing memory system.',
+    ],
+    primaryAction: 'Start Writing Today',
+    secondaryAction: 'Meet Mimo',
+    trustNote: 'It does not write for you — it writes with you, with memory. All key edits require your confirmation.',
+    quickEntriesLabel: 'Quick entries',
+    quickEntries: [
+      {
+        title: 'Start Writing',
+        description: 'Open a new page of memory.',
+        href: startWritingUrl,
+        icon: PenLine,
+        external: true,
+      },
+      {
+        title: 'Memory Library',
+        description: 'A searchable, queryable, long-term personal memory layer.',
+        href: '#memory',
+        icon: BookOpen,
+      },
+      {
+        title: 'Meet Mimo',
+        description: 'Your inspiration recorder.',
+        href: '#mimo',
+        icon: Smile,
+      },
+      {
+        title: 'Brand Kit',
+        description: 'Logo, character, colors, and icons.',
+        href: '#brand-kit',
+        icon: Star,
+        anchorId: 'brand-kit',
+      },
+    ],
+    valueEyebrow: 'Product Value',
+    valueTitle: ['Not an ordinary journal —', 'a writing companion with memory and boundaries.'],
+    valueCards: [
+      {
+        title: 'Multi-platform Import',
+        description: 'Connect Notion, Feishu, Obsidian, and Flomo to reclaim writing scattered across platforms.',
+        icon: Import,
+        tone: 'yellow',
+      },
+      {
+        title: 'Unified Memory Library',
+        description: 'Organize fragments into a searchable, queryable, long-term personal memory layer.',
+        icon: Database,
+        tone: 'green',
+      },
+      {
+        title: 'Deep Resonance',
+        description: 'Detect recurring themes, emotional cues, and behavior patterns to help you see yourself again.',
+        icon: HeartHandshake,
+        tone: 'cream',
+      },
+      {
+        title: 'Consent-based AI Writing',
+        description: 'AI can rewrite, insert, and reply with comments, but key edits always require your confirmation.',
+        icon: CheckCircle2,
+        tone: 'yellow',
+      },
+    ],
+    mimoEyebrow: 'Mimo Character',
+    mimoTitle: 'Who is Mimo?',
+    mimoDescription:
+      'Mimo is the memory companion of Ink & Memory — not a robot that writes for you, but an inspiration recorder that captures, organizes, reviews, and gently reminds alongside you.',
+    mimoTags: ['Capture', 'Companion', 'Review', 'Inspiration', 'Restraint'],
+    mimoLink: 'View character profile',
+    portalEyebrow: 'Portal Cards',
+    portalTitle: 'Import, consolidate, ask across platforms — and see yourself again.',
+    portalCards: [
+      {
+        title: 'Writing Space',
+        subtitle: 'Start writing',
+        description: 'Start a journal entry, essay, idea, or creative draft.',
+        action: 'Start Writing',
+        href: startWritingUrl,
+        icon: PenLine,
+        external: true,
+      },
+      {
+        title: 'Memory Reports',
+        subtitle: 'Review memory',
+        description: 'See recent themes, emotional cues, and long-term recurring questions.',
+        action: 'View Reports',
+        href: '#memory',
+        icon: BookOpen,
+      },
+      {
+        title: 'Voice Cards',
+        subtitle: 'Choose voices',
+        description: 'Choose different AI voices to read your writing back in different ways.',
+        action: 'Manage Voices',
+        href: '#stories',
+        icon: Mic,
+      },
+    ],
   },
-  {
-    title: '认识 Mimo',
-    description: '你的灵感记录员。',
-    href: '#mimo',
-    icon: Smile,
-  },
-  {
-    title: '品牌素材',
-    description: 'Logo、角色、配色和图标。',
-    href: '#brand-kit',
-    icon: Star,
-    anchorId: 'brand-kit',
-  },
-];
-
-const valueCards: ValueCard[] = [
-  {
-    title: '先记住，再理解',
-    description: '系统不会急着给你贴标签，它先记录真正重要的事实、事件、关系、情绪和承诺。',
-    icon: Brain,
-    tone: 'yellow',
-  },
-  {
-    title: '带着记忆回应你',
-    description: 'AI 不再每次从零开始，它会结合你的近期写作和长期记忆理解你。',
-    icon: MessageSquare,
-    tone: 'green',
-  },
-  {
-    title: 'AI 能动笔，但必须确认',
-    description: '改写、删除、插入和评论都需要你确认。',
-    icon: CheckCircle2,
-    tone: 'yellow',
-  },
-];
-
-const mimoTags = ['记录', '陪伴', '回看', '灵感', '克制'];
-
-const portalCards: PortalCard[] = [
-  {
-    title: 'Writing Space',
-    zh: '写作空间',
-    description: '开始一篇日记、随笔、灵感或创作草稿。',
-    action: '进入写作',
-    href: startWritingUrl,
-    icon: PenLine,
-    external: true,
-  },
-  {
-    title: 'Memory Reports',
-    zh: '记忆报告',
-    description: '查看近期主题、情绪线索和长期反复出现的问题。',
-    action: '查看报告',
-    href: '#memory',
-    icon: BookOpen,
-  },
-  {
-    title: 'Voice Cards',
-    zh: '声音卡组',
-    description: '选择不同的 AI 声音，让它以不同方式阅读你的文字。',
-    action: '管理声音',
-    href: '#stories',
-    icon: Mic,
-  },
-];
+};
 
 type ExternalAwareLinkProps = {
   children: ReactNode;
@@ -173,11 +334,20 @@ function App() {
   const [headerCompact, setHeaderCompact] = useState(false);
   const normalizedPath =
     typeof window !== 'undefined' ? window.location.pathname.replace(/\/+$/, '') || '/' : '/';
+  const locale: Locale = normalizedPath === '/en' || normalizedPath.startsWith('/en/') ? 'en' : 'zh';
+  const copy = homeCopy[locale];
   const currentArticle =
     normalizedPath.startsWith('/blog/') ?
       blogArticles.find((article) => normalizedPath === `/blog/${article.slug}`)
     : undefined;
   const isBlogPage = normalizedPath === '/blog' || Boolean(currentArticle);
+
+  const navItems: NavItem[] = [
+    {label: 'Write', href: startWritingUrl, external: true},
+    {label: 'Blog', href: blogUrl},
+    {label: 'Memory', href: `${copy.homeHref}#memory`},
+    {label: 'Mimo', href: `${copy.homeHref}#mimo`},
+  ];
 
   useEffect(() => {
     let previousScrollY = window.scrollY;
@@ -243,22 +413,26 @@ function App() {
   }, [headerCompact]);
 
   useEffect(() => {
-    document.documentElement.lang = currentArticle?.language === 'English' ? 'en' : 'zh-CN';
+    document.documentElement.lang =
+      currentArticle?.language === 'English' ? 'en'
+      : isBlogPage ? 'zh-CN'
+      : locale === 'en' ? 'en'
+      : 'zh-CN';
     document.body.dataset.page = isBlogPage ? 'portal-blog' : 'portal-home';
     document.title =
       currentArticle ? `${currentArticle.title} | Ink & Memory Blog`
       : isBlogPage ? 'Ink & Memory Blog | AI 写作记忆与工作空间设计'
-      : 'Ink & Memory | 写下来，让 AI 慢慢记住你';
+      : copy.metaTitle;
 
     const description =
       currentArticle?.summary ??
       (isBlogPage ?
         'Ink & Memory Blog 收录 AI 写作、长期记忆、Workspace 状态管理和交互设计文章。'
-      : 'Ink & Memory 是面向长期写作者、自我探索者和 AI 创作用户的写作记忆工具，提供日记记录、长期记忆、AI 反馈、语音笔记和需确认的协作修改。');
+      : copy.metaDescription);
     const canonicalUrl =
       currentArticle ? `https://suoxya.com/blog/${currentArticle.slug}/`
       : isBlogPage ? 'https://suoxya.com/blog/'
-      : 'https://suoxya.com/';
+      : copy.canonicalUrl;
     const socialImageUrl =
       currentArticle ? `https://suoxya.com${currentArticle.coverImage.src}` : 'https://suoxya.com/og-image.png';
 
@@ -271,7 +445,7 @@ function App() {
     document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', description);
     document.querySelector('meta[name="twitter:image"]')?.setAttribute('content', socialImageUrl);
     document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonicalUrl);
-  }, [currentArticle, isBlogPage]);
+  }, [currentArticle, isBlogPage, copy]);
 
   return (
     <>
@@ -283,7 +457,12 @@ function App() {
         className={`site-header${headerCompact ? ' is-compact' : ''}${currentArticle ? ' is-article' : ''}`}
         aria-label="Ink & Memory navigation"
       >
-        <a className="brand-link" href="/" aria-label="Ink & Memory home" onClick={() => setMenuOpen(false)}>
+        <a
+          className="brand-link"
+          href={copy.homeHref}
+          aria-label="Ink & Memory home"
+          onClick={() => setMenuOpen(false)}
+        >
           <img src={logoHorizontal} alt="Ink & Memory" />
         </a>
 
@@ -320,7 +499,7 @@ function App() {
         </div>
       </header>
 
-      {currentArticle ? <BlogArticlePage article={currentArticle} /> : isBlogPage ? <BlogPage /> : <HomePage />}
+      {currentArticle ? <BlogArticlePage article={currentArticle} /> : isBlogPage ? <BlogPage /> : <HomePage copy={copy} />}
 
       <footer className="site-footer" aria-label="Project links">
         <span>Ink &amp; Memory</span>
@@ -337,45 +516,44 @@ function App() {
   );
 }
 
-function HomePage() {
+function HomePage({copy}: {copy: HomeCopy}) {
   return (
     <main className="home-page" id="main">
         <section className="hero-section" aria-labelledby="heroTitle">
           <div className="hero-copy">
             <div className="hero-kicker">
               <Sparkles aria-hidden="true" size={17} />
-              <span>Memory Companion for Writers</span>
+              <span>{copy.heroKicker}</span>
             </div>
 
             <h1 id="heroTitle">
-              写下来，
+              {copy.heroTitle[0]}
               <br />
-              让 AI 慢慢记住你
+              {copy.heroTitle[1]}
             </h1>
             <span className="hero-stroke" aria-hidden="true" />
 
             <p className="hero-lead">
-              <strong>Ink &amp; Memory</strong> 是一个有记忆的写作入口。
+              <strong>Ink &amp; Memory</strong>
+              {copy.heroLead[0]}
               <br />
-              它陪你记录、回看、整理长期文字，
-              <br />
-              让散落的想法逐渐形成属于你的记忆层。
+              {copy.heroLead[1]}
             </p>
 
             <div className="hero-actions">
               <a className="button button-primary" href={startWritingUrl} rel="noreferrer" target="_blank">
-                <span>开始今天的书写</span>
+                <span>{copy.primaryAction}</span>
                 <PenLine aria-hidden="true" size={22} />
               </a>
               <a className="button button-secondary" href="#mimo">
-                <span>看看 Mimo</span>
+                <span>{copy.secondaryAction}</span>
                 <Smile aria-hidden="true" size={23} />
               </a>
             </div>
 
             <p className="trust-note">
               <ShieldCheck aria-hidden="true" size={18} />
-              <span>AI 可以参与，但不会越界。所有关键写入都需要你确认。</span>
+              <span>{copy.trustNote}</span>
             </p>
           </div>
 
@@ -384,8 +562,8 @@ function HomePage() {
           </figure>
         </section>
 
-        <section className="quick-entry" aria-label="快速入口">
-          {quickEntries.map((entry) => {
+        <section className="quick-entry" aria-label={copy.quickEntriesLabel}>
+          {copy.quickEntries.map((entry) => {
             const Icon = entry.icon;
             return (
               <ExternalAwareLink
@@ -409,16 +587,16 @@ function HomePage() {
 
         <section className="value-section" id="memory" aria-labelledby="valueTitle">
           <div className="section-heading">
-            <p>Product Value</p>
+            <p>{copy.valueEyebrow}</p>
             <h2 id="valueTitle">
-              不是普通日记 App，
+              {copy.valueTitle[0]}
               <br />
-              是一个会随时间变厚的写作记忆层。
+              {copy.valueTitle[1]}
             </h2>
           </div>
 
           <div className="value-grid">
-            {valueCards.map((card) => {
+            {copy.valueCards.map((card) => {
               const Icon = card.icon;
               return (
                 <article className={`value-card value-card--${card.tone}`} key={card.title}>
@@ -443,18 +621,16 @@ function HomePage() {
           </div>
 
           <div className="mimo-copy">
-            <p className="eyebrow">Mimo Character</p>
-            <h2 id="mimoTitle">Mimo 是谁？</h2>
-            <p>
-              Mimo 是 Ink &amp; Memory 的记忆小搭子。它不是替你写作的机器人，而是一个陪你记录、整理、回看和轻轻提醒的灵感记录员。
-            </p>
+            <p className="eyebrow">{copy.mimoEyebrow}</p>
+            <h2 id="mimoTitle">{copy.mimoTitle}</h2>
+            <p>{copy.mimoDescription}</p>
             <div className="tag-row" aria-label="Mimo traits">
-              {mimoTags.map((tag) => (
+              {copy.mimoTags.map((tag) => (
                 <span key={tag}>{tag}</span>
               ))}
             </div>
             <a className="text-link" href="#brand-kit">
-              <span>查看角色设定</span>
+              <span>{copy.mimoLink}</span>
               <ArrowRight aria-hidden="true" size={18} />
             </a>
           </div>
@@ -462,12 +638,12 @@ function HomePage() {
 
         <section className="portal-section" id="stories" aria-labelledby="portalTitle">
           <div className="section-heading">
-            <p>Portal Cards</p>
-            <h2 id="portalTitle">进入你的写作、记忆和声音工作台。</h2>
+            <p>{copy.portalEyebrow}</p>
+            <h2 id="portalTitle">{copy.portalTitle}</h2>
           </div>
 
           <div className="portal-grid">
-            {portalCards.map((card) => {
+            {copy.portalCards.map((card) => {
               const Icon = card.icon;
               return (
                 <article className="portal-card" key={card.title}>
@@ -475,7 +651,7 @@ function HomePage() {
                     <Icon size={28} strokeWidth={2.2} />
                   </span>
                   <p>{card.title}</p>
-                  <h3>{card.zh}</h3>
+                  <h3>{card.subtitle}</h3>
                   <span>{card.description}</span>
                   <ExternalAwareLink className="portal-action" external={card.external} href={card.href}>
                     <span>{card.action}</span>

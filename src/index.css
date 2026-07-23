@@ -561,7 +561,7 @@ img {
 
 .value-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 16px;
 }
 
@@ -1222,7 +1222,10 @@ img {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .value-grid,
+  .value-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .portal-grid {
     grid-template-columns: 1fr;
   }
@@ -1370,6 +1373,10 @@ img {
   .section-heading h2,
   .mimo-copy h2 {
     font-size: 30px;
+  }
+
+  .value-grid {
+    grid-template-columns: 1fr;
   }
 
   .value-card {
