@@ -95,7 +95,7 @@ const homeCopy: Record<Locale, HomeCopy> = {
     canonicalUrl: 'https://suoxya.com/',
     homeHref: '/',
     heroKicker: '跨平台个人写作记忆层 · AI 陪你读你自己',
-    heroTitle: ['你的文字写在哪都行，', '我们帮你记住、整理和回响。'],
+    heroTitle: ['Ink & Memory', ''],
     heroLead: [
       ' 站在用户一侧，把分散在 Notion、飞书、Obsidian、Flomo 等平台中的个人文字，',
       '重新组织成一个可检索、可对话、可沉淀的写作记忆系统。',
@@ -203,7 +203,7 @@ const homeCopy: Record<Locale, HomeCopy> = {
     canonicalUrl: 'https://suoxya.com/en/',
     homeHref: '/en/',
     heroKicker: 'Cross-platform writing memory layer · AI reads you, with you',
-    heroTitle: ['Your words can live anywhere.', 'We help you remember, organize, and resonate.'],
+    heroTitle: ['Ink & Memory', ''],
     heroLead: [
       ' stands on the writer’s side, reorganizing personal writing scattered across Notion, Feishu, Obsidian, and Flomo',
       ' into a searchable, conversational, and lasting writing memory system.',

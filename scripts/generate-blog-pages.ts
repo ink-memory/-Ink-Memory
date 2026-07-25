@@ -59,7 +59,7 @@ function shell({head, body, lang}: {head: string; body: string; lang: string}) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#F5E9D6" />
+    <meta name="theme-color" content="#F6EFE5" />
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta name="application-name" content="Ink &amp; Memory" />
 ${head}
