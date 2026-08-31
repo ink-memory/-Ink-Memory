@@ -13,10 +13,12 @@
 ## Blog and Knowledge Base
 
 - Blog index: https://suoxya.com/blog/
-- Article page: https://suoxya.com/blog/how-does-an-ai-know-what-you-are-writing/
-- Article page: https://suoxya.com/blog/workspace-state-management/
-- English article: https://medium.com/@glide-the/how-does-an-ai-know-what-you-are-writing-b545edbfe8b2
-- Chinese article: https://mp.weixin.qq.com/s/RIdUu6gs3FlJI6tzRPEphA
+- English article — Lecture Notes | When Connectors Enter the Agent Workspace: Boundaries of State, Trust, and Action: https://medium.com/@glide-the/lecture-notes-when-connectors-enter-the-agent-workspace-boundaries-of-state-trust-and-action-e13fc6839b99
+- Chinese article — 讲义｜连接器进入 Agent 工作空间之后：状态、信任与动作的边界: https://mp.weixin.qq.com/s/N8guDNouFjWClKXHmWQo-A
+- Article page — Workspace 工作空间状态管理与交互入口设计: https://suoxya.com/blog/workspace-state-management/
+- Chinese original — Workspace 工作空间状态管理与交互入口设计: https://mp.weixin.qq.com/s/RIdUu6gs3FlJI6tzRPEphA
+- Article page — How Does an AI Know What You Are Writing?: https://suoxya.com/blog/how-does-an-ai-know-what-you-are-writing/
+- English original — How Does an AI Know What You Are Writing?: https://medium.com/@glide-the/how-does-an-ai-know-what-you-are-writing-b545edbfe8b2
 
 ## Summary
 
@@ -37,4 +39,4 @@ Ink & Memory is a cross-platform personal writing memory layer. It stands on the
 - URL: https://suoxya.com/
 - Source repository: https://github.com/glide-the/ink-and-memory
 - Maintainer: Ink & Memory product team
-- Last updated: 2026-07-09
+- Last updated: 2026-08-31
