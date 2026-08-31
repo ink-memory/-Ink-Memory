@@ -430,21 +430,25 @@ function App() {
         'Ink & Memory Blog 收录 AI 写作、长期记忆、Workspace 状态管理和交互设计文章。'
       : copy.metaDescription);
     const canonicalUrl =
-      currentArticle ? `https://suoxya.com/blog/${currentArticle.slug}/`
+      currentArticle ? currentArticle.canonicalHref
       : isBlogPage ? 'https://suoxya.com/blog/'
       : copy.canonicalUrl;
     const socialImageUrl =
-      currentArticle ? `https://suoxya.com${currentArticle.coverImage.src}` : 'https://suoxya.com/og-image.png';
+      currentArticle && currentArticle.canonicalHref ? `https://suoxya.com${currentArticle.coverImage.src}`
+      : currentArticle ? currentArticle.coverImage.src
+      : 'https://suoxya.com/og-image.png';
 
     document.querySelector('meta[name="description"]')?.setAttribute('content', description);
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', document.title);
     document.querySelector('meta[property="og:description"]')?.setAttribute('content', description);
-    document.querySelector('meta[property="og:url"]')?.setAttribute('content', canonicalUrl);
+    if (canonicalUrl) {
+      document.querySelector('meta[property="og:url"]')?.setAttribute('content', canonicalUrl);
+      document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonicalUrl);
+    }
     document.querySelector('meta[property="og:image"]')?.setAttribute('content', socialImageUrl);
     document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', document.title);
     document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', description);
     document.querySelector('meta[name="twitter:image"]')?.setAttribute('content', socialImageUrl);
-    document.querySelector('link[rel="canonical"]')?.setAttribute('href', canonicalUrl);
   }, [currentArticle, isBlogPage, copy]);
 
   return (

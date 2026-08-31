@@ -9,6 +9,7 @@ export const aiWritingArticle: BlogArticle = {
   author: 'dmeck zhang',
   language: 'English',
   source: 'Medium',
+  canonicalHref: 'https://suoxya.com/blog/how-does-an-ai-know-what-you-are-writing/',
   externalHref: 'https://medium.com/@glide-the/how-does-an-ai-know-what-you-are-writing-b545edbfe8b2',
   originalLinkLabel: 'View on Medium',
   summary:

@@ -9,6 +9,7 @@ export const workspaceArticle: BlogArticle = {
   author: 'glide the',
   language: '中文',
   source: '微信公众号',
+  canonicalHref: 'https://suoxya.com/blog/workspace-state-management/',
   externalHref: 'https://mp.weixin.qq.com/s/RIdUu6gs3FlJI6tzRPEphA',
   originalLinkLabel: '查看微信公众号原文',
   summary:

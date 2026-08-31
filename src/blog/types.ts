@@ -41,8 +41,9 @@ export type BlogArticle = {
   author: string;
   language: string;
   source: string;
-  externalHref: string;
-  originalLinkLabel: string;
+  canonicalHref?: string;
+  externalHref?: string;
+  originalLinkLabel?: string;
   summary: string;
   tags: string[];
   publishedAt: string;

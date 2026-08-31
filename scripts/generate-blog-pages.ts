@@ -78,9 +78,24 @@ ${body}
 }
 
 function articleHead(article: BlogArticle) {
-  const canonical = `${siteUrl}/blog/${article.slug}/`;
-  const image = `${siteUrl}${article.coverImage.src}`;
+  const canonical = article.canonicalHref;
+  const image = canonical ? `${siteUrl}${article.coverImage.src}` : article.coverImage.src;
   const language = article.language === 'English' ? 'en' : 'zh-CN';
+  if (!canonical) {
+    return `    <meta name="author" content="${escapeHtml(article.author)}" />
+    <meta name="description" content="${escapeHtml(article.summary)}" />
+    <meta property="og:title" content="${escapeHtml(article.title)} | Ink &amp; Memory Blog" />
+    <meta property="og:description" content="${escapeHtml(article.summary)}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:site_name" content="Ink &amp; Memory" />
+    <meta property="og:image" content="${image}" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="${escapeHtml(article.title)} | Ink &amp; Memory Blog" />
+    <meta name="twitter:description" content="${escapeHtml(article.summary)}" />
+    <meta name="twitter:image" content="${image}" />
+    <title>${escapeHtml(article.title)} | Ink &amp; Memory Blog</title>`;
+  }
+
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'BlogPosting',
@@ -118,18 +133,22 @@ function articleHead(article: BlogArticle) {
 function articleBody(article: BlogArticle) {
   const subtitle = article.subtitle ? `<p>${escapeHtml(article.subtitle)}</p>` : '';
   const blocks = article.content.map(renderBlock).join('\n          ');
+  const originalLink =
+    article.externalHref && article.originalLinkLabel ?
+      `\n          <p><a href="${escapeHtml(article.externalHref)}">${escapeHtml(article.originalLinkLabel)}</a></p>`
+    : '';
+  const backHref = article.canonicalHref ? `${siteUrl}/blog/` : '/blog/';
 
   return `      <main class="seo-static-content" aria-label="Ink &amp; Memory article">
         <article>
-          <p><a href="${siteUrl}/blog/">Back to Blog</a></p>
+          <p><a href="${backHref}">Back to Blog</a></p>
           <header>
             <p>${escapeHtml(article.source)} · ${escapeHtml(article.language)}</p>
             <h1>${escapeHtml(article.title)}</h1>
             ${subtitle}
             <p>${escapeHtml(article.author)} · <time datetime="${article.publishedAt}">${article.publishedAt}</time> · ${escapeHtml(article.readTime)}</p>
           </header>
-          ${blocks}
-          <p><a href="${escapeHtml(article.externalHref)}">${escapeHtml(article.originalLinkLabel)}</a></p>
+          ${blocks}${originalLink}
         </article>
       </main>`;
 }
@@ -143,7 +162,7 @@ function blogIndexPage() {
     itemListElement: blogArticles.map((article, index) => ({
       '@type': 'ListItem',
       position: index + 1,
-      url: `${siteUrl}/blog/${article.slug}/`,
+      ...(article.canonicalHref ? {url: article.canonicalHref} : {}),
       name: article.title,
     })),
   };
