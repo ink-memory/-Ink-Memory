@@ -10,6 +10,9 @@ export const agentWorkspaceConnectorsEnArticle: BlogArticle = {
   author: 'glide the',
   language: 'English',
   source: 'Ink & Memory',
+  externalHref:
+    'https://medium.com/@glide-the/lecture-notes-when-connectors-enter-the-agent-workspace-boundaries-of-state-trust-and-action-e13fc6839b99',
+  originalLinkLabel: 'View on Medium',
   summary:
     'A product and systems design essay on what changes when connectors enter an Agent workspace: which state persists, how users can verify trust, and when proposed actions may safely become real changes.',
   tags: ['Agent workspace', 'Connectors', 'Interaction design'],

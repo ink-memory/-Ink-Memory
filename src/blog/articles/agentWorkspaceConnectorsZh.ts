@@ -10,6 +10,8 @@ export const agentWorkspaceConnectorsZhArticle: BlogArticle = {
   author: 'glide the',
   language: '中文',
   source: 'Ink & Memory',
+  externalHref: 'https://mp.weixin.qq.com/s/N8guDNouFjWClKXHmWQo-A',
+  originalLinkLabel: '查看微信公众号原文',
   summary:
     '从工作空间主体、远程资源版本与能力边界出发，讨论连接器进入 Agent 工作环境后，状态如何持续、信任如何建立、动作如何安全发生。',
   tags: ['Agent 工作空间', '连接器', '交互设计'],
