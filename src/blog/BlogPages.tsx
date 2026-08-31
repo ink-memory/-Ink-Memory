@@ -135,14 +135,16 @@ export function BlogArticlePage({article}: {article: BlogArticle}) {
         </div>
       </article>
 
-      <section className="blog-detail-cta" aria-labelledby="blogOriginalTitle">
-        <h2 id="blogOriginalTitle">Original publication</h2>
-        <p>This page preserves the complete article and images. You can also view it on the original platform.</p>
-        <a href={article.externalHref} rel="noreferrer" target="_blank">
-          <span>{article.originalLinkLabel}</span>
-          <ExternalLink aria-hidden="true" size={17} />
-        </a>
-      </section>
+      {article.externalHref && article.originalLinkLabel ?
+        <section className="blog-detail-cta" aria-labelledby="blogOriginalTitle">
+          <h2 id="blogOriginalTitle">Original publication</h2>
+          <p>This page preserves the complete article and images. You can also view it on the original platform.</p>
+          <a href={article.externalHref} rel="noreferrer" target="_blank">
+            <span>{article.originalLinkLabel}</span>
+            <ExternalLink aria-hidden="true" size={17} />
+          </a>
+        </section>
+      : null}
     </main>
   );
 }

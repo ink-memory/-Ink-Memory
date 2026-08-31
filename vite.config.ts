@@ -19,6 +19,14 @@ export default defineConfig(() => {
           blog: path.resolve(__dirname, 'blog/index.html'),
           blogAiWriting: path.resolve(__dirname, 'blog/how-does-an-ai-know-what-you-are-writing/index.html'),
           blogWorkspace: path.resolve(__dirname, 'blog/workspace-state-management/index.html'),
+          blogAgentWorkspaceConnectorsZh: path.resolve(
+            __dirname,
+            'blog/connectors-in-agent-workspace-state-trust-action-boundaries/index.html',
+          ),
+          blogAgentWorkspaceConnectorsEn: path.resolve(
+            __dirname,
+            'blog/connectors-in-agent-workspace-state-trust-action-boundaries-en/index.html',
+          ),
         },
       },
     },
