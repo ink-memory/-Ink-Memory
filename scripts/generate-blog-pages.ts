@@ -49,8 +49,8 @@ function renderBlock(block: BlogContentBlock) {
     return `<blockquote>${block.content.map((content) => `<p>${renderInline(content)}</p>`).join('')}</blockquote>`;
   }
 
-  const caption = block.caption ? `<figcaption>${escapeHtml(block.caption)}</figcaption>` : '';
-  return `<figure><img src="${escapeHtml(block.src)}" alt="${escapeHtml(block.alt)}" width="${block.width}" height="${block.height}" loading="lazy" />${caption}</figure>`;
+  const caption = block.caption ?? block.alt;
+  return `<figure aria-label="${escapeHtml(block.alt)}"><p>Ink &amp; Memory · Concept</p><p>Context → Route → State → Deck</p><figcaption>${escapeHtml(caption)}</figcaption></figure>`;
 }
 
 function shell({head, body, lang}: {head: string; body: string; lang: string}) {
@@ -63,9 +63,7 @@ function shell({head, body, lang}: {head: string; body: string; lang: string}) {
     <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
     <meta name="application-name" content="Ink &amp; Memory" />
 ${head}
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23FFD42A'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-size='20' font-family='Arial,sans-serif' font-weight='900' fill='%23111111'%3EI%26M%3C/text%3E%3C/svg%3E" />
-    <script>document.documentElement.classList.add('js-enabled');</script>
-    <style>.js-enabled #root > .seo-static-content { display: none; }</style>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23F39C12'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-size='20' font-family='Arial,sans-serif' font-weight='900' fill='%233F3429'%3EI%26M%3C/text%3E%3C/svg%3E" />
   </head>
   <body>
     <div id="root">
@@ -79,7 +77,7 @@ ${body}
 
 function articleHead(article: BlogArticle) {
   const canonical = article.canonicalHref;
-  const image = canonical ? `${siteUrl}${article.coverImage.src}` : article.coverImage.src;
+  const image = `${siteUrl}/og-image.png`;
   const language = article.language === 'English' ? 'en' : 'zh-CN';
   if (!canonical) {
     return `    <meta name="author" content="${escapeHtml(article.author)}" />
@@ -183,7 +181,6 @@ function blogIndexPage() {
   const articles = blogArticles
     .map(
       (article) => `          <article>
-            <a href="/blog/${article.slug}/"><img src="${article.coverImage.src}" alt="" width="${article.coverImage.width}" height="${article.coverImage.height}" /></a>
             <h2><a href="/blog/${article.slug}/">${escapeHtml(article.title)}</a></h2>
             <p>${escapeHtml(article.summary)}</p>
             <p><time datetime="${article.publishedAt}">${article.publishedAt}</time> · ${escapeHtml(article.readTime)} · ${escapeHtml(article.language)}</p>

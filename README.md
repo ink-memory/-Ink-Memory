@@ -1,6 +1,6 @@
 # Ink & Memory
 
-Ink & Memory is an AI writing workspace for reflection, memory, writing timelines, and personal knowledge conversations. It combines an AI journal, long-form writing assistant, memory-based chat, voice notes, and consent-based editing for people who want AI support without giving up authorship.
+Ink Memory is a multi-agent workbench for organizing personal thinking patterns. It turns needs into goals, tasks, visible agent collaboration, and tool topologies composed from Skills, MCP, and Plugins. Validated paths become reusable Decks after user confirmation.
 
 这个仓库包含 Ink & Memory 官网/项目页的 React + Vite 实现。页面面向长期写作者、自我探索者、日记/随笔/梦境/情绪记录用户和重视 AI 写作边界的人。
 
@@ -15,7 +15,7 @@ https://github.com/glide-the/ink-and-memory
 ## Features
 
 - AI writing workspace
-- AI journal and reflective writing companion
+- AI journal and reflective writing memory
 - Writing timeline and past reflections
 - Memory-based chat for personal knowledge conversations
 - Long-form writing assistant
@@ -38,13 +38,12 @@ Search Console 应提交项目站点 `https://suoxya.com/` 和 sitemap，而不�
 ## 项目结构
 
 - `index.html`：Vite 应用入口与 SEO meta
-- `src/App.tsx`：12 屏整屏滚动页面、配置化内容、视频播放控制、导航状态
-- `src/index.css`：视觉系统、scroll-snap、入场动效、响应式布局
-- `assets/video-1.mp4` 到 `assets/video-5.mp4`：MP4 fallback 视频素材
-- `assets/video-1-alpha.webm` 到 `assets/video-5-alpha.webm`：透明 VP9 WebM 素材
-- 页面主视觉优先循环使用 `video-3` 到 `video-5`，避免带统一场景背景的素材出现矩形边界
-- `scripts/make_alpha_videos.py`：从黑底素材重新生成透明 WebM 的工具脚本
-- `PROJECT-DESIGN.md`：页面体验和信息架构说明
+- `src/App.tsx`：中英双语落地页、Blog 路由、移动导航与四步工作方式交互
+- `src/index.css`：全站 Token、Blog 与公共样式
+- `src/landing.css`：落地页布局、组件状态和响应式样式
+- `assets/Ink & Memory UI Design v2.pdf`：落地页最高优先级视觉规范
+- `docs/landing-redesign/`：调研证据、交互稿、时序图、设计评审与测试记录
+- `PROJECT-DESIGN.md`：当前页面体验和信息架构摘要
 
 ## 本地运行
 
@@ -52,19 +51,11 @@ Search Console 应提交项目站点 `https://suoxya.com/` 和 sitemap，而不�
 npm run dev
 ```
 
-默认地址是 `http://localhost:3000`。
+Vite 默认地址是 `http://localhost:5173`；终端会在端口占用时显示实际地址。
 
 ## 验证与构建
 
 ```bash
 npm run lint
 npm run build
-```
-
-## 重新生成透明视频
-
-如果后续替换了 `assets/video-*.mp4`，可以重新生成透明 WebM：
-
-```bash
-python3 scripts/make_alpha_videos.py
 ```
