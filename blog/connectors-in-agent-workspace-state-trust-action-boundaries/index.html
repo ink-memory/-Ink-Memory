@@ -12,15 +12,13 @@
     <meta property="og:description" content="从工作空间主体、远程资源版本与能力边界出发，讨论连接器进入 Agent 工作环境后，状态如何持续、信任如何建立、动作如何安全发生。" />
     <meta property="og:type" content="article" />
     <meta property="og:site_name" content="Ink &amp; Memory" />
-    <meta property="og:image" content="/blog/agent-workspace-connectors/01-workspace-as-subject.png" />
+    <meta property="og:image" content="https://suoxya.com/og-image.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="讲义｜连接器进入 Agent 工作空间之后：状态、信任与动作的边界 | Ink &amp; Memory Blog" />
     <meta name="twitter:description" content="从工作空间主体、远程资源版本与能力边界出发，讨论连接器进入 Agent 工作环境后，状态如何持续、信任如何建立、动作如何安全发生。" />
-    <meta name="twitter:image" content="/blog/agent-workspace-connectors/01-workspace-as-subject.png" />
+    <meta name="twitter:image" content="https://suoxya.com/og-image.png" />
     <title>讲义｜连接器进入 Agent 工作空间之后：状态、信任与动作的边界 | Ink &amp; Memory Blog</title>
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='32' fill='%23FFD42A'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-size='20' font-family='Arial,sans-serif' font-weight='900' fill='%23111111'%3EI%26M%3C/text%3E%3C/svg%3E" />
-    <script>document.documentElement.classList.add('js-enabled');</script>
-    <style>.js-enabled #root > .seo-static-content { display: none; }</style>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23F39C12'/%3E%3Ctext x='32' y='39' text-anchor='middle' font-size='20' font-family='Arial,sans-serif' font-weight='900' fill='%233F3429'%3EI%26M%3C/text%3E%3C/svg%3E" />
   </head>
   <body>
     <div id="root">
@@ -49,7 +47,7 @@
           <p>工作空间记录用户正在处理什么、允许 Agent 使用哪些资源、各项资源来自哪里、最后一次读取发生在什么时间、有哪些修改正在等待处理、哪些长期任务还没有结束。连接器向工作空间提供外部资源，当前 Agent 再从工作空间取得一份与本轮任务有关的视图。</p>
           <p>因此，我对连接器上下文的基本判断是：</p>
           <p>工作空间是主体，连接器是资源来源，Agent Runtime 是当前执行者，对话框只是交互入口。</p>
-          <figure><img src="/blog/agent-workspace-connectors/01-workspace-as-subject.png" alt="工作空间是主体，连接器提供资源，Runtime 负责当前执行" width="1672" height="941" loading="lazy" /></figure>
+          <figure aria-label="工作空间是主体，连接器提供资源，Runtime 负责当前执行"><p>Ink &amp; Memory · Concept</p><p>Context → Route → State → Deck</p><figcaption>工作空间是主体，连接器提供资源，Runtime 负责当前执行</figcaption></figure>
           <p>这个判断并非为了让架构显得完整，而是来自用户真实工作的持续时间。Web 端的 Agent 通常只能感知上传文件和当前 prompt，看不到文件之间的关系、先前做过的修改、跨应用的操作结果，也不知道某项任务为什么停在现在这个位置。真实工作会跨文件、跨应用、跨权限持续数小时，甚至数天。Agent 若只依赖对话文本，每次开始都要重新猜测用户正在做什么。</p>
           <p>连接器进入工作空间的意义，正是把这些长期关系变成 Agent 可以理解的工作环境。</p>
           <h2>本地编辑器与远程连接器应在共同边界中保留差异</h2>
@@ -61,13 +59,13 @@
           <p>这种共同边界也为后续连接器留下空间。Agent核心无需理解 Notion数据库、Slack频道、GitHub Issue 或 Linear项目的全部细节。它只需要知道当前工作空间有哪些资源，这些资源在任务中扮演什么角色，可以读取哪些内容，允许提出哪些动作，当前资料是否过期。</p>
           <p>连接器之间的差异通过能力表达。Notion页面可能支持更新正文，Slack消息可能只允许发送或回复，GitHub资源可能提供评论、标签和状态变化。通用层不把它们压缩成一个含混的“写入”，而是让每个连接器说明自己真实提供的动作及其影响范围。</p>
           <p>系统能否拓展到下游，取决于 Agent核心是否始终围绕工作空间和当前任务组织，而不是把某个平台的对象写入通用流程。新连接器需要把自己的资源、权限、版本和动作翻译成工作空间能够理解的形式。Agent的阅读、确认和任务流程不需要因平台变化重新设计。</p>
-          <figure><img src="/blog/agent-workspace-connectors/02-local-and-remote-boundary.png" alt="本地编辑器与远程连接器共享资源语言，但保留不同更新语义" width="1672" height="941" loading="lazy" /></figure>
+          <figure aria-label="本地编辑器与远程连接器共享资源语言，但保留不同更新语义"><p>Ink &amp; Memory · Concept</p><p>Context → Route → State → Deck</p><figcaption>本地编辑器与远程连接器共享资源语言，但保留不同更新语义</figcaption></figure>
           <p>。</p>
           <p>产品真正需要管理的，是这些关系如何发生，又如何被用户看见。</p>
           <p>连接账号 → 选择资源范围 → 挂载到工作空间 → 当前对话取得临时视图 → Agent按需读取</p>
           <h2>Agent先拿到一张地图，再决定打开什么</h2>
           <p>把全部外部内容塞进模型上下文，看起来省去了后续读取动作，实际会制造新的混乱。</p>
-          <figure><img src="/blog/agent-workspace-connectors/03-resource-map-on-demand.png" alt="Agent 先查看资源地图，再按当前任务需要打开内容" width="1672" height="941" loading="lazy" /></figure>
+          <figure aria-label="Agent 先查看资源地图，再按当前任务需要打开内容"><p>Ink &amp; Memory · Concept</p><p>Context → Route → State → Deck</p><figcaption>Agent 先查看资源地图，再按当前任务需要打开内容</figcaption></figure>
           <h2>上下文应该围绕写作者正在做的事</h2>
           <p>此前的本地编辑器方案有一个明确前提：用户、文档和 Agent 位于同一个产品环境中。用户正在编辑哪篇文章，编辑器当前保存了什么内容，Agent应该读取哪个片段，都可以从 Edit Session 中得到答案。此时，Agent上下文围绕当前文档组织是合理的，因为文档状态由本地编辑器直接管理，用户的操作也会立即反映在同一份状态中。</p>
           <p>连接器加入后，这个前提发生了变化。Notion 页面不属于本地编辑器，内容可以在产品之外被修改；用户对资源的选择可能持续数月，一次 Agent 对话只存在几分钟；同一个远程页面还可能同时出现在多个项目、多个对话和多个写作任务中。继续让 Agent Session 管理连接器状态，会让长期资源关系依附于短期对话。反过来，若直接以 Notion 连接器为中心组织上下文，页面、数据库之类的平台概念又会进入 Agent 的通用工作方式，未来接入 Google Drive、Slack、GitHub 或 Linear 时，只能不断增加新的例外。</p>
@@ -86,7 +84,7 @@
           <p>这也是快照真正参与写作的方式。快照的价值不只在防止覆盖，它帮助写作者理解自己的判断建立在什么时间点。文章写了几天后，用户重新打开项目，系统可以说明某段分析使用的是三天前的资料，而对应页面昨天已经更新。用户再决定是否需要重新阅读。</p>
           <p>Agent上下文也应随着写作阶段变化。探索阶段需要资源目录、搜索和摘要；形成观点后，只需要少量被选中的片段与工作笔记；修改稿件时，当前文本和相关来源应处于主要位置；准备写回远程平台时，再加入目标版本、修改范围和确认状态。</p>
           <p>这比固定拼接一份大型上下文更符合写作者的思考方式。上下文不是资源数量的总和，而是当前工作所需信息的选择结果。</p>
-          <figure><img src="/blog/agent-workspace-connectors/04-context-follows-writing-stage.png" alt="上下文随探索、形成观点、修改稿件和准备写回而收缩变化" width="1672" height="941" loading="lazy" /></figure>
+          <figure aria-label="上下文随探索、形成观点、修改稿件和准备写回而收缩变化"><p>Ink &amp; Memory · Concept</p><p>Context → Route → State → Deck</p><figcaption>上下文随探索、形成观点、修改稿件和准备写回而收缩变化</figcaption></figure>
           <h2>冲突：原来的修改为什么失去了执行条件</h2>
           <p>Agent 读取页面后，用户可能继续在 Notion 中编辑。其他协作者也可能修改同一内容。另一个 Agent 对话可能基于相同旧版本提出新的改动。</p>
           <p>这不是偶发错误，而是远程协作中的常态。</p>
@@ -95,7 +93,7 @@
           <p>产品在这里首先要避免静默覆盖。自动合并并非所有内容都适用，特别是写作材料。同一句话的两种改法可能都没有结构错误，却表达了不同意图。系统很难仅凭文本差异判断用户希望保留哪一种表达。</p>
           <p>冲突也不应只存在于当前聊天消息里。用户可能暂时离开，几小时后再处理。修改意图和冲突记录需要属于工作空间，使用户能够在后续对话或独立页面继续处理。</p>
           <p>解决冲突后，新的资源状态先回到工作空间。后续 Agent 再依据更新后的版本继续工作。这样，下一次对话不必依赖之前聊天文本中的临时说明。</p>
-          <figure><img src="/blog/agent-workspace-connectors/05-version-conflict-stops-write.png" alt="读取版本与远程当前版本不一致时，修改必须停止并交由用户决定" width="1672" height="941" loading="lazy" /></figure>
+          <figure aria-label="读取版本与远程当前版本不一致时，修改必须停止并交由用户决定"><p>Ink &amp; Memory · Concept</p><p>Context → Route → State → Deck</p><figcaption>读取版本与远程当前版本不一致时，修改必须停止并交由用户决定</figcaption></figure>
           <h2>写作者的思考如何进入资源交互</h2>
           <p>写作不是从一个文件读取信息，再向另一个文件输出结果。写作者会在草稿、资料、批注、旧版本和未解决问题之间来回移动。</p>
           <p>一段产品方案可能从会议记录开始，随后引用用户访谈，连接到一个 Notion 数据库，再与本地草稿中的旧结论比较。作者会保留某句话，删除另一段，暂时搁置一个判断，几小时后从其他资料中找到新的解释。</p>
@@ -137,7 +135,7 @@
           <p>哪些操作正在等待自己决定。</p>
           <p>远程结果是否已经确认。</p>
           <p>这六项信息构成了连接器产品的信任基础。</p>
-          <figure><img src="/blog/agent-workspace-connectors/06-visible-trust-receipt.png" alt="连接器信任来自可检查的账号、资源、依据、新鲜度、决定与结果状态" width="1672" height="941" loading="lazy" /></figure>
+          <figure aria-label="连接器信任来自可检查的账号、资源、依据、新鲜度、决定与结果状态"><p>Ink &amp; Memory · Concept</p><p>Context → Route → State → Deck</p><figcaption>连接器信任来自可检查的账号、资源、依据、新鲜度、决定与结果状态</figcaption></figure>
           <h2>从对话框走向操作系统级入口</h2>
           <p>今天许多 Web Agent 的交互仍然围绕 prompt 和上传文件展开。用户把资料交给模型，等待一次回答，再把结果手工复制回原来的应用。</p>
           <p>这种方式适合短任务。真实工作并不总能在一个对话回合中完成。</p>
@@ -149,7 +147,7 @@
           <p>数据层回答 Agent 此刻能够依据什么。</p>
           <p>操作层回答一次提议怎样成为真实变化。</p>
           <p>任务层回答工作如何越过当前对话继续完成。</p>
-          <figure><img src="/blog/agent-workspace-connectors/07-four-boundaries-fountain-pen.png" alt="认证、数据、操作与任务分别回答进入、依据、改变和持续的问题" width="1672" height="941" loading="lazy" /></figure>
+          <figure aria-label="认证、数据、操作与任务分别回答进入、依据、改变和持续的问题"><p>Ink &amp; Memory · Concept</p><p>Context → Route → State → Deck</p><figcaption>认证、数据、操作与任务分别回答进入、依据、改变和持续的问题</figcaption></figure>
           <p>当这四个问题得到明确回答，连接器才不再是设置页中的一个授权按钮。它开始成为工作空间的一部分，让写作者能够在本地草稿、外部资料、历史动作和长期任务之间持续工作。</p>
           <p>连接器设计的最终目标，也不在于让 Agent 读取更多内容。真正需要建立的是一种可以被用户检查的工作关系：Agent 看见了什么，为什么能够看见，依据的是哪个时间点，准备改变什么，结果是否已经发生。</p>
           <p>这些问题得到清楚回答之后，用户才可能把跨文件、跨应用、跨权限的长程任务交给 Agent。</p>

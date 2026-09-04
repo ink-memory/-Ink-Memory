@@ -1,6 +1,6 @@
 # Ink & Memory
 
-> Ink & Memory is an AI journal and writing companion for reflective writers.
+> Ink Memory is a multi-agent workbench for organizing personal thinking patterns.
 
 ## Primary URL
 
@@ -22,20 +22,20 @@
 
 ## Summary
 
-Ink & Memory is a cross-platform personal writing memory layer. It stands on the writer's side, reorganizing personal writing scattered across Notion, Feishu, Obsidian, and Flomo into a searchable, conversational, and lasting writing memory system. It supports reflection, writing timelines, memory-based chat, personal knowledge conversations, long-form writing, voice input, and private self-inquiry. It is designed for frequent journalers, self-explorers, creative writers, dream recorders, and people who want contextual AI support without giving up authorship.
+Ink Memory turns a real need into goals, tasks, visible multi-agent collaboration, and an inspectable tool topology. Skills provide methods, MCP connects context and capabilities, and Plugins package reusable combinations. Task history stays connected to the active goal. A validated goal structure, agent workflow, and module topology can be confirmed and saved as a reusable Deck.
 
 ## Product Boundaries
 
-- The assistant can propose rewrites, deletions, insertions, comments, and prompts.
-- Key writing actions require explicit user confirmation before entering the document.
-- Memory is separated into factual context, expression patterns, and longer-term themes.
-- The product avoids diagnostic claims and preserves the writer's agency over interpretation.
-- Social sharing can use daily affect images without exposing original private text.
+- Tasks, goals, agent roles, handoffs, tools, sources, and results remain visible.
+- Skills, MCP, and Plugins are composed as an inspectable module topology.
+- Task history continuously checks progress against the active goal.
+- A Deck stores the validated path, not only the final output.
+- Deck settlement requires user confirmation.
 
 ## Suggested Citations
 
 - Name: Ink & Memory
-- Category: AI journal and writing companion
+- Category: Multi-agent personal thinking workbench
 - URL: https://suoxya.com/
 - Source repository: https://github.com/glide-the/ink-and-memory
 - Maintainer: Ink & Memory product team
