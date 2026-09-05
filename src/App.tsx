@@ -21,6 +21,7 @@ import {blogArticles} from './blog/articles';
 import {BlogArticlePage, BlogPage} from './blog/BlogPages';
 
 const startWritingUrl = 'https://ink-frontend.suoxya.com';
+const subscriptionUrl = `${startWritingUrl}/story-workspace/subscription`;
 const repositoryUrl = 'https://github.com/glide-the/ink-and-memory';
 const blogUrl = '/blog/';
 
@@ -72,6 +73,16 @@ type UseCase = {
   result: string;
 };
 
+type PricingPlan = {
+  eyebrow: string;
+  name: string;
+  note: string;
+  details: string[];
+  allowance?: string;
+  status: string;
+  available: boolean;
+};
+
 type HomeCopy = {
   metaTitle: string;
   metaDescription: string;
@@ -83,6 +94,7 @@ type HomeCopy = {
   nav: {
     how: string;
     memory: string;
+    pricing: string;
     blog: string;
     write: string;
     open: string;
@@ -109,6 +121,19 @@ type HomeCopy = {
   examples: {
     tabLabel: string;
     cases: ProductExample[];
+  };
+  pricing: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    capabilitiesLabel: string;
+    capabilities: string[];
+    cycle: string;
+    liveNote: string;
+    plans: PricingPlan[];
+    faqEyebrow: string;
+    faqTitle: string;
+    faq: Array<{question: string; answer: string}>;
   };
   topology: {
     eyebrow: string;
@@ -142,6 +167,7 @@ const homeCopy: Record<Locale, HomeCopy> = {
     nav: {
       how: '怎么使用',
       memory: '使用场景',
+      pricing: '定价',
       blog: 'Blog',
       write: '打开工作台',
       open: '打开导航',
@@ -253,6 +279,70 @@ const homeCopy: Record<Locale, HomeCopy> = {
         },
       ],
     },
+    pricing: {
+      eyebrow: 'Plans',
+      title: '选择你的创作空间',
+      description: 'Free 可直接使用。Dream 与 is Dreaming 会在订阅能力接通后开放。',
+      capabilitiesLabel: '由业界顶尖模型驱动',
+      capabilities: ['Seedance 2.0', 'GPT-Image-2', 'ComfyMCP Apps', 'DeepSeek V4', 'GPT-5.5'],
+      cycle: '当前方案 · 按月',
+      liveNote: '额度和可用状态以工作台订阅页的实时数据为准。',
+      plans: [
+        {
+          eyebrow: 'A quiet beginning',
+          name: 'Free',
+          note: '从一段创作目标开始',
+          details: ['查看已有 Deck', '发起有限次数的 Dream', '保留最近的工作台入口'],
+          allowance: '每月 100,000,000 Token',
+          status: '可以开通',
+          available: true,
+        },
+        {
+          eyebrow: 'For active stories',
+          name: 'Dream',
+          note: '给持续创作留出空间',
+          details: ['更充足的 Dream 创作额度', '更长的 Dream Agent 对话历史', '优先体验新的创作工作台能力'],
+          status: '暂不可开通',
+          available: false,
+        },
+        {
+          eyebrow: 'For ongoing worlds',
+          name: 'is Dreaming',
+          note: '为长期作品准备的工作台',
+          details: ['面向多部作品的持续创作支持', '更完整的 Deck 与工作台协作空间', '适合正在形成中的故事世界'],
+          status: '暂不可开通',
+          available: false,
+        },
+      ],
+      faqEyebrow: 'FAQ',
+      faqTitle: '相关问题',
+      faq: [
+        {
+          question: 'Ink & Memory 适合谁？',
+          answer: '适合持续写日记、做长期创作、整理复杂想法，并希望随时找回历史内容的人。',
+        },
+        {
+          question: 'Free 包含什么？',
+          answer: '可以查看已有 Deck、发起有限次数的 Dream，并保留最近的工作台入口。当前显示每月 100,000,000 Token；最终额度以订阅页实时数据为准。',
+        },
+        {
+          question: 'Dream 和 is Dreaming 什么时候可以开通？',
+          answer: '真实支付闭环、套餐配置与资格检查全部就绪后开放。在此之前只展示能力范围，不显示虚构价格或支付结果。',
+        },
+        {
+          question: 'Token 如何计算和重置？',
+          answer: '工作台订阅页会显示本周期总额、已使用量、剩余额度和下一次更新时间。模型调用完成后按真实消耗更新。',
+        },
+        {
+          question: '可以升级、降级或取消吗？',
+          answer: '可执行动作由当前套餐状态和订阅服务实时返回。每次变更先预览，再由你确认；页面状态变化后会要求重新确认。',
+        },
+        {
+          question: 'AI 会直接执行工具操作吗？',
+          answer: '需要授权的工具操作会先请求确认。写作内容、会话和订阅状态按当前用户隔离。',
+        },
+      ],
+    },
     topology: {
       eyebrow: '从书写到长期记忆',
       nodes: [
@@ -347,6 +437,7 @@ const homeCopy: Record<Locale, HomeCopy> = {
     nav: {
       how: 'How it works',
       memory: 'Use cases',
+      pricing: 'Pricing',
       blog: 'Blog',
       write: 'Open workbench',
       open: 'Open navigation',
@@ -455,6 +546,70 @@ const homeCopy: Record<Locale, HomeCopy> = {
               caption: 'Support · Ruan Xiaoying',
             },
           ],
+        },
+      ],
+    },
+    pricing: {
+      eyebrow: 'Plans',
+      title: 'Choose your creative space',
+      description: 'Free is available now. Dream and is Dreaming will open when subscriptions are ready.',
+      capabilitiesLabel: 'Powered by leading models',
+      capabilities: ['Seedance 2.0', 'GPT-Image-2', 'ComfyMCP Apps', 'DeepSeek V4', 'GPT-5.5'],
+      cycle: 'Current plans · Monthly',
+      liveNote: 'Allowances and availability follow the live data shown in the workbench subscription page.',
+      plans: [
+        {
+          eyebrow: 'A quiet beginning',
+          name: 'Free',
+          note: 'Start with one creative goal',
+          details: ['Open available Decks', 'Start a limited number of Dream runs', 'Keep recent workbench entry points'],
+          allowance: '100,000,000 tokens per month',
+          status: 'Available',
+          available: true,
+        },
+        {
+          eyebrow: 'For active stories',
+          name: 'Dream',
+          note: 'More room for active creative work',
+          details: ['More Dream creation allowance', 'Longer Dream Agent history', 'Early access to new creative workbench features'],
+          status: 'Not yet available',
+          available: false,
+        },
+        {
+          eyebrow: 'For ongoing worlds',
+          name: 'is Dreaming',
+          note: 'A workbench for long-running work',
+          details: ['Ongoing support across several works', 'A fuller Deck and workbench collaboration space', 'Built for story worlds taking shape over time'],
+          status: 'Not yet available',
+          available: false,
+        },
+      ],
+      faqEyebrow: 'FAQ',
+      faqTitle: 'Questions',
+      faq: [
+        {
+          question: 'Who is Ink & Memory for?',
+          answer: 'People who journal consistently, create over time, work through complex thoughts, and need to recall earlier writing.',
+        },
+        {
+          question: 'What is included in Free?',
+          answer: 'Open available Decks, start a limited number of Dream runs, and keep recent workbench entry points. The current display is 100,000,000 tokens per month; the subscription page remains authoritative.',
+        },
+        {
+          question: 'When can I open Dream or is Dreaming?',
+          answer: 'After payment, plan configuration, and eligibility checks are ready. Until then, the page shows the intended scope without inventing prices or payment results.',
+        },
+        {
+          question: 'How are tokens counted and reset?',
+          answer: 'The subscription page shows the granted, consumed, and remaining tokens for the current cycle and the next reset date. Usage updates from completed model calls.',
+        },
+        {
+          question: 'Can I upgrade, downgrade, or cancel?',
+          answer: 'Available actions come from the live subscription service. Every change is previewed and confirmed; stale state must be refreshed before you confirm again.',
+        },
+        {
+          question: 'Can AI run tools without approval?',
+          answer: 'Tool actions that require authorization ask for confirmation first. Writing, sessions, and subscription state are isolated to the current user.',
         },
       ],
     },
@@ -577,13 +732,17 @@ function App() {
       blogArticles.find((article) => normalizedPath === `/blog/${article.slug}`)
     : undefined;
   const isBlogPage = normalizedPath === '/blog' || Boolean(currentArticle);
+  const isPricingPage = normalizedPath === '/pricing' || normalizedPath === '/en/pricing';
   const locale: Locale =
     normalizedPath === '/en' || normalizedPath.startsWith('/en/') || currentArticle?.language === 'English' ? 'en' : 'zh';
   const copy = homeCopy[locale];
+  const pricingHref = locale === 'en' ? '/en/pricing/' : '/pricing/';
+  const languageHref = isPricingPage ? (locale === 'en' ? '/pricing/' : '/en/pricing/') : copy.languageHref;
 
   const navItems: NavItem[] = [
     {label: copy.nav.how, href: `${copy.homeHref}#how-it-works`},
     {label: copy.nav.memory, href: `${copy.homeHref}#use-cases`},
+    {label: copy.nav.pricing, href: pricingHref},
     {label: copy.nav.blog, href: blogUrl},
   ];
 
@@ -676,18 +835,22 @@ function App() {
       : isBlogPage ? 'zh-CN'
       : locale === 'en' ? 'en'
       : 'zh-CN';
-    document.body.dataset.page = isBlogPage ? 'portal-blog' : 'portal-home';
+    document.body.dataset.page = isBlogPage ? 'portal-blog' : isPricingPage ? 'portal-pricing' : 'portal-home';
     document.title =
       currentArticle ? `${currentArticle.title} | Ink & Memory Blog`
       : isBlogPage ? 'Ink & Memory Blog | AI 写作记忆与工作空间设计'
+      : isPricingPage ? (locale === 'en' ? 'Ink & Memory Pricing | Free, Dream, is Dreaming' : 'Ink & Memory 定价 | Free、Dream、is Dreaming')
       : copy.metaTitle;
 
     const description =
       currentArticle?.summary ??
-      (isBlogPage ? 'Ink & Memory Blog 收录 AI 写作、长期记忆、Workspace 状态管理和交互设计文章。' : copy.metaDescription);
+      (isBlogPage ? 'Ink & Memory Blog 收录 AI 写作、长期记忆、Workspace 状态管理和交互设计文章。'
+      : isPricingPage ? copy.pricing.description
+      : copy.metaDescription);
     const canonicalUrl =
       currentArticle ? currentArticle.canonicalHref
       : isBlogPage ? 'https://suoxya.com/blog/'
+      : isPricingPage ? (locale === 'en' ? 'https://suoxya.com/en/pricing/' : 'https://suoxya.com/pricing/')
       : copy.canonicalUrl;
     const socialImageUrl = 'https://suoxya.com/og-image.png';
 
@@ -702,7 +865,7 @@ function App() {
     document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', document.title);
     document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', description);
     document.querySelector('meta[name="twitter:image"]')?.setAttribute('content', socialImageUrl);
-  }, [currentArticle, isBlogPage, locale, copy]);
+  }, [currentArticle, isBlogPage, isPricingPage, locale, copy]);
 
   return (
     <>
@@ -762,7 +925,7 @@ function App() {
         </nav>
 
         <div className="header-actions">
-          <a className="language-link" href={copy.languageHref} aria-label={copy.languageLabel}>
+          <a className="language-link" href={languageHref} aria-label={copy.languageLabel}>
             {copy.languageLabel}
           </a>
           <a className="header-cta" href={startWritingUrl} rel="noreferrer" target="_blank">
@@ -771,7 +934,10 @@ function App() {
         </div>
       </header>
 
-      {currentArticle ? <BlogArticlePage article={currentArticle} /> : isBlogPage ? <BlogPage /> : <HomePage copy={copy} />}
+      {currentArticle ? <BlogArticlePage article={currentArticle} />
+      : isBlogPage ? <BlogPage />
+      : isPricingPage ? <PricingPage copy={copy} />
+      : <HomePage copy={copy} />}
 
       <footer className="site-footer" aria-label="Project links">
         <div className="footer-brand">
@@ -779,10 +945,11 @@ function App() {
         </div>
         <div className="footer-links">
           <a href={startWritingUrl} rel="noreferrer" target="_blank">{copy.nav.write}</a>
+          <a href={pricingHref}>{copy.nav.pricing}</a>
           <a href={blogUrl}>Blog</a>
           <a href={repositoryUrl} rel="noreferrer" target="_blank">GitHub</a>
           <a href="/sitemap.xml">Sitemap</a>
-          <a href={copy.languageHref}>{copy.languageLabel}</a>
+          <a href={languageHref}>{copy.languageLabel}</a>
         </div>
       </footer>
     </>
@@ -1075,6 +1242,80 @@ function HomePage({copy}: {copy: HomeCopy}) {
         </div>
       </section>
     </main>
+  );
+}
+
+function PricingPage({copy}: {copy: HomeCopy}) {
+  return (
+    <main className="pricing-page" id="main">
+      <PricingSection copy={copy.pricing} />
+    </main>
+  );
+}
+
+function PricingSection({copy}: {copy: HomeCopy['pricing']}) {
+  return (
+    <section className="pricing-section" id="pricing" aria-labelledby="pricingTitle">
+      <div className="pricing-shell">
+        <header className="pricing-heading">
+          <p className="eyebrow">{copy.eyebrow}</p>
+          <h1 id="pricingTitle">{copy.title}</h1>
+          <p>{copy.description}</p>
+        </header>
+
+        <p className="pricing-capabilities-label">{copy.capabilitiesLabel}</p>
+        <ul className="pricing-capabilities" aria-label={copy.capabilitiesLabel}>
+          {copy.capabilities.map((capability, index) => (
+            <li key={capability}><span aria-hidden="true" className={`model-mark model-mark-${index + 1}`}><ModelGlyph index={index} /></span>{capability}</li>
+          ))}
+        </ul>
+
+        <div className="pricing-cycle-row"><span className="pricing-cycle">{copy.cycle}</span></div>
+
+        <div className="pricing-grid">
+          {copy.plans.map((plan) => (
+            <article className={`pricing-card${plan.available ? ' is-available' : ''}`} key={plan.name}>
+              <div className="pricing-card-topline">
+                <p>{plan.eyebrow}</p>
+                <span>{plan.status}</span>
+              </div>
+              <h3>{plan.name}</h3>
+              <p className="pricing-card-note">{plan.note}</p>
+              <ul>
+                {plan.details.map((detail) => <li key={detail}><Check aria-hidden="true" size={15} />{detail}</li>)}
+              </ul>
+              {plan.allowance ? <strong className="pricing-allowance">{plan.allowance}</strong> : null}
+              {plan.available ? (
+                <a className="pricing-action" href={subscriptionUrl} rel="noreferrer" target="_blank">
+                  {plan.status}<ArrowRight aria-hidden="true" size={17} />
+                </a>
+              ) : (
+                <button className="pricing-action" disabled type="button">{plan.status}</button>
+              )}
+            </article>
+          ))}
+        </div>
+        <p className="pricing-live-note">{copy.liveNote}</p>
+
+        <div className="pricing-faq">
+          <header className="pricing-faq-heading">
+            <p className="eyebrow">{copy.faqEyebrow}</p>
+            <h2>{copy.faqTitle}</h2>
+          </header>
+          <div className="pricing-faq-list">
+            {copy.faq.map((item, index) => (
+              <details className="pricing-faq-item" key={item.question} open={index === 0 || undefined}>
+                <summary>
+                  <span>{item.question}</span>
+                  <span aria-hidden="true" className="pricing-faq-toggle" />
+                </summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1397,6 +1638,27 @@ function PlatformGlyph({index}: {index: number}) {
         </>
       ) : null}
     </svg>
+  );
+}
+
+function ModelGlyph({index}: {index: number}) {
+  const glyph = index % 5;
+  const byteDancePath = 'M19.8772 1.4685 24 2.5326v18.9426l-4.1228 1.0563V1.4685Zm-13.3481 9.428 4.115 1.0641v8.9786l-4.115 1.0642v-11.107ZM0 2.572l4.115 1.0642v16.7354L0 21.428V2.572Zm17.4553 5.6205v11.107l-4.1228-1.0642V9.2568l4.1228-1.0642Z';
+  const openAiPath = 'M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729Zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944Zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464ZM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872Zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667Zm2.0107-3.0231-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66ZM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813Zm1.0976-2.3654 2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z';
+  const deepSeekPath = 'M23.748 4.651c-.254-.124-.364.113-.512.233-.051.04-.094.09-.137.137-.372.397-.806.657-1.373.626-.829-.046-1.537.214-2.163.848-.133-.782-.575-1.248-1.247-1.548-.352-.155-.708-.311-.955-.65-.172-.24-.219-.509-.305-.774-.055-.16-.11-.323-.293-.35-.2-.031-.278.136-.356.276-.313.572-.434 1.202-.422 1.84.027 1.436.633 2.58 1.838 3.393.137.094.172.187.129.323-.082.28-.18.553-.266.833-.055.179-.137.218-.328.14a5.5 5.5 0 0 1-1.737-1.179c-.857-.828-1.631-1.743-2.597-2.46a12 12 0 0 0-.689-.47c-.985-.957.13-1.743.387-1.836.27-.098.094-.433-.778-.428-.872.003-1.67.295-2.687.685a3 3 0 0 1-.465.136 9.6 9.6 0 0 0-2.883-.101c-1.885.21-3.39 1.1-4.497 2.622C.082 8.776-.231 10.854.152 13.02c.403 2.284 1.568 4.175 3.36 5.653 1.857 1.533 3.997 2.284 6.438 2.14 1.482-.085 3.132-.284 4.994-1.86.47.234.962.328 1.78.398.629.058 1.235-.031 1.705-.129.735-.155.684-.836.418-.961-2.155-1.004-1.682-.595-2.112-.926 1.095-1.295 2.768-3.598 3.284-6.733.05-.346.115-.834.108-1.114-.004-.171.035-.238.23-.257a4.2 4.2 0 0 0 1.545-.475c1.397-.763 1.96-2.016 2.093-3.517.02-.23-.004-.467-.247-.588ZM11.58 18.168c-2.088-1.642-3.101-2.183-3.52-2.16-.39.024-.32.472-.234.763.09.288.207.487.371.74.114.167.192.416-.113.603-.673.416-1.842-.14-1.897-.168-1.361-.801-2.5-1.86-3.301-3.306-.775-1.393-1.225-2.888-1.299-4.482-.02-.385.094-.522.477-.592a4.7 4.7 0 0 1 1.53-.038c2.131.311 3.946 1.264 5.467 2.774.868.86 1.525 1.887 2.202 2.89.72 1.066 1.494 2.082 2.48 2.915.348.291.626.513.892.677-.802.09-2.14.109-3.055-.615Zm1.001-6.44a.306.306 0 0 1 .415-.287.3.3 0 0 1 .113.074.3.3 0 0 1 .086.214c0 .17-.136.307-.308.307a.303.303 0 0 1-.306-.307Zm3.11 1.596c-.2.081-.4.151-.591.16a1.25 1.25 0 0 1-.798-.254c-.274-.23-.47-.358-.551-.758a1.7 1.7 0 0 1 .015-.588c.07-.327-.007-.537-.238-.727-.188-.156-.426-.199-.689-.199a.6.6 0 0 1-.254-.078.253.253 0 0 1-.114-.358 1 1 0 0 1 .192-.21c.356-.202.767-.136 1.146.016.352.144.618.408 1.001.782.392.451.462.576.685.915.176.264.336.536.446.848.066.194-.02.353-.25.45Z';
+
+  if (glyph === 2) {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 142 142">
+        <rect width="142" height="142" rx="33" fill="#F2FF59" />
+        <path d="M91.7457 90.1697c.1331-.4502.2057-.9248.2057-1.4236 0-2.762-2.227-5.0009-4.9746-5.0009H64.6819c-1.1983.0122-2.1787-.9612-2.1787-2.1658 0-.219.0364-.4258.0848-.6205l6.0034-21.0254c.2542-.9247 1.1014-1.6061 2.0939-1.6061l22.3797-.0243c4.7204 0 8.702 3.1999 9.901 7.568l3.365-11.7173c.108-.4137.169-.8639.169-1.3141 0-2.7498-2.215-4.9764-4.95-4.9764H74.4738c-4.6963 0-8.6663 3.1757-9.8887 7.4951l-2.2755 7.9939c-.2663.9126-1.1014 1.5818-2.0939 1.5818h-6.4997c-4.6599 0-8.5936 3.1149-9.8524 7.3855L35.6816 85.911c-.1211.4259-.1816.8883-.1816 1.3506 0 2.762 2.2271 5.0009 4.9746 5.0009h6.3907c1.1983 0 2.1787.9734 2.1787 2.1901 0 .2069-.0242.4137-.0847.6084l-2.2634 7.921c-.109.426-.1816.864-.1816 1.314 0 2.75 2.215 4.977 4.9504 4.977l27.088-.025c4.7083 0 8.6783-3.188 9.8887-7.531l3.2922-11.5352.0121-.0121Z" fill="#211927" />
+      </svg>
+    );
+  }
+
+  const path = glyph === 0 ? byteDancePath : glyph === 3 ? deepSeekPath : openAiPath;
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24"><path d={path} /></svg>
   );
 }
 
