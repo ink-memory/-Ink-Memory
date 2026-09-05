@@ -1,5 +1,6 @@
 import {
   useEffect,
+  useLayoutEffect,
   useRef,
   useState,
   type AnchorHTMLAttributes,
@@ -10,14 +11,10 @@ import {
   ArrowRight,
   Check,
   CheckCircle2,
-  FileText,
   History,
-  Layers3,
   Menu,
-  ShieldCheck,
   Sparkles,
   X,
-  type LucideIcon,
 } from 'lucide-react';
 
 import {blogArticles} from './blog/articles';
@@ -53,20 +50,9 @@ type HowStep = {
   result: string;
 };
 
-type Boundary = {
-  title: string;
-  description: string;
-  icon: LucideIcon;
-};
-
 type ProductExample = {
   label: string;
-  title: string;
-  description: string;
-  meta: string;
-  stageLabel: string;
   mode: 'library' | 'team' | 'character';
-  sequence: string[];
   media: Array<{
     src: string;
     alt: string;
@@ -85,7 +71,6 @@ type HomeCopy = {
   nav: {
     how: string;
     memory: string;
-    boundaries: string;
     blog: string;
     write: string;
     open: string;
@@ -99,61 +84,23 @@ type HomeCopy = {
     primaryAction: string;
     secondaryAction: string;
     trustNote: string;
-    pathLabel: string;
-    path: [string, string, string];
-  };
-  proof: {
-    eyebrow: string;
-    title: string;
-    description: string;
-    demoLabel: string;
-    workspaceLabel: string;
-    documentsLabel: string;
-    documents: string[];
-    currentLabel: string;
-    currentTitle: string;
-    currentMeta: string;
-    paragraphs: [string, string];
-    highlight: string;
-    memoryLabel: string;
-    memoryTitle: string;
-    memories: Array<{date: string; title: string; text: string}>;
-    suggestionStatus: string;
-    suggestionTitle: string;
-    suggestionText: string;
   };
   platform: {
-    label: string;
-    title: string;
     sources: string[];
-    notes: [string, string];
   };
   examples: {
-    eyebrow: string;
-    title: string;
-    description: string;
     tabLabel: string;
     cases: ProductExample[];
   };
   topology: {
     eyebrow: string;
-    title: string;
-    description: string;
     nodes: Array<{label: string; meta: string}>;
     feedback: string;
   };
   how: {
     eyebrow: string;
-    title: string;
-    description: string;
     tabLabel: string;
     steps: HowStep[];
-  };
-  boundaries: {
-    eyebrow: string;
-    title: string;
-    description: string;
-    items: Boundary[];
   };
   final: {
     eyebrow: string;
@@ -162,7 +109,6 @@ type HomeCopy = {
     primaryAction: string;
     secondaryAction: string;
   };
-  footerTagline: string;
 };
 
 const homeCopy: Record<Locale, HomeCopy> = {
@@ -178,7 +124,6 @@ const homeCopy: Record<Locale, HomeCopy> = {
     nav: {
       how: '协作流程',
       memory: '工作台',
-      boundaries: '控制边界',
       blog: 'Blog',
       write: '打开工作台',
       open: '打开导航',
@@ -187,60 +132,21 @@ const homeCopy: Record<Locale, HomeCopy> = {
     },
     hero: {
       eyebrow: 'IM · 多智能体思维工作台',
-      title: ['组织需求。', '沉淀 Deck。'],
+      title: ['Ink', '& Memory'],
       lead: '目标 · 任务 · 多智能体 · Skills / MCP / Plugins',
       primaryAction: '打开 IM 工作台',
       secondaryAction: '查看协作拓扑',
       trustNote: '路径可见 · 用户确认',
-      pathLabel: '需求到 Deck',
-      path: ['目标 / 任务', '多智能体 / 工具', '路径 / Deck'],
-    },
-    proof: {
-      eyebrow: 'Workbench',
-      title: '需求 → 目标 → 任务 → Deck',
-      description: '多智能体协作 · 工具拓扑 · 执行历史',
-      demoLabel: '交互预览',
-      workspaceLabel: 'Ink Memory 多智能体思维模式工作台交互概念',
-      documentsLabel: '抽象入口',
-      documents: ['任务', '目标', 'Decks'],
-      currentLabel: '当前需求',
-      currentTitle: '落地页产品化重构',
-      currentMeta: '目标已确认 · 3 个任务 · 3 个智能体',
-      paragraphs: [
-        '需求 → 目标 → 任务',
-        '智能体 → 工具 → 结果',
-      ],
-      highlight: '保存为「产品方向 Deck」',
-      memoryLabel: 'Agents',
-      memoryTitle: '一个目标 · 多条路径',
-      memories: [
-        {date: '运行中', title: '研究智能体', text: '检索 Skill · 浏览器 MCP · 产品证据'},
-        {date: '等待交接', title: '方案智能体', text: '研究结果 → 路径比较 → 方案'},
-      ],
-      suggestionStatus: 'Deck · 待确认',
-      suggestionTitle: '产品方向思维模式',
-      suggestionText: '目标 · 任务 · 智能体分工 · 工具拓扑',
     },
     platform: {
-      label: 'Context sources',
-      title: '内容接入',
       sources: ['Notion', '飞书', 'Obsidian', 'Flomo'],
-      notes: ['Skills · MCP · Plugins', '来源 · 权限 · 状态'],
     },
     examples: {
-      eyebrow: 'Real Decks',
-      title: 'Deck · Agent · Output',
-      description: '真实界面 · 真实角色 · 真实结果',
       tabLabel: '选择一个实际 Deck 案例',
       cases: [
         {
           label: 'Deck 库',
-          title: '搜索 · 分类 · 打开',
-          description: '已安装 / 可用 / 系统',
-          meta: '3 已安装 · 3 可用',
-          stageLabel: 'Decks / Library',
           mode: 'library',
-          sequence: ['搜索', '筛选', '打开'],
           media: [
             {
               src: '/product-examples/deck-library.webp',
@@ -251,12 +157,7 @@ const homeCopy: Record<Locale, HomeCopy> = {
         },
         {
           label: '创作团队',
-          title: '编剧 · 结构 · 人物',
-          description: '多智能体角色组合',
-          meta: 'Dream / 剧本创作团队',
-          stageLabel: 'Deck / Agent team',
           mode: 'team',
-          sequence: ['目标', '角色', '协作'],
           media: [
             {
               src: '/product-examples/deck-team.webp',
@@ -267,12 +168,7 @@ const homeCopy: Record<Locale, HomeCopy> = {
         },
         {
           label: '角色资料',
-          title: '档案 · 关系 · 成品图',
-          description: '结构化资料与视觉结果',
-          meta: '十二律：乐坊封神 / R3',
-          stageLabel: 'Dream / Character bible',
           mode: 'character',
-          sequence: ['资料', '关系', '成品'],
           media: [
             {
               src: '/product-examples/character-record.webp',
@@ -295,8 +191,6 @@ const homeCopy: Record<Locale, HomeCopy> = {
     },
     topology: {
       eyebrow: 'Deck topology',
-      title: '需求 → 目标 / 任务 → 多智能体 → 模块 → 路径 → Deck',
-      description: '角色 · 状态 · 交接 · 来源 · 结果',
       nodes: [
         {label: '真实需求', meta: '问题与边界'},
         {label: '目标 · 任务', meta: '判断标准'},
@@ -309,8 +203,6 @@ const homeCopy: Record<Locale, HomeCopy> = {
     },
     how: {
       eyebrow: 'Workflow',
-      title: '01 需求 / 02 协作 / 03 拓扑 / 04 Deck',
-      description: '滚动查看完整路径',
       tabLabel: 'Ink Memory 产品协作流程',
       steps: [
         {
@@ -371,16 +263,6 @@ const homeCopy: Record<Locale, HomeCopy> = {
         },
       ],
     },
-    boundaries: {
-      eyebrow: 'Control',
-      title: '角色 · 工具 · Deck',
-      description: '可见 · 可追踪 · 可确认',
-      items: [
-        {title: '角色 / 交接', description: '任务 · 上下文 · 交付物', icon: FileText},
-        {title: '工具 / 来源', description: '调用 · 权限 · 结果', icon: History},
-        {title: 'Deck / 确认', description: '保存 · 命名 · 复用', icon: CheckCircle2},
-      ],
-    },
     final: {
       eyebrow: 'One need. One visible path.',
       title: '开始一个 Deck。',
@@ -388,7 +270,6 @@ const homeCopy: Record<Locale, HomeCopy> = {
       primaryAction: '打开 IM 工作台',
       secondaryAction: '阅读 Ink Memory Blog',
     },
-    footerTagline: '需求 → 路径 → Deck',
   },
   en: {
     metaTitle: 'Ink Memory | A multi-agent workbench for personal thinking patterns',
@@ -402,7 +283,6 @@ const homeCopy: Record<Locale, HomeCopy> = {
     nav: {
       how: 'Collaboration',
       memory: 'Workbench',
-      boundaries: 'Control',
       blog: 'Blog',
       write: 'Open workbench',
       open: 'Open navigation',
@@ -411,60 +291,21 @@ const homeCopy: Record<Locale, HomeCopy> = {
     },
     hero: {
       eyebrow: 'IM · Multi-agent thinking workbench',
-      title: ['Organize needs.', 'Build Decks.'],
+      title: ['Ink', '& Memory'],
       lead: 'Goals · Tasks · Multiple agents · Skills / MCP / Plugins',
       primaryAction: 'Open IM workbench',
       secondaryAction: 'Explore the topology',
       trustNote: 'Visible path · User confirmed',
-      pathLabel: 'Need to Deck',
-      path: ['Goals / Tasks', 'Agents / Tools', 'Path / Deck'],
-    },
-    proof: {
-      eyebrow: 'Workbench',
-      title: 'Need → Goal → Tasks → Deck',
-      description: 'Multi-agent collaboration · Tool topology · Execution history',
-      demoLabel: 'Interactive preview',
-      workspaceLabel: 'Interactive Ink Memory multi-agent thinking workbench concept',
-      documentsLabel: 'Workbench views',
-      documents: ['Tasks', 'Goals', 'Thinking Decks'],
-      currentLabel: 'Current need',
-      currentTitle: 'Product-led landing redesign',
-      currentMeta: 'Goal confirmed · 3 tasks · 3 agents',
-      paragraphs: [
-        'Need → Goal → Tasks',
-        'Agents → Tools → Results',
-      ],
-      highlight: 'Save as Product Direction Deck',
-      memoryLabel: 'Agents',
-      memoryTitle: 'One goal · Multiple paths',
-      memories: [
-        {date: 'Running', title: 'Research agent', text: 'Research Skill · Browser MCP · Evidence'},
-        {date: 'Handoff', title: 'Strategy agent', text: 'Evidence → Path comparison → Plan'},
-      ],
-      suggestionStatus: 'Deck · confirmation needed',
-      suggestionTitle: 'Product-direction thinking pattern',
-      suggestionText: 'Goal · Tasks · Agent roles · Tool topology',
     },
     platform: {
-      label: 'Context sources',
-      title: 'Content connections',
       sources: ['Notion', 'Feishu', 'Obsidian', 'Flomo'],
-      notes: ['Skills · MCP · Plugins', 'Sources · Permissions · State'],
     },
     examples: {
-      eyebrow: 'Real Decks',
-      title: 'Deck · Agent · Output',
-      description: 'Real interface · Real roles · Real output',
       tabLabel: 'Choose a working Deck example',
       cases: [
         {
           label: 'Deck library',
-          title: 'Search · Filter · Open',
-          description: 'Installed / Available / System',
-          meta: '3 installed · 3 available',
-          stageLabel: 'Decks / Library',
           mode: 'library',
-          sequence: ['Search', 'Filter', 'Open'],
           media: [
             {
               src: '/product-examples/deck-library.webp',
@@ -475,12 +316,7 @@ const homeCopy: Record<Locale, HomeCopy> = {
         },
         {
           label: 'Creative team',
-          title: 'Writer · Structure · Character',
-          description: 'A multi-agent role set',
-          meta: 'Dream / Screenwriting team',
-          stageLabel: 'Deck / Agent team',
           mode: 'team',
-          sequence: ['Goal', 'Roles', 'Collaborate'],
           media: [
             {
               src: '/product-examples/deck-team.webp',
@@ -491,12 +327,7 @@ const homeCopy: Record<Locale, HomeCopy> = {
         },
         {
           label: 'Character bible',
-          title: 'Record · Relations · Visuals',
-          description: 'Structured data and visual output',
-          meta: 'Twelve Tones / R3',
-          stageLabel: 'Dream / Character bible',
           mode: 'character',
-          sequence: ['Record', 'Relate', 'Render'],
           media: [
             {
               src: '/product-examples/character-record.webp',
@@ -519,8 +350,6 @@ const homeCopy: Record<Locale, HomeCopy> = {
     },
     topology: {
       eyebrow: 'Deck topology',
-      title: 'Need → Goals / Tasks → Agents → Modules → Path → Deck',
-      description: 'Roles · State · Handoffs · Sources · Results',
       nodes: [
         {label: 'Real need', meta: 'Problem and boundary'},
         {label: 'Goals · Tasks', meta: 'Success criteria'},
@@ -533,8 +362,6 @@ const homeCopy: Record<Locale, HomeCopy> = {
     },
     how: {
       eyebrow: 'Workflow',
-      title: '01 Need / 02 Agents / 03 Topology / 04 Deck',
-      description: 'Scroll through the full path',
       tabLabel: 'Ink Memory product collaboration flow',
       steps: [
         {
@@ -595,16 +422,6 @@ const homeCopy: Record<Locale, HomeCopy> = {
         },
       ],
     },
-    boundaries: {
-      eyebrow: 'Control',
-      title: 'Roles · Tools · Deck',
-      description: 'Visible · Traceable · Confirmed',
-      items: [
-        {title: 'Roles / Handoffs', description: 'Tasks · Context · Deliverables', icon: FileText},
-        {title: 'Tools / Sources', description: 'Calls · Permissions · Results', icon: History},
-        {title: 'Deck / Confirm', description: 'Save · Name · Reuse', icon: CheckCircle2},
-      ],
-    },
     final: {
       eyebrow: 'One need. One visible path.',
       title: 'Start a Deck.',
@@ -612,7 +429,6 @@ const homeCopy: Record<Locale, HomeCopy> = {
       primaryAction: 'Open IM workbench',
       secondaryAction: 'Read the Ink Memory Blog',
     },
-    footerTagline: 'Need → Path → Deck',
   },
 };
 
@@ -657,8 +473,7 @@ function App() {
 
   const navItems: NavItem[] = [
     {label: copy.nav.how, href: `${copy.homeHref}#how-it-works`},
-    {label: copy.nav.memory, href: `${copy.homeHref}#memory`},
-    {label: copy.nav.boundaries, href: `${copy.homeHref}#boundaries`},
+    {label: copy.nav.memory, href: `${copy.homeHref}#real-decks`},
     {label: copy.nav.blog, href: blogUrl},
   ];
 
@@ -851,7 +666,6 @@ function App() {
       <footer className="site-footer" aria-label="Project links">
         <div className="footer-brand">
           <strong>Ink &amp; Memory</strong>
-          <span>{copy.footerTagline}</span>
         </div>
         <div className="footer-links">
           <a href={startWritingUrl} rel="noreferrer" target="_blank">{copy.nav.write}</a>
@@ -947,19 +761,13 @@ function HomePage({copy}: {copy: HomeCopy}) {
     activateStep(nextIndex, true, true);
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const reactiveElements = Array.from(document.querySelectorAll<HTMLElement>([
-      '.product-proof > *',
-      '.product-examples-heading',
       '.platform-strip > *',
-      '.topology-section > .section-intro',
       '.how-section > .section-intro',
-      '.boundary-section > *',
       '.final-cta',
     ].join(', ')));
     const heroCopy = document.querySelector<HTMLElement>('.hero-copy');
-    const heroCanvas = document.querySelector<HTMLElement>('.hero-product-canvas');
-    const workspaceToolbar = document.querySelector<HTMLElement>('.workspace-toolbar');
     const topologyMap = document.querySelector<HTMLElement>('.topology-map');
     const topologyNodes = Array.from(document.querySelectorAll<HTMLElement>('.topology-node-wrap'));
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -984,8 +792,6 @@ function HomePage({copy}: {copy: HomeCopy}) {
 
       const heroProgress = reducedMotion ? 0 : Math.min(1, window.scrollY / Math.max(520, viewportHeight * 0.82));
       heroCopy?.style.setProperty('--hero-copy-drift', `${heroProgress * 14}px`);
-      heroCanvas?.style.setProperty('--hero-canvas-drift', `${heroProgress * -30}px`);
-      workspaceToolbar?.style.setProperty('--workspace-toolbar-drift', `${heroProgress * 19}px`);
 
       if (topologyMap) {
         const rect = topologyMap.getBoundingClientRect();
@@ -1027,7 +833,7 @@ function HomePage({copy}: {copy: HomeCopy}) {
       <section className="landing-hero" aria-labelledby="heroTitle">
         <div className="hero-copy">
           <p className="eyebrow hero-eyebrow"><Sparkles aria-hidden="true" size={16} />{copy.hero.eyebrow}</p>
-          <h1 id="heroTitle"><span>{copy.hero.title[0]}</span><span>{copy.hero.title[1]}</span></h1>
+          <h1 id="heroTitle" className="hero-title-brand"><span>{copy.hero.title[0]}</span><span>{copy.hero.title[1]}</span></h1>
           <span className="hero-stroke" aria-hidden="true" />
           <p className="hero-lead">{copy.hero.lead}</p>
           <div className="hero-actions">
@@ -1038,35 +844,11 @@ function HomePage({copy}: {copy: HomeCopy}) {
               <span>{copy.hero.secondaryAction}</span>
             </a>
           </div>
-          <p className="trust-note"><ShieldCheck aria-hidden="true" size={18} /><span>{copy.hero.trustNote}</span></p>
+          <p className="trust-note"><span>{copy.hero.trustNote}</span></p>
         </div>
-        <div className="hero-product-canvas"><WorkspaceConcept copy={copy.proof} /></div>
       </section>
 
-      <section className="product-proof" id="memory" aria-labelledby="proofTitle">
-        <div className="proof-copy">
-          <p className="eyebrow">{copy.proof.eyebrow}</p>
-          <h2 id="proofTitle">{copy.proof.title}</h2>
-          <p>{copy.proof.description}</p>
-          <span className="concept-label"><Layers3 aria-hidden="true" size={15} />{copy.proof.demoLabel}</span>
-        </div>
-        <ol className="hero-memory-path product-memory-path" aria-label={copy.hero.pathLabel}>
-          {copy.hero.path.map((label, index) => (
-            <li key={label}>
-              <span className="hero-path-icon"><EditorialGlyph index={index + 1} /></span>
-              <strong>{label}</strong>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <ProductExamples copy={copy.examples} />
-
-      <section className="platform-strip" aria-labelledby="platformTitle">
-        <div className="platform-heading">
-          <p className="eyebrow">{copy.platform.label}</p>
-          <h2 id="platformTitle">{copy.platform.title}</h2>
-        </div>
+      <section className="platform-strip" aria-label={copy.platform.sources.join(', ')}>
         <div
           className="platform-marquee"
           role="group"
@@ -1083,18 +865,12 @@ function HomePage({copy}: {copy: HomeCopy}) {
             ))}
           </div>
         </div>
-        <ul className="platform-notes">
-          {copy.platform.notes.map((note) => <li key={note}><Check aria-hidden="true" size={15} />{note}</li>)}
-        </ul>
       </section>
 
-      <section className="topology-section" aria-labelledby="topologyTitle">
-        <header className="section-intro section-intro--wide">
-          <p className="eyebrow">{copy.topology.eyebrow}</p>
-          <h2 id="topologyTitle">{copy.topology.title}</h2>
-          <p>{copy.topology.description}</p>
-        </header>
-        <div className="topology-map" aria-label={copy.topology.title}>
+      <ProductExamples copy={copy.examples} />
+
+      <section className="topology-section" aria-label={copy.topology.eyebrow}>
+        <div className="topology-map" aria-label={copy.topology.eyebrow}>
           {copy.topology.nodes.map((node, index) => (
             <div className="topology-node-wrap" key={node.label}>
               <article className={`topology-node topology-node-${index + 1}`}>
@@ -1109,11 +885,9 @@ function HomePage({copy}: {copy: HomeCopy}) {
         </div>
       </section>
 
-      <section className="how-section" id="how-it-works" aria-labelledby="howTitle">
+      <section className="how-section" id="how-it-works" aria-label={copy.how.eyebrow}>
         <header className="section-intro">
           <p className="eyebrow">{copy.how.eyebrow}</p>
-          <h2 id="howTitle">{copy.how.title}</h2>
-          <p>{copy.how.description}</p>
         </header>
         <div className="how-scroll-story" ref={storyRef}>
           <div className="how-switcher">
@@ -1155,25 +929,6 @@ function HomePage({copy}: {copy: HomeCopy}) {
         </div>
       </section>
 
-      <section className="boundary-section" id="boundaries" aria-labelledby="boundaryTitle">
-        <div className="boundary-heading">
-          <p className="eyebrow">{copy.boundaries.eyebrow}</p>
-          <h2 id="boundaryTitle">{copy.boundaries.title}</h2>
-          <p>{copy.boundaries.description}</p>
-        </div>
-        <div className="boundary-list">
-          {copy.boundaries.items.map((item, index) => {
-            const Icon = item.icon;
-            return (
-              <article className="boundary-item" key={item.title}>
-                <span className="boundary-icon"><Icon aria-hidden="true" size={21} /></span>
-                <div><span>{String(index + 1).padStart(2, '0')}</span><h3>{item.title}</h3><p>{item.description}</p></div>
-              </article>
-            );
-          })}
-        </div>
-      </section>
-
       <section className="final-cta" aria-labelledby="finalTitle">
         <p className="eyebrow">{copy.final.eyebrow}</p>
         <h2 id="finalTitle">{copy.final.title}</h2>
@@ -1191,12 +946,11 @@ function HomePage({copy}: {copy: HomeCopy}) {
 
 function ProductExamples({copy}: {copy: HomeCopy['examples']}) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const storyRef = useRef<HTMLDivElement>(null);
   const demoRef = useRef<HTMLDivElement>(null);
   const panelRefs = useRef<Array<HTMLElement | null>>([]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     let animationFrame = 0;
 
@@ -1248,91 +1002,19 @@ function ProductExamples({copy}: {copy: HomeCopy['examples']}) {
     };
   }, [copy.cases.length]);
 
-  useEffect(() => {
-    if (!window.matchMedia('(max-width: 900px)').matches) return;
-    tabRefs.current[activeIndex]?.scrollIntoView({
-      behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
-      block: 'nearest',
-      inline: 'center',
-    });
-  }, [activeIndex]);
-
-  const activate = (index: number, focus = false, alignStory = true) => {
-    setActiveIndex(index);
-    const story = storyRef.current;
-    const demo = demoRef.current;
-    if (alignStory && story && demo) {
-      const stickyTop = window.matchMedia('(max-width: 900px)').matches ? 78 : 96;
-      const storyTop = window.scrollY + story.getBoundingClientRect().top;
-      const track = Math.max(0, story.offsetHeight - demo.offsetHeight);
-      const progress = copy.cases.length > 1 ? index / (copy.cases.length - 1) : 0;
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      window.scrollTo({
-        top: Math.max(0, storyTop - stickyTop + track * progress),
-        behavior: reducedMotion ? 'auto' : 'smooth',
-      });
-    }
-    if (focus) {
-      window.requestAnimationFrame(() => tabRefs.current[index]?.focus());
-    }
-  };
-
-  const handleKeyDown = (event: ReactKeyboardEvent<HTMLButtonElement>, index: number) => {
-    let nextIndex: number | null = null;
-    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = (index + 1) % copy.cases.length;
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = (index - 1 + copy.cases.length) % copy.cases.length;
-    if (event.key === 'Home') nextIndex = 0;
-    if (event.key === 'End') nextIndex = copy.cases.length - 1;
-    if (nextIndex === null) return;
-    event.preventDefault();
-    activate(nextIndex, true, true);
-  };
-
   return (
-    <section className="product-examples" id="real-decks" aria-labelledby="productExamplesTitle">
-      <header className="product-examples-heading">
-        <p className="eyebrow">{copy.eyebrow}</p>
-        <h2 id="productExamplesTitle">{copy.title}</h2>
-        <p>{copy.description}</p>
-      </header>
-
+    <section className="product-examples" id="real-decks" aria-label={copy.tabLabel}>
       <div className="product-example-story" ref={storyRef}>
         <div className="product-example-demo" ref={demoRef}>
-          <div className="product-example-tabs" role="tablist" aria-label={copy.tabLabel} aria-orientation="vertical">
-            {copy.cases.map((example, index) => (
-              <button
-                aria-controls={`product-example-panel-${index}`}
-                aria-selected={activeIndex === index}
-                className={activeIndex === index ? 'is-current' : ''}
-                id={`product-example-tab-${index}`}
-                key={example.label}
-                onClick={() => activate(index)}
-                onKeyDown={(event) => handleKeyDown(event, index)}
-                ref={(element) => {tabRefs.current[index] = element;}}
-                role="tab"
-                tabIndex={activeIndex === index ? 0 : -1}
-                type="button"
-              >
-                <span className="product-example-tab-index">{String(index + 1).padStart(2, '0')}</span>
-                <span className="product-example-tab-copy">
-                  <strong>{example.label}</strong>
-                  <small>{example.title}</small>
-                </span>
-                <ArrowRight aria-hidden="true" size={18} />
-              </button>
-            ))}
-          </div>
-
           <div className="product-example-stage-stack" aria-live="polite">
             {copy.cases.map((example, exampleIndex) => (
               <article
                 aria-hidden={activeIndex !== exampleIndex}
-                aria-labelledby={`product-example-tab-${exampleIndex}`}
+                aria-label={example.label}
                 className={`product-example-panel is-${example.mode}${activeIndex === exampleIndex ? ' is-current' : ''}`}
-                id={`product-example-panel-${exampleIndex}`}
                 key={example.mode}
                 ref={(element) => {panelRefs.current[exampleIndex] = element;}}
-                role="tabpanel"
+                role="group"
               >
                 <div className={`product-example-media product-example-media--${example.mode}`}>
                   {example.media.map((media, mediaIndex) => (
@@ -1348,194 +1030,12 @@ function ProductExamples({copy}: {copy: HomeCopy['examples']}) {
                   ))}
                 </div>
 
-                <footer className="product-example-footer">
-                  <div>
-                    <strong>{example.label}</strong>
-                    <span>{example.description}</span>
-                  </div>
-                  <ol aria-label={example.title}>
-                    {example.sequence.map((item, index) => (
-                      <li key={item}><span>{index + 1}</span>{item}</li>
-                    ))}
-                  </ol>
-                </footer>
               </article>
             ))}
           </div>
         </div>
       </div>
     </section>
-  );
-}
-
-function WorkspaceConcept({copy}: {copy: HomeCopy['proof']}) {
-  const [activeView, setActiveView] = useState(0);
-  const workspaceRef = useRef<HTMLDivElement>(null);
-  const isChinese = /[\u3400-\u9fff]/.test(copy.title);
-  const ui = isChinese ? {
-    status: '协作运行中',
-    overview: '路径观测',
-    views: [
-      {title: copy.currentTitle, meta: copy.currentMeta, items: ['产品定位', '多智能体交互', '响应式验证']},
-      {title: 'IM 产品路径', meta: '1 个目标 · 3 条标准', items: ['产品闭环', '状态可见', 'Deck 可复用']},
-      {title: '产品方向 Deck', meta: '草稿 · 待确认', items: ['目标 / 任务', '角色 / 交接', 'Skills / MCP / Plugins']},
-    ],
-    taskStates: ['已完成', '运行中', '待验证'],
-    evidence: ['计划', '证据', '偏差 / 调整'],
-    evidenceValues: ['3 个阶段', '8 条来源', '2 个待校准项'],
-    modules: '当前模块拓扑',
-    history: '任务历史持续回看目标',
-  } : {
-    status: 'Collaboration live',
-    overview: 'Path observability',
-    views: [
-      {title: copy.currentTitle, meta: copy.currentMeta, items: ['Product positioning', 'Multi-agent interaction', 'Responsive verification']},
-      {title: 'IM product path', meta: '1 goal · 3 criteria', items: ['Product loop', 'Visible state', 'Reusable Deck']},
-      {title: 'Product Direction Deck', meta: 'Draft · Confirm', items: ['Goals / Tasks', 'Roles / Handoffs', 'Skills / MCP / Plugins']},
-    ],
-    taskStates: ['Complete', 'Running', 'Verify'],
-    evidence: ['Plan', 'Evidence', 'Gap / adjustment'],
-    evidenceValues: ['3 stages', '8 sources', '2 items to recalibrate'],
-    modules: 'Active module topology',
-    history: 'Task history keeps checking the goal',
-  };
-  const active = ui.views[activeView];
-
-  useEffect(() => {
-    let animationFrame = 0;
-    const updateFromScroll = () => {
-      const workspace = workspaceRef.current;
-      if (!workspace) return;
-      const story = workspace.parentElement;
-      if (!story) return;
-      const stickyTop = window.matchMedia('(max-width: 900px)').matches ? 78 : 96;
-      const storyRect = story.getBoundingClientRect();
-      const track = Math.max(1, story.offsetHeight - workspace.offsetHeight);
-      const progress = Math.min(1, Math.max(0, (stickyTop - storyRect.top) / track));
-      const nextView = Math.round(progress * (copy.documents.length - 1));
-      setActiveView((current) => current === nextView ? current : nextView);
-    };
-    const requestUpdate = () => {
-      if (animationFrame) return;
-      animationFrame = window.requestAnimationFrame(() => {
-        updateFromScroll();
-        animationFrame = 0;
-      });
-    };
-
-    updateFromScroll();
-    window.addEventListener('scroll', requestUpdate, {passive: true});
-    window.addEventListener('resize', requestUpdate);
-    return () => {
-      window.removeEventListener('scroll', requestUpdate);
-      window.removeEventListener('resize', requestUpdate);
-      if (animationFrame) window.cancelAnimationFrame(animationFrame);
-    };
-  }, [copy.documents.length]);
-
-  const activateWorkspaceView = (index: number, focus = false) => {
-    setActiveView(index);
-    const workspace = workspaceRef.current;
-    const story = workspace?.parentElement;
-    if (workspace && story) {
-      const stickyTop = window.matchMedia('(max-width: 900px)').matches ? 78 : 96;
-      const storyTop = window.scrollY + story.getBoundingClientRect().top;
-      const track = Math.max(0, story.offsetHeight - workspace.offsetHeight);
-      const progress = copy.documents.length > 1 ? index / (copy.documents.length - 1) : 0;
-      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      window.scrollTo({
-        top: Math.max(0, storyTop - stickyTop + track * progress),
-        behavior: reducedMotion ? 'auto' : 'smooth',
-      });
-    }
-    if (focus) {
-      window.requestAnimationFrame(() => document.getElementById(`workspace-tab-${index}`)?.focus());
-    }
-  };
-
-  const handleWorkspaceKeyDown = (event: ReactKeyboardEvent<HTMLButtonElement>, index: number) => {
-    let nextIndex: number | null = null;
-    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') nextIndex = (index + 1) % copy.documents.length;
-    if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') nextIndex = (index - 1 + copy.documents.length) % copy.documents.length;
-    if (event.key === 'Home') nextIndex = 0;
-    if (event.key === 'End') nextIndex = copy.documents.length - 1;
-    if (nextIndex === null) return;
-    event.preventDefault();
-    activateWorkspaceView(nextIndex, true);
-  };
-
-  return (
-    <div className="workspace-concept" aria-label={copy.workspaceLabel} ref={workspaceRef}>
-      <div className="workspace-toolbar">
-        <span>IM / Workbench</span>
-        <span className="workspace-live"><i aria-hidden="true" />{ui.status}</span>
-      </div>
-      <div className="workspace-layout">
-        <nav className="workspace-sidebar" aria-label={copy.documentsLabel}>
-          <span>{copy.documentsLabel}</span>
-          <div className="workspace-view-tabs" role="tablist" aria-orientation="vertical">
-            {copy.documents.map((document, index) => (
-              <button
-                aria-controls="workspace-view"
-                aria-selected={activeView === index}
-                className={activeView === index ? 'is-current' : ''}
-                id={`workspace-tab-${index}`}
-                key={document}
-                onClick={() => activateWorkspaceView(index)}
-                onKeyDown={(event) => handleWorkspaceKeyDown(event, index)}
-                role="tab"
-                tabIndex={activeView === index ? 0 : -1}
-                type="button"
-              >
-                <span>{String(index + 1).padStart(2, '0')}</span>{document}
-              </button>
-            ))}
-          </div>
-          <div className="workspace-mini-history"><History aria-hidden="true" size={14} /><span>{ui.history}</span></div>
-        </nav>
-        <article aria-labelledby={`workspace-tab-${activeView}`} className="workspace-editor" id="workspace-view" key={activeView} role="tabpanel">
-          <span className="workspace-overline">{copy.currentLabel}</span>
-          <h3>{active.title}</h3>
-          <small>{active.meta}</small>
-          <div className="editor-rule" aria-hidden="true" />
-          <div className="workbench-path">
-            {active.items.map((item, index) => (
-              <div className="workbench-task" key={item}>
-                <span className="workbench-task-index">{String(index + 1).padStart(2, '0')}</span>
-                <strong>{item}</strong>
-                <span className={`workbench-task-state state-${index + 1}`}>{ui.taskStates[index]}</span>
-              </div>
-            ))}
-          </div>
-          <div className="workbench-observation" aria-label={ui.overview}>
-            {ui.evidence.map((label, index) => (
-              <div key={label}><span>{label}</span><strong>{ui.evidenceValues[index]}</strong></div>
-            ))}
-          </div>
-          <mark>{copy.highlight}</mark>
-        </article>
-        <aside className="memory-rail">
-          <span className="workspace-overline">{copy.memoryLabel}</span>
-          <h3>{copy.memoryTitle}</h3>
-          <div className="memory-thread">
-            {copy.memories.map((memory, index) => (
-              <article className="memory-note" key={`${memory.date}-${memory.title}`}>
-                <span>{memory.date}</span><strong><i>{index + 1}</i>{memory.title}</strong><p>{memory.text}</p>
-              </article>
-            ))}
-          </div>
-          <div className="module-topology">
-            <span>{ui.modules}</span>
-            <div><strong>Skills</strong><ArrowRight aria-hidden="true" size={12} /><strong>MCP</strong><ArrowRight aria-hidden="true" size={12} /><strong>Plugins</strong></div>
-          </div>
-          <div className="suggestion-note">
-            <span><CheckCircle2 aria-hidden="true" size={15} />{copy.suggestionStatus}</span>
-            <strong>{copy.suggestionTitle}</strong>
-            <p>{copy.suggestionText}</p>
-          </div>
-        </aside>
-      </div>
-    </div>
   );
 }
 
