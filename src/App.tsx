@@ -21,6 +21,7 @@ import {blogArticles} from './blog/articles';
 import {BlogArticlePage, BlogPage} from './blog/BlogPages';
 
 const startWritingUrl = 'https://ink-frontend.suoxya.com';
+const subscriptionUrl = `${startWritingUrl}/story-workspace/subscription`;
 const repositoryUrl = 'https://github.com/glide-the/ink-and-memory';
 const blogUrl = '/blog/';
 
@@ -52,12 +53,34 @@ type HowStep = {
 
 type ProductExample = {
   label: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  outcome: string;
+  steps: string[];
   mode: 'library' | 'team' | 'character';
   media: Array<{
     src: string;
     alt: string;
     caption: string;
   }>;
+};
+
+type UseCase = {
+  label: string;
+  title: string;
+  description: string;
+  result: string;
+};
+
+type PricingPlan = {
+  eyebrow: string;
+  name: string;
+  note: string;
+  details: string[];
+  allowance?: string;
+  status: string;
+  available: boolean;
 };
 
 type HomeCopy = {
@@ -71,6 +94,7 @@ type HomeCopy = {
   nav: {
     how: string;
     memory: string;
+    pricing: string;
     blog: string;
     write: string;
     open: string;
@@ -88,9 +112,28 @@ type HomeCopy = {
   platform: {
     sources: string[];
   };
+  useCases: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    items: UseCase[];
+  };
   examples: {
     tabLabel: string;
     cases: ProductExample[];
+  };
+  pricing: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    capabilitiesLabel: string;
+    capabilities: string[];
+    cycle: string;
+    liveNote: string;
+    plans: PricingPlan[];
+    faqEyebrow: string;
+    faqTitle: string;
+    faq: Array<{question: string; answer: string}>;
   };
   topology: {
     eyebrow: string;
@@ -113,17 +156,18 @@ type HomeCopy = {
 
 const homeCopy: Record<Locale, HomeCopy> = {
   zh: {
-    metaTitle: 'Ink Memory | 个人思维模式与多智能体工作台',
+    metaTitle: 'Ink & Memory | 写作、回看与长期思维整理',
     metaDescription:
-      'Ink Memory 把真实需求组织成目标、任务、多智能体协作与可检查的工具拓扑，并将经过实践验证的解决路径沉淀为个人思维模式 Deck。',
+      'Ink & Memory 为持续写日记、做长期创作、整理复杂想法的人提供每日写作、历史检索、AI 深入建议、Reflections 分析和可复用 Deck。',
     canonicalUrl: 'https://suoxya.com/',
     homeHref: '/',
     languageHref: '/en/',
     languageLabel: 'English',
     skipLabel: '跳到主要内容',
     nav: {
-      how: '协作流程',
-      memory: '工作台',
+      how: '怎么使用',
+      memory: '使用场景',
+      pricing: '定价',
       blog: 'Blog',
       write: '打开工作台',
       open: '打开导航',
@@ -131,21 +175,57 @@ const homeCopy: Record<Locale, HomeCopy> = {
       label: '主导航',
     },
     hero: {
-      eyebrow: 'IM · 多智能体思维工作台',
-      title: ['Ink', '& Memory'],
-      lead: '目标 · 任务 · 多智能体 · Skills / MCP / Plugins',
-      primaryAction: '打开 IM 工作台',
-      secondaryAction: '查看协作拓扑',
-      trustNote: '路径可见 · 用户确认',
+      eyebrow: 'AI 写作陪伴 · 个人记忆',
+      title: ['写下来，', '听见自己'],
+      lead: '写日记、做长期创作、整理复杂想法。Ink & Memory 会保存你的文字，结合历史内容提供反馈，并整理反复出现的主题与思维模式。',
+      primaryAction: '开始今天的书写',
+      secondaryAction: '查看使用场景',
+      trustNote: '自动保存 · 历史检索 · 操作确认',
     },
     platform: {
       sources: ['Notion', '飞书', 'Obsidian', 'Flomo'],
     },
+    useCases: {
+      eyebrow: 'Use cases',
+      title: '从今天的问题开始。',
+      description: '写下内容，调用记忆，获得反馈，保存长期结果。',
+      items: [
+        {
+          label: '每日书写',
+          title: '把今天写下来',
+          description: '按日期进入当天页面。文字自动保存，语音也可转成正文。',
+          result: '日记 · 随笔 · 灵感',
+        },
+        {
+          label: '深入一句话',
+          title: '继续想清楚',
+          description: '在当前段落点“深入一下”。建议流式出现，你可以同时继续写。',
+          result: '手动触发 · 保留历史',
+        },
+        {
+          label: '找回旧内容',
+          title: '回到过去写过的主题',
+          description: '按日期、标签和关键词检索旧记录，把相关片段带入当前对话。',
+          result: '最近三天 · 更早记录按需检索',
+        },
+        {
+          label: '长期回看',
+          title: '识别反复出现的模式',
+          description: '生成回响、性格特质和行为模式分析，并保存每次报告。',
+          result: 'Echoes · Traits · Patterns',
+        },
+      ],
+    },
     examples: {
-      tabLabel: '选择一个实际 Deck 案例',
+      tabLabel: 'Ink & Memory 实际使用场景',
       cases: [
         {
           label: 'Deck 库',
+          eyebrow: '场景 01 · 常用工作方式',
+          title: '把常用写作方式保存成 Deck',
+          description: '把 Agent、提示词、资源链接和插件放进同一个 Deck。写日记、做复盘或开始创作时，直接打开继续。',
+          outcome: '可用 Deck · 内容版本',
+          steps: ['搜索', '选择', '开始'],
           mode: 'library',
           media: [
             {
@@ -157,6 +237,11 @@ const homeCopy: Record<Locale, HomeCopy> = {
         },
         {
           label: '创作团队',
+          eyebrow: '场景 02 · 长篇创作',
+          title: '让多个创作角色处理同一个目标',
+          description: '编剧推进剧情，结构师检查节奏，人物塑造师维护角色一致性。每个角色保留职责和对话。',
+          outcome: 'Dream · 多智能体协作',
+          steps: ['创作目标', '角色分工', '结果审阅'],
           mode: 'team',
           media: [
             {
@@ -168,6 +253,11 @@ const homeCopy: Record<Locale, HomeCopy> = {
         },
         {
           label: '角色资料',
+          eyebrow: '场景 03 · 人物档案',
+          title: '把人物设定、关系和修订记录放在一起',
+          description: '角色资料、人物弧光、关系图谱和视觉结果同步查看。继续创作时直接调用已有事实。',
+          outcome: '人物档案 · 创作连续性',
+          steps: ['资料', '关系', '版本'],
           mode: 'character',
           media: [
             {
@@ -189,100 +279,165 @@ const homeCopy: Record<Locale, HomeCopy> = {
         },
       ],
     },
-    topology: {
-      eyebrow: 'Deck topology',
-      nodes: [
-        {label: '真实需求', meta: '问题与边界'},
-        {label: '目标 · 任务', meta: '判断标准'},
-        {label: '多智能体', meta: '角色与交接'},
-        {label: '模块拓扑', meta: 'Skills · MCP · Plugins'},
-        {label: '路径 · 方案', meta: '事实与验证'},
-        {label: '思维 Deck', meta: '确认后沉淀'},
+    pricing: {
+      eyebrow: 'Plans',
+      title: '选择你的创作空间',
+      description: 'Free 可直接使用。Dream 与 is Dreaming 会在订阅能力接通后开放。',
+      capabilitiesLabel: '由业界顶尖模型驱动',
+      capabilities: ['Seedance 2.0', 'GPT-Image-2', 'ComfyMCP Apps', 'DeepSeek V4', 'GPT-5.5'],
+      cycle: '当前方案 · 按月',
+      liveNote: '额度和可用状态以工作台订阅页的实时数据为准。',
+      plans: [
+        {
+          eyebrow: 'A quiet beginning',
+          name: 'Free',
+          note: '从一段创作目标开始',
+          details: ['查看已有 Deck', '发起有限次数的 Dream', '保留最近的工作台入口'],
+          allowance: '每月 100,000,000 Token',
+          status: '可以开通',
+          available: true,
+        },
+        {
+          eyebrow: 'For active stories',
+          name: 'Dream',
+          note: '给持续创作留出空间',
+          details: ['更充足的 Dream 创作额度', '更长的 Dream Agent 对话历史', '优先体验新的创作工作台能力'],
+          status: '暂不可开通',
+          available: false,
+        },
+        {
+          eyebrow: 'For ongoing worlds',
+          name: 'is Dreaming',
+          note: '为长期作品准备的工作台',
+          details: ['面向多部作品的持续创作支持', '更完整的 Deck 与工作台协作空间', '适合正在形成中的故事世界'],
+          status: '暂不可开通',
+          available: false,
+        },
       ],
-      feedback: '任务历史 ↔ 目标',
+      faqEyebrow: 'FAQ',
+      faqTitle: '相关问题',
+      faq: [
+        {
+          question: 'Ink & Memory 适合谁？',
+          answer: '适合持续写日记、做长期创作、整理复杂想法，并希望随时找回历史内容的人。',
+        },
+        {
+          question: 'Free 包含什么？',
+          answer: '可以查看已有 Deck、发起有限次数的 Dream，并保留最近的工作台入口。当前显示每月 100,000,000 Token；最终额度以订阅页实时数据为准。',
+        },
+        {
+          question: 'Dream 和 is Dreaming 什么时候可以开通？',
+          answer: '真实支付闭环、套餐配置与资格检查全部就绪后开放。在此之前只展示能力范围，不显示虚构价格或支付结果。',
+        },
+        {
+          question: 'Token 如何计算和重置？',
+          answer: '工作台订阅页会显示本周期总额、已使用量、剩余额度和下一次更新时间。模型调用完成后按真实消耗更新。',
+        },
+        {
+          question: '可以升级、降级或取消吗？',
+          answer: '可执行动作由当前套餐状态和订阅服务实时返回。每次变更先预览，再由你确认；页面状态变化后会要求重新确认。',
+        },
+        {
+          question: 'AI 会直接执行工具操作吗？',
+          answer: '需要授权的工具操作会先请求确认。写作内容、会话和订阅状态按当前用户隔离。',
+        },
+      ],
+    },
+    topology: {
+      eyebrow: '从书写到长期记忆',
+      nodes: [
+        {label: '写下内容', meta: '日记 · 灵感 · 项目'},
+        {label: '调用记忆', meta: '近期内容 · 历史检索'},
+        {label: '选择帮助', meta: '深入一下 · Chat · Dream'},
+        {label: '分工处理', meta: '写作 · 结构 · 人物'},
+        {label: '检查结果', meta: '证据 · 版本 · 确认'},
+        {label: '保存 Deck', meta: '下次继续使用'},
+      ],
+      feedback: '写作历史 → 下一次对话',
     },
     how: {
-      eyebrow: 'Workflow',
-      tabLabel: 'Ink Memory 产品协作流程',
+      eyebrow: 'How it works',
+      tabLabel: 'Ink & Memory 使用流程',
       steps: [
         {
-          shortLabel: '需求',
-          label: '定义需求',
-          title: '定义目标与任务',
-          description: '结果 · 边界 · 判断标准',
-          bullets: ['目标', '任务', '完成条件'],
-          previewTitle: '目标与任务',
+          shortLabel: '书写',
+          label: '开始书写',
+          title: '打开今天的页面',
+          description: '日期自动建立 · 文字持续保存 · 语音可输入',
+          bullets: ['日记', '随笔', '灵感'],
+          previewTitle: '今日书写',
           previewItems: [
-            {label: '需求', title: '重新判断产品方向', meta: '来自当前工作台', state: 'success'},
-            {label: '目标', title: '找到一条可验证路径', meta: '包含判断标准'},
-            {label: '任务', title: '调研 · 方案 · 验证', meta: '等待分配智能体'},
+            {label: '今日页面', title: '2026-09-05', meta: '自动建立', state: 'success'},
+            {label: '保存', title: '输入后持续保存', meta: '已落地'},
+            {label: '语音', title: '转成可编辑正文', meta: '可用'},
           ],
-          result: '可执行',
+          result: '文字已保存',
         },
         {
-          shortLabel: '协作',
-          label: '组织协作',
-          title: '分配智能体',
-          description: '研究 · 方案 · 执行 · 验证',
-          bullets: ['角色', '状态', '交接'],
-          previewTitle: '多智能体工作区',
+          shortLabel: '深入',
+          label: '深入一下',
+          title: '点一下，继续想清楚',
+          description: '当前段落 · 手动触发 · 流式建议',
+          bullets: ['不打断输入', '建议保留', '可重新生成'],
+          previewTitle: '写作建议',
           previewItems: [
-            {label: '协调', title: '目标与任务编排', meta: '正在分配', state: 'accent'},
-            {label: '研究', title: '证据与上下文', meta: '运行中'},
-            {label: '方案', title: '路径比较与输出', meta: '等待交接', state: 'success'},
+            {label: '锚点', title: '当前段落', meta: '点击时快照', state: 'accent'},
+            {label: '建议', title: '流式返回', meta: '可继续写'},
+            {label: '历史', title: '旧建议', meta: '只读保留', state: 'success'},
           ],
-          result: '协作可见',
+          result: '建议已保存',
         },
         {
-          shortLabel: '拓扑',
-          label: '组合拓扑',
-          title: '组合工具拓扑',
-          description: 'Skills · MCP · Plugins',
-          bullets: ['方法', '连接', '封装'],
-          previewTitle: '模块与路径拓扑',
+          shortLabel: '检索',
+          label: '调用记忆',
+          title: '找回相关记录',
+          description: '日期 · 标签 · 关键词',
+          bullets: ['最近三天', '更早记录', '相关片段'],
+          previewTitle: '历史记忆',
           previewItems: [
-            {label: 'Skills', title: '问题拆解与评审方法', meta: '方法层'},
-            {label: 'MCP', title: '内容与工具连接', meta: '能力层'},
-            {label: 'Plugins', title: '可复用任务组合', meta: '封装层', state: 'accent'},
+            {label: '近期', title: '最近三天', meta: '自动带入'},
+            {label: '历史', title: '关键词检索', meta: '按需读取'},
+            {label: '标签', title: '主题筛选', meta: '可组合', state: 'accent'},
           ],
-          result: '调用可追踪',
+          result: '相关内容已找到',
         },
         {
-          shortLabel: 'Deck',
-          label: '沉淀 Deck',
-          title: '保存 Deck',
-          description: '目标结构 · 智能体分工 · 工具拓扑',
-          bullets: ['复用', '调整', '用户确认'],
-          previewTitle: 'Deck 沉淀确认',
+          shortLabel: '回看',
+          label: '生成回响',
+          title: '查看长期模式',
+          description: '回响 · 性格特质 · 行为模式',
+          bullets: ['选择日记', '生成分析', '保存报告'],
+          previewTitle: 'Reflections',
           previewItems: [
-            {label: '目标结构', title: '结果、边界与判断标准', meta: '已验证', state: 'accent'},
-            {label: '协作结构', title: '智能体职责与交接', meta: '可复用'},
-            {label: '模块拓扑', title: 'Skills · MCP · Plugins', meta: '等待确认', state: 'success'},
+            {label: '回响', title: '反复主题', meta: '已生成', state: 'accent'},
+            {label: '特质', title: '稳定倾向', meta: '有证据'},
+            {label: '模式', title: '节奏与应对', meta: '等待确认', state: 'success'},
           ],
-          result: '思维模式已沉淀',
+          result: '报告已保存',
         },
       ],
     },
     final: {
-      eyebrow: 'One need. One visible path.',
-      title: '开始一个 Deck。',
-      description: '输入需求 · 组织路径 · 确认沉淀',
-      primaryAction: '打开 IM 工作台',
-      secondaryAction: '阅读 Ink Memory Blog',
+      eyebrow: 'Write · Recall · Reflect',
+      title: '开始今天的书写',
+      description: '适合持续写日记、做长期创作、整理复杂想法的人。写下第一句话，IM 会自动保存、结合你的历史内容提供反馈，并逐步整理出反复出现的主题与思维模式。',
+      primaryAction: '开始今天的书写',
+      secondaryAction: '查看真实 Deck',
     },
   },
   en: {
-    metaTitle: 'Ink Memory | A multi-agent workbench for personal thinking patterns',
+    metaTitle: 'Ink & Memory | Write, recall, and understand your patterns',
     metaDescription:
-      'Ink Memory turns real needs into goals, tasks, visible multi-agent collaboration, and reusable thinking-pattern Decks built from Skills, MCP, and Plugins.',
+      'Ink & Memory gives journalers, long-form creators, and deep thinkers a daily writing space, memory retrieval, focused AI suggestions, Reflections, and reusable Decks.',
     canonicalUrl: 'https://suoxya.com/en/',
     homeHref: '/en/',
     languageHref: '/',
     languageLabel: '中文',
     skipLabel: 'Skip to main content',
     nav: {
-      how: 'Collaboration',
-      memory: 'Workbench',
+      how: 'How it works',
+      memory: 'Use cases',
+      pricing: 'Pricing',
       blog: 'Blog',
       write: 'Open workbench',
       open: 'Open navigation',
@@ -290,21 +445,57 @@ const homeCopy: Record<Locale, HomeCopy> = {
       label: 'Primary navigation',
     },
     hero: {
-      eyebrow: 'IM · Multi-agent thinking workbench',
-      title: ['Ink', '& Memory'],
-      lead: 'Goals · Tasks · Multiple agents · Skills / MCP / Plugins',
-      primaryAction: 'Open IM workbench',
-      secondaryAction: 'Explore the topology',
-      trustNote: 'Visible path · User confirmed',
+      eyebrow: 'AI writing companion · Personal memory',
+      title: ['Write it down.', 'Hear yourself.'],
+      lead: 'Journal, build long-form stories, and work through complex thoughts. Ink & Memory saves your words, recalls useful context, and surfaces the themes and patterns you return to.',
+      primaryAction: 'Start writing today',
+      secondaryAction: 'See use cases',
+      trustNote: 'Autosave · Memory retrieval · User approval',
     },
     platform: {
       sources: ['Notion', 'Feishu', 'Obsidian', 'Flomo'],
     },
+    useCases: {
+      eyebrow: 'Use cases',
+      title: 'Start with today’s question.',
+      description: 'Write. Recall. Get focused feedback. Keep what matters.',
+      items: [
+        {
+          label: 'Daily writing',
+          title: 'Put today into words',
+          description: 'Open today’s dated page. Your text saves continuously, and voice can become editable prose.',
+          result: 'Journal · Notes · Ideas',
+        },
+        {
+          label: 'Go deeper',
+          title: 'Stay with one important line',
+          description: 'Select “Go deeper” on the current paragraph. A suggestion streams in while you keep writing.',
+          result: 'Manual trigger · Saved history',
+        },
+        {
+          label: 'Recall',
+          title: 'Return to an older theme',
+          description: 'Find past entries by date, label, and keyword, then bring the relevant passages into the conversation.',
+          result: 'Recent three days · Older entries on demand',
+        },
+        {
+          label: 'Reflect',
+          title: 'See recurring patterns',
+          description: 'Generate and save analyses of recurring themes, stable traits, and behavioral patterns.',
+          result: 'Echoes · Traits · Patterns',
+        },
+      ],
+    },
     examples: {
-      tabLabel: 'Choose a working Deck example',
+      tabLabel: 'Real Ink & Memory use cases',
       cases: [
         {
           label: 'Deck library',
+          eyebrow: 'Use case 01 · Saved ways of working',
+          title: 'Keep a repeatable writing setup as a Deck',
+          description: 'Place agents, prompts, resource links, and plugins in one Deck. Open it when you journal, review, or begin a creative session.',
+          outcome: 'Available Deck · Versioned content',
+          steps: ['Search', 'Choose', 'Start'],
           mode: 'library',
           media: [
             {
@@ -316,6 +507,11 @@ const homeCopy: Record<Locale, HomeCopy> = {
         },
         {
           label: 'Creative team',
+          eyebrow: 'Use case 02 · Long-form creation',
+          title: 'Give one creative goal to several roles',
+          description: 'A writer advances the story, a structure agent checks rhythm, and a character agent protects continuity. Each role keeps a clear responsibility and thread.',
+          outcome: 'Dream · Multi-agent collaboration',
+          steps: ['Creative goal', 'Role assignment', 'Review'],
           mode: 'team',
           media: [
             {
@@ -327,6 +523,11 @@ const homeCopy: Record<Locale, HomeCopy> = {
         },
         {
           label: 'Character bible',
+          eyebrow: 'Use case 03 · Character record',
+          title: 'Keep character facts, relationships, and revisions together',
+          description: 'Review structured facts, character arcs, relationship maps, and visual outputs in one place. Reuse those facts in the next writing session.',
+          outcome: 'Character record · Creative continuity',
+          steps: ['Facts', 'Relationships', 'Versions'],
           mode: 'character',
           media: [
             {
@@ -348,86 +549,150 @@ const homeCopy: Record<Locale, HomeCopy> = {
         },
       ],
     },
-    topology: {
-      eyebrow: 'Deck topology',
-      nodes: [
-        {label: 'Real need', meta: 'Problem and boundary'},
-        {label: 'Goals · Tasks', meta: 'Success criteria'},
-        {label: 'Multiple agents', meta: 'Roles and handoffs'},
-        {label: 'Tool topology', meta: 'Skills · MCP · Plugins'},
-        {label: 'Path · Plan', meta: 'Evidence and verification'},
-        {label: 'Thinking Deck', meta: 'Saved after confirmation'},
+    pricing: {
+      eyebrow: 'Plans',
+      title: 'Choose your creative space',
+      description: 'Free is available now. Dream and is Dreaming will open when subscriptions are ready.',
+      capabilitiesLabel: 'Powered by leading models',
+      capabilities: ['Seedance 2.0', 'GPT-Image-2', 'ComfyMCP Apps', 'DeepSeek V4', 'GPT-5.5'],
+      cycle: 'Current plans · Monthly',
+      liveNote: 'Allowances and availability follow the live data shown in the workbench subscription page.',
+      plans: [
+        {
+          eyebrow: 'A quiet beginning',
+          name: 'Free',
+          note: 'Start with one creative goal',
+          details: ['Open available Decks', 'Start a limited number of Dream runs', 'Keep recent workbench entry points'],
+          allowance: '100,000,000 tokens per month',
+          status: 'Available',
+          available: true,
+        },
+        {
+          eyebrow: 'For active stories',
+          name: 'Dream',
+          note: 'More room for active creative work',
+          details: ['More Dream creation allowance', 'Longer Dream Agent history', 'Early access to new creative workbench features'],
+          status: 'Not yet available',
+          available: false,
+        },
+        {
+          eyebrow: 'For ongoing worlds',
+          name: 'is Dreaming',
+          note: 'A workbench for long-running work',
+          details: ['Ongoing support across several works', 'A fuller Deck and workbench collaboration space', 'Built for story worlds taking shape over time'],
+          status: 'Not yet available',
+          available: false,
+        },
       ],
-      feedback: 'Task history ↔ Goal',
+      faqEyebrow: 'FAQ',
+      faqTitle: 'Questions',
+      faq: [
+        {
+          question: 'Who is Ink & Memory for?',
+          answer: 'People who journal consistently, create over time, work through complex thoughts, and need to recall earlier writing.',
+        },
+        {
+          question: 'What is included in Free?',
+          answer: 'Open available Decks, start a limited number of Dream runs, and keep recent workbench entry points. The current display is 100,000,000 tokens per month; the subscription page remains authoritative.',
+        },
+        {
+          question: 'When can I open Dream or is Dreaming?',
+          answer: 'After payment, plan configuration, and eligibility checks are ready. Until then, the page shows the intended scope without inventing prices or payment results.',
+        },
+        {
+          question: 'How are tokens counted and reset?',
+          answer: 'The subscription page shows the granted, consumed, and remaining tokens for the current cycle and the next reset date. Usage updates from completed model calls.',
+        },
+        {
+          question: 'Can I upgrade, downgrade, or cancel?',
+          answer: 'Available actions come from the live subscription service. Every change is previewed and confirmed; stale state must be refreshed before you confirm again.',
+        },
+        {
+          question: 'Can AI run tools without approval?',
+          answer: 'Tool actions that require authorization ask for confirmation first. Writing, sessions, and subscription state are isolated to the current user.',
+        },
+      ],
+    },
+    topology: {
+      eyebrow: 'From writing to long-term memory',
+      nodes: [
+        {label: 'Write', meta: 'Journal · Idea · Project'},
+        {label: 'Recall', meta: 'Recent context · Search'},
+        {label: 'Choose help', meta: 'Go deeper · Chat · Dream'},
+        {label: 'Assign roles', meta: 'Writing · Structure · Character'},
+        {label: 'Review', meta: 'Evidence · Version · Approval'},
+        {label: 'Save Deck', meta: 'Reuse next time'},
+      ],
+      feedback: 'Writing history → Next conversation',
     },
     how: {
       eyebrow: 'Workflow',
-      tabLabel: 'Ink Memory product collaboration flow',
+      tabLabel: 'Ink & Memory workflow',
       steps: [
         {
-          shortLabel: 'Need',
-          label: 'Define the need',
-          title: 'Define goals and tasks',
-          description: 'Outcome · Boundaries · Success criteria',
-          bullets: ['Goal', 'Tasks', 'Completion conditions'],
-          previewTitle: 'Goals and tasks',
+          shortLabel: 'Write',
+          label: 'Start writing',
+          title: 'Open today’s page',
+          description: 'Dated automatically · Continuously saved · Voice ready',
+          bullets: ['Journal', 'Notes', 'Ideas'],
+          previewTitle: 'Today’s writing',
           previewItems: [
-            {label: 'Need', title: 'Re-evaluate product direction', meta: 'From this workbench', state: 'success'},
-            {label: 'Goal', title: 'Find a verifiable path', meta: 'Criteria included'},
-            {label: 'Tasks', title: 'Research · design · verify', meta: 'Ready for agent assignment'},
+            {label: 'Today', title: '2026-09-05', meta: 'Created automatically', state: 'success'},
+            {label: 'Save', title: 'Continuous autosave', meta: 'Stored'},
+            {label: 'Voice', title: 'Editable transcript', meta: 'Available'},
           ],
-          result: 'Executable',
+          result: 'Writing saved',
         },
         {
-          shortLabel: 'Agents',
-          label: 'Coordinate agents',
-          title: 'Assign agents',
-          description: 'Research · Strategy · Execute · Verify',
-          bullets: ['Roles', 'State', 'Handoffs'],
-          previewTitle: 'Multi-agent workspace',
+          shortLabel: 'Deepen',
+          label: 'Go deeper',
+          title: 'Stay with one important line',
+          description: 'Current paragraph · Manual trigger · Streaming suggestion',
+          bullets: ['Keep typing', 'Saved history', 'Regenerate'],
+          previewTitle: 'Writing suggestion',
           previewItems: [
-            {label: 'Coordinate', title: 'Arrange goals and tasks', meta: 'Assigning now', state: 'accent'},
-            {label: 'Research', title: 'Evidence and context', meta: 'Running'},
-            {label: 'Strategy', title: 'Compare paths and deliver', meta: 'Waiting for handoff', state: 'success'},
+            {label: 'Anchor', title: 'Current paragraph', meta: 'Snapshot on click', state: 'accent'},
+            {label: 'Suggestion', title: 'Streaming response', meta: 'Keep writing'},
+            {label: 'History', title: 'Earlier suggestions', meta: 'Read only', state: 'success'},
           ],
-          result: 'Visible collaboration',
+          result: 'Suggestion saved',
         },
         {
-          shortLabel: 'Topo',
-          label: 'Compose the topology',
-          title: 'Compose tool topology',
-          description: 'Skills · MCP · Plugins',
-          bullets: ['Methods', 'Connections', 'Packages'],
-          previewTitle: 'Modules and path topology',
+          shortLabel: 'Recall',
+          label: 'Recall memory',
+          title: 'Find related writing',
+          description: 'Date · Label · Keyword',
+          bullets: ['Recent three days', 'Older entries', 'Relevant passages'],
+          previewTitle: 'Writing memory',
           previewItems: [
-            {label: 'Skills', title: 'Problem framing and review', meta: 'Method layer'},
-            {label: 'MCP', title: 'Content and tool connections', meta: 'Capability layer'},
-            {label: 'Plugins', title: 'Reusable task bundles', meta: 'Package layer', state: 'accent'},
+            {label: 'Recent', title: 'Latest three days', meta: 'Included automatically'},
+            {label: 'Archive', title: 'Keyword retrieval', meta: 'Read on demand'},
+            {label: 'Labels', title: 'Topic filter', meta: 'Composable', state: 'accent'},
           ],
-          result: 'Traceable calls',
+          result: 'Related writing found',
         },
         {
-          shortLabel: 'Deck',
-          label: 'Settle the Deck',
-          title: 'Save the Deck',
-          description: 'Goal structure · Agent roles · Tool topology',
-          bullets: ['Reuse', 'Adjust', 'User confirm'],
-          previewTitle: 'Deck confirmation',
+          shortLabel: 'Reflect',
+          label: 'Generate reflections',
+          title: 'Review long-term patterns',
+          description: 'Echoes · Traits · Behavioral patterns',
+          bullets: ['Select entries', 'Generate analysis', 'Save report'],
+          previewTitle: 'Reflections',
           previewItems: [
-            {label: 'Goal structure', title: 'Outcome, boundary, and criteria', meta: 'Verified', state: 'accent'},
-            {label: 'Collaboration', title: 'Agent roles and handoffs', meta: 'Reusable'},
-            {label: 'Module topology', title: 'Skills · MCP · Plugins', meta: 'Waiting for confirmation', state: 'success'},
+            {label: 'Echoes', title: 'Recurring themes', meta: 'Generated', state: 'accent'},
+            {label: 'Traits', title: 'Stable tendencies', meta: 'Evidence linked'},
+            {label: 'Patterns', title: 'Rhythms and responses', meta: 'Awaiting review', state: 'success'},
           ],
-          result: 'Thinking pattern saved',
+          result: 'Report saved',
         },
       ],
     },
     final: {
-      eyebrow: 'One need. One visible path.',
-      title: 'Start a Deck.',
-      description: 'Input need · Organize path · Confirm Deck',
-      primaryAction: 'Open IM workbench',
-      secondaryAction: 'Read the Ink Memory Blog',
+      eyebrow: 'Write · Recall · Reflect',
+      title: 'Start writing today',
+      description: 'Built for people who journal consistently, create over time, or work through complex thoughts. Write the first line; IM saves it, recalls relevant history, and helps you see recurring themes and patterns.',
+      primaryAction: 'Start writing today',
+      secondaryAction: 'See real Decks',
     },
   },
 };
@@ -467,13 +732,17 @@ function App() {
       blogArticles.find((article) => normalizedPath === `/blog/${article.slug}`)
     : undefined;
   const isBlogPage = normalizedPath === '/blog' || Boolean(currentArticle);
+  const isPricingPage = normalizedPath === '/pricing' || normalizedPath === '/en/pricing';
   const locale: Locale =
     normalizedPath === '/en' || normalizedPath.startsWith('/en/') || currentArticle?.language === 'English' ? 'en' : 'zh';
   const copy = homeCopy[locale];
+  const pricingHref = locale === 'en' ? '/en/pricing/' : '/pricing/';
+  const languageHref = isPricingPage ? (locale === 'en' ? '/pricing/' : '/en/pricing/') : copy.languageHref;
 
   const navItems: NavItem[] = [
     {label: copy.nav.how, href: `${copy.homeHref}#how-it-works`},
-    {label: copy.nav.memory, href: `${copy.homeHref}#real-decks`},
+    {label: copy.nav.memory, href: `${copy.homeHref}#use-cases`},
+    {label: copy.nav.pricing, href: pricingHref},
     {label: copy.nav.blog, href: blogUrl},
   ];
 
@@ -566,18 +835,22 @@ function App() {
       : isBlogPage ? 'zh-CN'
       : locale === 'en' ? 'en'
       : 'zh-CN';
-    document.body.dataset.page = isBlogPage ? 'portal-blog' : 'portal-home';
+    document.body.dataset.page = isBlogPage ? 'portal-blog' : isPricingPage ? 'portal-pricing' : 'portal-home';
     document.title =
       currentArticle ? `${currentArticle.title} | Ink & Memory Blog`
       : isBlogPage ? 'Ink & Memory Blog | AI 写作记忆与工作空间设计'
+      : isPricingPage ? (locale === 'en' ? 'Ink & Memory Pricing | Free, Dream, is Dreaming' : 'Ink & Memory 定价 | Free、Dream、is Dreaming')
       : copy.metaTitle;
 
     const description =
       currentArticle?.summary ??
-      (isBlogPage ? 'Ink & Memory Blog 收录 AI 写作、长期记忆、Workspace 状态管理和交互设计文章。' : copy.metaDescription);
+      (isBlogPage ? 'Ink & Memory Blog 收录 AI 写作、长期记忆、Workspace 状态管理和交互设计文章。'
+      : isPricingPage ? copy.pricing.description
+      : copy.metaDescription);
     const canonicalUrl =
       currentArticle ? currentArticle.canonicalHref
       : isBlogPage ? 'https://suoxya.com/blog/'
+      : isPricingPage ? (locale === 'en' ? 'https://suoxya.com/en/pricing/' : 'https://suoxya.com/pricing/')
       : copy.canonicalUrl;
     const socialImageUrl = 'https://suoxya.com/og-image.png';
 
@@ -592,7 +865,7 @@ function App() {
     document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', document.title);
     document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', description);
     document.querySelector('meta[name="twitter:image"]')?.setAttribute('content', socialImageUrl);
-  }, [currentArticle, isBlogPage, locale, copy]);
+  }, [currentArticle, isBlogPage, isPricingPage, locale, copy]);
 
   return (
     <>
@@ -652,7 +925,7 @@ function App() {
         </nav>
 
         <div className="header-actions">
-          <a className="language-link" href={copy.languageHref} aria-label={copy.languageLabel}>
+          <a className="language-link" href={languageHref} aria-label={copy.languageLabel}>
             {copy.languageLabel}
           </a>
           <a className="header-cta" href={startWritingUrl} rel="noreferrer" target="_blank">
@@ -661,7 +934,10 @@ function App() {
         </div>
       </header>
 
-      {currentArticle ? <BlogArticlePage article={currentArticle} /> : isBlogPage ? <BlogPage /> : <HomePage copy={copy} />}
+      {currentArticle ? <BlogArticlePage article={currentArticle} />
+      : isBlogPage ? <BlogPage />
+      : isPricingPage ? <PricingPage copy={copy} />
+      : <HomePage copy={copy} />}
 
       <footer className="site-footer" aria-label="Project links">
         <div className="footer-brand">
@@ -669,10 +945,11 @@ function App() {
         </div>
         <div className="footer-links">
           <a href={startWritingUrl} rel="noreferrer" target="_blank">{copy.nav.write}</a>
+          <a href={pricingHref}>{copy.nav.pricing}</a>
           <a href={blogUrl}>Blog</a>
           <a href={repositoryUrl} rel="noreferrer" target="_blank">GitHub</a>
           <a href="/sitemap.xml">Sitemap</a>
-          <a href={copy.languageHref}>{copy.languageLabel}</a>
+          <a href={languageHref}>{copy.languageLabel}</a>
         </div>
       </footer>
     </>
@@ -764,6 +1041,8 @@ function HomePage({copy}: {copy: HomeCopy}) {
   useLayoutEffect(() => {
     const reactiveElements = Array.from(document.querySelectorAll<HTMLElement>([
       '.platform-strip > *',
+      '.scenario-section > .section-intro',
+      '.scenario-item',
       '.how-section > .section-intro',
       '.final-cta',
     ].join(', ')));
@@ -840,7 +1119,7 @@ function HomePage({copy}: {copy: HomeCopy}) {
             <a className="button button-primary" href={startWritingUrl} rel="noreferrer" target="_blank">
               <span>{copy.hero.primaryAction}</span><ArrowRight aria-hidden="true" size={19} />
             </a>
-            <a className="button button-secondary" href="#how-it-works">
+            <a className="button button-secondary" href="#use-cases">
               <span>{copy.hero.secondaryAction}</span>
             </a>
           </div>
@@ -864,6 +1143,28 @@ function HomePage({copy}: {copy: HomeCopy}) {
               </ul>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="scenario-section" id="use-cases" aria-labelledby="useCaseTitle">
+        <header className="section-intro">
+          <p className="eyebrow">{copy.useCases.eyebrow}</p>
+          <h2 id="useCaseTitle">{copy.useCases.title}</h2>
+          <p>{copy.useCases.description}</p>
+        </header>
+        <div className="scenario-grid">
+          {copy.useCases.items.map((item, index) => (
+            <article className="scenario-item" key={item.title}>
+              <div className="scenario-item-topline">
+                <span className="scenario-glyph"><EditorialGlyph index={index} /></span>
+                <span className="scenario-number">{String(index + 1).padStart(2, '0')}</span>
+              </div>
+              <p className="scenario-label">{item.label}</p>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+              <small>{item.result}</small>
+            </article>
+          ))}
         </div>
       </section>
 
@@ -937,10 +1238,84 @@ function HomePage({copy}: {copy: HomeCopy}) {
           <a className="button button-light" href={startWritingUrl} rel="noreferrer" target="_blank">
             {copy.final.primaryAction}<ArrowRight aria-hidden="true" size={19} />
           </a>
-          <a className="button button-on-dark" href={blogUrl}>{copy.final.secondaryAction}</a>
+          <a className="button button-on-dark" href="#real-decks">{copy.final.secondaryAction}</a>
         </div>
       </section>
     </main>
+  );
+}
+
+function PricingPage({copy}: {copy: HomeCopy}) {
+  return (
+    <main className="pricing-page" id="main">
+      <PricingSection copy={copy.pricing} />
+    </main>
+  );
+}
+
+function PricingSection({copy}: {copy: HomeCopy['pricing']}) {
+  return (
+    <section className="pricing-section" id="pricing" aria-labelledby="pricingTitle">
+      <div className="pricing-shell">
+        <header className="pricing-heading">
+          <p className="eyebrow">{copy.eyebrow}</p>
+          <h1 id="pricingTitle">{copy.title}</h1>
+          <p>{copy.description}</p>
+        </header>
+
+        <p className="pricing-capabilities-label">{copy.capabilitiesLabel}</p>
+        <ul className="pricing-capabilities" aria-label={copy.capabilitiesLabel}>
+          {copy.capabilities.map((capability, index) => (
+            <li key={capability}><span aria-hidden="true" className={`model-mark model-mark-${index + 1}`}><ModelGlyph index={index} /></span>{capability}</li>
+          ))}
+        </ul>
+
+        <div className="pricing-cycle-row"><span className="pricing-cycle">{copy.cycle}</span></div>
+
+        <div className="pricing-grid">
+          {copy.plans.map((plan) => (
+            <article className={`pricing-card${plan.available ? ' is-available' : ''}`} key={plan.name}>
+              <div className="pricing-card-topline">
+                <p>{plan.eyebrow}</p>
+                <span>{plan.status}</span>
+              </div>
+              <h3>{plan.name}</h3>
+              <p className="pricing-card-note">{plan.note}</p>
+              <ul>
+                {plan.details.map((detail) => <li key={detail}><Check aria-hidden="true" size={15} />{detail}</li>)}
+              </ul>
+              {plan.allowance ? <strong className="pricing-allowance">{plan.allowance}</strong> : null}
+              {plan.available ? (
+                <a className="pricing-action" href={subscriptionUrl} rel="noreferrer" target="_blank">
+                  {plan.status}<ArrowRight aria-hidden="true" size={17} />
+                </a>
+              ) : (
+                <button className="pricing-action" disabled type="button">{plan.status}</button>
+              )}
+            </article>
+          ))}
+        </div>
+        <p className="pricing-live-note">{copy.liveNote}</p>
+
+        <div className="pricing-faq">
+          <header className="pricing-faq-heading">
+            <p className="eyebrow">{copy.faqEyebrow}</p>
+            <h2>{copy.faqTitle}</h2>
+          </header>
+          <div className="pricing-faq-list">
+            {copy.faq.map((item, index) => (
+              <details className="pricing-faq-item" key={item.question} open={index === 0 || undefined}>
+                <summary>
+                  <span>{item.question}</span>
+                  <span aria-hidden="true" className="pricing-faq-toggle" />
+                </summary>
+                <p>{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -1016,6 +1391,17 @@ function ProductExamples({copy}: {copy: HomeCopy['examples']}) {
                 ref={(element) => {panelRefs.current[exampleIndex] = element;}}
                 role="group"
               >
+                <div className="product-example-copy">
+                  <p className="eyebrow">{example.eyebrow}</p>
+                  <h2>{example.title}</h2>
+                  <p>{example.description}</p>
+                  <ol aria-label={example.outcome}>
+                    {example.steps.map((step, index) => (
+                      <li key={step}><span>{String(index + 1).padStart(2, '0')}</span>{step}</li>
+                    ))}
+                  </ol>
+                  <small>{example.outcome}</small>
+                </div>
                 <div className={`product-example-media product-example-media--${example.mode}`}>
                   {example.media.map((media, mediaIndex) => (
                     <figure className={`product-example-figure product-example-figure--${mediaIndex + 1}`} key={media.src}>
@@ -1079,19 +1465,19 @@ function HowStepPanel({active, current, index, panelRef}: {
 function StepConcept({active, index}: {active: HowStep; index: number}) {
   const isChinese = /[\u3400-\u9fff]/.test(active.label);
   const labels = isChinese ? {
-    ready: '目标已建立',
-    policy: '当前目标',
-    policyValue: '路径可验证',
-    pending: '待确认沉淀',
-    keep: '继续调整',
-    confirm: '保存为 Deck',
+    ready: '今日已建立',
+    policy: '保存状态',
+    policyValue: '持续保存',
+    pending: '等待确认',
+    keep: '重新选择',
+    confirm: '保存报告',
   } : {
-    ready: 'goal defined',
-    policy: 'current goal',
-    policyValue: 'verifiable path',
-    pending: 'awaiting confirmation',
-    keep: 'keep refining',
-    confirm: 'save as Deck',
+    ready: 'today is ready',
+    policy: 'save state',
+    policyValue: 'continuous save',
+    pending: 'awaiting review',
+    keep: 'change selection',
+    confirm: 'save report',
   };
 
   return (
@@ -1252,6 +1638,27 @@ function PlatformGlyph({index}: {index: number}) {
         </>
       ) : null}
     </svg>
+  );
+}
+
+function ModelGlyph({index}: {index: number}) {
+  const glyph = index % 5;
+  const byteDancePath = 'M19.8772 1.4685 24 2.5326v18.9426l-4.1228 1.0563V1.4685Zm-13.3481 9.428 4.115 1.0641v8.9786l-4.115 1.0642v-11.107ZM0 2.572l4.115 1.0642v16.7354L0 21.428V2.572Zm17.4553 5.6205v11.107l-4.1228-1.0642V9.2568l4.1228-1.0642Z';
+  const openAiPath = 'M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729Zm-9.022 12.6081a4.4755 4.4755 0 0 1-2.8764-1.0408l.1419-.0804 4.7783-2.7582a.7948.7948 0 0 0 .3927-.6813v-6.7369l2.02 1.1686a.071.071 0 0 1 .038.052v5.5826a4.504 4.504 0 0 1-4.4945 4.4944Zm-9.6607-4.1254a4.4708 4.4708 0 0 1-.5346-3.0137l.142.0852 4.783 2.7582a.7712.7712 0 0 0 .7806 0l5.8428-3.3685v2.3324a.0804.0804 0 0 1-.0332.0615L9.74 19.9502a4.4992 4.4992 0 0 1-6.1408-1.6464ZM2.3408 7.8956a4.485 4.485 0 0 1 2.3655-1.9728V11.6a.7664.7664 0 0 0 .3879.6765l5.8144 3.3543-2.0201 1.1685a.0757.0757 0 0 1-.071 0l-4.8303-2.7865A4.504 4.504 0 0 1 2.3408 7.872Zm16.5963 3.8558L13.1038 8.364 15.1192 7.2a.0757.0757 0 0 1 .071 0l4.8303 2.7913a4.4944 4.4944 0 0 1-.6765 8.1042v-5.6772a.79.79 0 0 0-.407-.667Zm2.0107-3.0231-.142-.0852-4.7735-2.7818a.7759.7759 0 0 0-.7854 0L9.409 9.2297V6.8974a.0662.0662 0 0 1 .0284-.0615l4.8303-2.7866a4.4992 4.4992 0 0 1 6.6802 4.66ZM8.3065 12.863l-2.02-1.1638a.0804.0804 0 0 1-.038-.0567V6.0742a4.4992 4.4992 0 0 1 7.3757-3.4537l-.142.0805L8.704 5.459a.7948.7948 0 0 0-.3927.6813Zm1.0976-2.3654 2.602-1.4998 2.6069 1.4998v2.9994l-2.5974 1.4997-2.6067-1.4997Z';
+  const deepSeekPath = 'M23.748 4.651c-.254-.124-.364.113-.512.233-.051.04-.094.09-.137.137-.372.397-.806.657-1.373.626-.829-.046-1.537.214-2.163.848-.133-.782-.575-1.248-1.247-1.548-.352-.155-.708-.311-.955-.65-.172-.24-.219-.509-.305-.774-.055-.16-.11-.323-.293-.35-.2-.031-.278.136-.356.276-.313.572-.434 1.202-.422 1.84.027 1.436.633 2.58 1.838 3.393.137.094.172.187.129.323-.082.28-.18.553-.266.833-.055.179-.137.218-.328.14a5.5 5.5 0 0 1-1.737-1.179c-.857-.828-1.631-1.743-2.597-2.46a12 12 0 0 0-.689-.47c-.985-.957.13-1.743.387-1.836.27-.098.094-.433-.778-.428-.872.003-1.67.295-2.687.685a3 3 0 0 1-.465.136 9.6 9.6 0 0 0-2.883-.101c-1.885.21-3.39 1.1-4.497 2.622C.082 8.776-.231 10.854.152 13.02c.403 2.284 1.568 4.175 3.36 5.653 1.857 1.533 3.997 2.284 6.438 2.14 1.482-.085 3.132-.284 4.994-1.86.47.234.962.328 1.78.398.629.058 1.235-.031 1.705-.129.735-.155.684-.836.418-.961-2.155-1.004-1.682-.595-2.112-.926 1.095-1.295 2.768-3.598 3.284-6.733.05-.346.115-.834.108-1.114-.004-.171.035-.238.23-.257a4.2 4.2 0 0 0 1.545-.475c1.397-.763 1.96-2.016 2.093-3.517.02-.23-.004-.467-.247-.588ZM11.58 18.168c-2.088-1.642-3.101-2.183-3.52-2.16-.39.024-.32.472-.234.763.09.288.207.487.371.74.114.167.192.416-.113.603-.673.416-1.842-.14-1.897-.168-1.361-.801-2.5-1.86-3.301-3.306-.775-1.393-1.225-2.888-1.299-4.482-.02-.385.094-.522.477-.592a4.7 4.7 0 0 1 1.53-.038c2.131.311 3.946 1.264 5.467 2.774.868.86 1.525 1.887 2.202 2.89.72 1.066 1.494 2.082 2.48 2.915.348.291.626.513.892.677-.802.09-2.14.109-3.055-.615Zm1.001-6.44a.306.306 0 0 1 .415-.287.3.3 0 0 1 .113.074.3.3 0 0 1 .086.214c0 .17-.136.307-.308.307a.303.303 0 0 1-.306-.307Zm3.11 1.596c-.2.081-.4.151-.591.16a1.25 1.25 0 0 1-.798-.254c-.274-.23-.47-.358-.551-.758a1.7 1.7 0 0 1 .015-.588c.07-.327-.007-.537-.238-.727-.188-.156-.426-.199-.689-.199a.6.6 0 0 1-.254-.078.253.253 0 0 1-.114-.358 1 1 0 0 1 .192-.21c.356-.202.767-.136 1.146.016.352.144.618.408 1.001.782.392.451.462.576.685.915.176.264.336.536.446.848.066.194-.02.353-.25.45Z';
+
+  if (glyph === 2) {
+    return (
+      <svg aria-hidden="true" viewBox="0 0 142 142">
+        <rect width="142" height="142" rx="33" fill="#F2FF59" />
+        <path d="M91.7457 90.1697c.1331-.4502.2057-.9248.2057-1.4236 0-2.762-2.227-5.0009-4.9746-5.0009H64.6819c-1.1983.0122-2.1787-.9612-2.1787-2.1658 0-.219.0364-.4258.0848-.6205l6.0034-21.0254c.2542-.9247 1.1014-1.6061 2.0939-1.6061l22.3797-.0243c4.7204 0 8.702 3.1999 9.901 7.568l3.365-11.7173c.108-.4137.169-.8639.169-1.3141 0-2.7498-2.215-4.9764-4.95-4.9764H74.4738c-4.6963 0-8.6663 3.1757-9.8887 7.4951l-2.2755 7.9939c-.2663.9126-1.1014 1.5818-2.0939 1.5818h-6.4997c-4.6599 0-8.5936 3.1149-9.8524 7.3855L35.6816 85.911c-.1211.4259-.1816.8883-.1816 1.3506 0 2.762 2.2271 5.0009 4.9746 5.0009h6.3907c1.1983 0 2.1787.9734 2.1787 2.1901 0 .2069-.0242.4137-.0847.6084l-2.2634 7.921c-.109.426-.1816.864-.1816 1.314 0 2.75 2.215 4.977 4.9504 4.977l27.088-.025c4.7083 0 8.6783-3.188 9.8887-7.531l3.2922-11.5352.0121-.0121Z" fill="#211927" />
+      </svg>
+    );
+  }
+
+  const path = glyph === 0 ? byteDancePath : glyph === 3 ? deepSeekPath : openAiPath;
+  return (
+    <svg aria-hidden="true" viewBox="0 0 24 24"><path d={path} /></svg>
   );
 }
 
