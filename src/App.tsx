@@ -159,7 +159,7 @@ const homeCopy: Record<Locale, HomeCopy> = {
     metaTitle: 'Ink & Memory | 写作、回看与长期思维整理',
     metaDescription:
       'Ink & Memory 为持续写日记、做长期创作、整理复杂想法的人提供每日写作、历史检索、AI 深入建议、Reflections 分析和可复用 Deck。',
-    canonicalUrl: 'https://suoxya.com/',
+    canonicalUrl: 'https://ink-memory.suoxya.com/',
     homeHref: '/',
     languageHref: '/en/',
     languageLabel: 'English',
@@ -429,7 +429,7 @@ const homeCopy: Record<Locale, HomeCopy> = {
     metaTitle: 'Ink & Memory | Write, recall, and understand your patterns',
     metaDescription:
       'Ink & Memory gives journalers, long-form creators, and deep thinkers a daily writing space, memory retrieval, focused AI suggestions, Reflections, and reusable Decks.',
-    canonicalUrl: 'https://suoxya.com/en/',
+    canonicalUrl: 'https://ink-memory.suoxya.com/en/',
     homeHref: '/en/',
     languageHref: '/',
     languageLabel: '中文',
@@ -849,10 +849,10 @@ function App() {
       : copy.metaDescription);
     const canonicalUrl =
       currentArticle ? currentArticle.canonicalHref
-      : isBlogPage ? 'https://suoxya.com/blog/'
-      : isPricingPage ? (locale === 'en' ? 'https://suoxya.com/en/pricing/' : 'https://suoxya.com/pricing/')
+      : isBlogPage ? 'https://ink-memory.suoxya.com/blog/'
+      : isPricingPage ? (locale === 'en' ? 'https://ink-memory.suoxya.com/en/pricing/' : 'https://ink-memory.suoxya.com/pricing/')
       : copy.canonicalUrl;
-    const socialImageUrl = 'https://suoxya.com/og-image.png';
+    const socialImageUrl = 'https://ink-memory.suoxya.com/og-image.png';
 
     document.querySelector('meta[name="description"]')?.setAttribute('content', description);
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', document.title);

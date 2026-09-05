@@ -17,4 +17,4 @@ Disallow: /api/
 Disallow: /polycli/
 Disallow: /ws/
 
-Sitemap: https://suoxya.com/sitemap.xml
+Sitemap: https://ink-memory.suoxya.com/sitemap.xml

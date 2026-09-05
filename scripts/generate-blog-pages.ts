@@ -4,7 +4,7 @@ import {dirname, resolve} from 'node:path';
 import {blogArticles} from '../src/blog/articles';
 import type {BlogArticle, BlogContentBlock, BlogInlineContent} from '../src/blog/types';
 
-const siteUrl = 'https://suoxya.com';
+const siteUrl = 'https://ink-memory.suoxya.com';
 const outputRoot = resolve(process.cwd(), 'blog');
 
 function escapeHtml(value: string) {
