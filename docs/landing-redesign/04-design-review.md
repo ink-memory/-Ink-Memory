@@ -50,8 +50,8 @@
 
 ### 4. JS bundle 失败的静态降级
 
-- **问题**：当前 inline script 过早加入 `.js-enabled` 并隐藏 SEO 静态内容，bundle 失败可能得到空白页。
-- **修订**：删除过早隐藏逻辑，让 React 成功挂载时自然替换 `#root` 的静态内容；若脚本失败，HTML 中的产品说明和真实链接仍可用。
+- **问题**：React bundle 加载期间直接显示 `#root` 中的 SEO 静态内容，会在正常刷新时短暂闪出未样式化文本。
+- **修订**：将静态 SEO 内容放入 `<noscript>`；启用 JavaScript 时由 React 直接渲染应用，禁用 JavaScript 时仍保留产品说明和真实链接。
 
 ### 5. Social preview 与 Logo
 

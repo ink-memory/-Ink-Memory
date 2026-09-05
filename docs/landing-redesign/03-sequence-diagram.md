@@ -16,7 +16,7 @@
 - 主 CTA 指向已有外部入口 `https://ink-frontend.suoxya.com`，使用新窗口；本仓库不拥有其登录、注册、导入或写作后端流程。
 - 锚点导航由浏览器 hash 与 CSS `scroll-margin-top` 完成；Reduced Motion 时关闭平滑滚动和视觉过渡。
 - 页面不依赖第三方图片或远程字体，主要视觉由 HTML/CSS/Lucide 组成。
-- 当前 `index.html` 会在 React bundle 成功前用 `.js-enabled` 隐藏静态 SEO 内容，存在 bundle 失败后空白的风险；实现阶段必须移除这项过早隐藏，让 React 成功挂载时自然替换静态内容，失败时保留静态后备。
+- 当前 `index.html` 与生成的页面 shell 将静态 SEO 内容放在 `<noscript>` 中：启用 JavaScript 时不会先闪出纯文本，禁用 JavaScript 时仍保留可读的静态后备。
 
 ## 主业务时序
 

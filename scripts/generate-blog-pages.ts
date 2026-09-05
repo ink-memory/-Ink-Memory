@@ -67,7 +67,9 @@ ${head}
   </head>
   <body>
     <div id="root">
+      <noscript>
 ${body}
+      </noscript>
     </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
