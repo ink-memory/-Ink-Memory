@@ -9,11 +9,18 @@ import {
 } from 'react';
 import {
   ArrowRight,
+  CheckCircle,
   Check,
   CheckCircle2,
+  FileText,
   History,
+  ImageIcon,
+  Layers3,
+  Link2,
   Menu,
+  Play,
   Sparkles,
+  Workflow,
   X,
 } from 'lucide-react';
 
@@ -83,6 +90,53 @@ type PricingPlan = {
   available: boolean;
 };
 
+type UseCasesPageCopy = {
+  metaTitle: string;
+  metaDescription: string;
+  canonicalUrl: string;
+  hero: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    primaryAction: string;
+    secondaryAction: string;
+  };
+  status: {
+    available: string;
+    planned: string;
+    concept: string;
+  };
+  comfy: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    goalLabel: string;
+    goal: string;
+    steps: Array<{label: string; title: string; description: string; output: string}>;
+    resultLabel: string;
+    result: string;
+    disclaimer: string;
+  };
+  notion: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    taskLabel: string;
+    task: string;
+    steps: Array<{title: string; description: string}>;
+    resultLabel: string;
+    result: string;
+    boundary: string;
+  };
+  final: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    primaryAction: string;
+    secondaryAction: string;
+  };
+};
+
 type HomeCopy = {
   metaTitle: string;
   metaDescription: string;
@@ -116,6 +170,7 @@ type HomeCopy = {
     eyebrow: string;
     title: string;
     description: string;
+    action: string;
     items: UseCase[];
   };
   examples: {
@@ -189,6 +244,7 @@ const homeCopy: Record<Locale, HomeCopy> = {
       eyebrow: 'Use cases',
       title: '从今天的问题开始。',
       description: '写下内容，调用记忆，获得反馈，保存长期结果。',
+      action: '查看完整使用场景',
       items: [
         {
           label: '每日书写',
@@ -459,6 +515,7 @@ const homeCopy: Record<Locale, HomeCopy> = {
       eyebrow: 'Use cases',
       title: 'Start with today’s question.',
       description: 'Write. Recall. Get focused feedback. Keep what matters.',
+      action: 'Explore all use cases',
       items: [
         {
           label: 'Daily writing',
@@ -697,6 +754,121 @@ const homeCopy: Record<Locale, HomeCopy> = {
   },
 };
 
+const useCasesPageCopy: Record<Locale, UseCasesPageCopy> = {
+  zh: {
+    metaTitle: 'Ink & Memory 使用场景 | ComfyUI MCP Apps 与 Notion',
+    metaDescription: '查看 Ink & Memory 如何把视觉生成和外部资料带进当前任务：ComfyUI MCP Apps 概念方案与已实现的 Notion 只读连接。',
+    canonicalUrl: 'https://ink-memory.suoxya.com/use-cases/',
+    hero: {
+      eyebrow: 'Use cases · 工作流',
+      title: '从一句需求，到可继续使用的结果。',
+      description: 'IM 把任务、资料、工具和结果放在同一条工作路径里。先看视觉生成，再看 Notion 资料如何进入当前写作。',
+      primaryAction: '查看 ComfyUI 方案',
+      secondaryAction: '查看 Notion 场景',
+    },
+    status: {
+      available: '已实现',
+      planned: '规划中',
+      concept: '概念示意',
+    },
+    comfy: {
+      eyebrow: '主要场景 · ComfyUI MCP Apps',
+      title: '描述画面。运行工作流。拿回结果。',
+      description: '面向角色设定、分镜和视觉素材。用户只说明目标，IM 负责把任务交给已配置的 ComfyUI 工作流，并在当前工作台显示过程与结果。',
+      goalLabel: '当前需求',
+      goal: '为长篇故事生成一张角色设定图：正面、侧面、服装细节，保持已有角色特征。',
+      steps: [
+        {label: '01 · 需求', title: '说明要生成什么', description: '目标、用途、画面比例、必须保留的角色事实。', output: '任务已整理'},
+        {label: '02 · 工作流', title: '选择 ComfyUI 工作流', description: '选择模型、参考图和输出规格；参数保持可见。', output: '等待确认'},
+        {label: '03 · 执行', title: '查看运行状态', description: '节点进度、失败位置和可重试步骤留在当前任务里。', output: '生成中'},
+        {label: '04 · 结果', title: '接收并继续使用', description: '图片与生成记录回到任务，可加入 Deck 或继续调整。', output: '结果已返回'},
+      ],
+      resultLabel: '预期结果',
+      result: '角色设定图 · 运行记录 · 可继续调整的工作流',
+      disclaimer: '当前尚未接入可用的 ComfyUI MCP App、真实工作流或线上生成服务。本区只描述计划中的用户体验。',
+    },
+    notion: {
+      eyebrow: '已实现 · Notion',
+      title: '选择资料。同步索引。按需读取。',
+      description: '写产品复盘、文章或方案时，先选定允许 IM 使用的 Notion 页面和数据库。需要时再读取相关页面，不必反复复制粘贴。',
+      taskLabel: '示例任务',
+      task: '写一篇产品复盘，核对最初目标、用户反馈和上线时间。',
+      steps: [
+        {title: '连接 Notion', description: '使用一个账号完成授权。'},
+        {title: '选择范围', description: '勾选早期方案、用户反馈和上线记录。'},
+        {title: '同步索引', description: '更新页面标题、类型和最近同步状态。'},
+        {title: '按需读取', description: '对话需要时读取一个页面的最新 Markdown。'},
+      ],
+      resultLabel: '实际结果',
+      result: '资料来源可见 · 读取范围可控 · 最近一次成功索引保留',
+      boundary: 'Notion 当前为只读连接：不写回远程页面，也不会在启动对话时批量下载正文。',
+    },
+    final: {
+      eyebrow: 'Task · Source · Result',
+      title: '先从一个真实任务开始。',
+      description: '打开工作台，写下目标，选择需要的资料和工作方式。',
+      primaryAction: '打开工作台',
+      secondaryAction: '返回首页',
+    },
+  },
+  en: {
+    metaTitle: 'Ink & Memory Use Cases | ComfyUI MCP Apps and Notion',
+    metaDescription: 'See how Ink & Memory brings visual generation and external sources into one task: a planned ComfyUI MCP Apps experience and the implemented read-only Notion connection.',
+    canonicalUrl: 'https://ink-memory.suoxya.com/en/use-cases/',
+    hero: {
+      eyebrow: 'Use cases · Workflows',
+      title: 'From one request to a result you can keep using.',
+      description: 'IM keeps the task, sources, tools, and output in one working path. Start with visual generation, then see how Notion material enters the writing process.',
+      primaryAction: 'See the ComfyUI plan',
+      secondaryAction: 'See the Notion workflow',
+    },
+    status: {
+      available: 'Implemented',
+      planned: 'Planned',
+      concept: 'Concept illustration',
+    },
+    comfy: {
+      eyebrow: 'Primary use case · ComfyUI MCP Apps',
+      title: 'Describe the image. Run the workflow. Keep the result.',
+      description: 'For character sheets, storyboards, and visual assets. The user states the goal; IM hands the task to a configured ComfyUI workflow and keeps its progress and result in the current workbench.',
+      goalLabel: 'Current request',
+      goal: 'Create a character sheet for a long-form story: front view, side view, costume details, and the established character traits.',
+      steps: [
+        {label: '01 · Brief', title: 'State what you need', description: 'Goal, intended use, aspect ratio, and character facts that must remain.', output: 'Brief prepared'},
+        {label: '02 · Workflow', title: 'Choose a ComfyUI workflow', description: 'Choose the model, reference images, and output spec with visible parameters.', output: 'Awaiting approval'},
+        {label: '03 · Run', title: 'Watch execution', description: 'Node progress, failures, and retryable steps stay with the current task.', output: 'Generating'},
+        {label: '04 · Result', title: 'Receive and reuse', description: 'The image and run record return to the task for Deck storage or another iteration.', output: 'Result returned'},
+      ],
+      resultLabel: 'Expected result',
+      result: 'Character sheet · Run record · Reusable workflow',
+      disclaimer: 'No usable ComfyUI MCP App, real workflow, or online generation service is connected yet. This section describes the planned user experience only.',
+    },
+    notion: {
+      eyebrow: 'Implemented · Notion',
+      title: 'Choose sources. Sync the index. Read on demand.',
+      description: 'When writing a retrospective, article, or proposal, choose the Notion pages and databases IM may use. Relevant pages can then be read without repeated copy and paste.',
+      taskLabel: 'Example task',
+      task: 'Write a product retrospective and verify the original goal, user feedback, and launch timeline.',
+      steps: [
+        {title: 'Connect Notion', description: 'Authorize one account.'},
+        {title: 'Choose the scope', description: 'Select the early proposal, feedback, and launch record.'},
+        {title: 'Sync the index', description: 'Update titles, resource types, and the last sync state.'},
+        {title: 'Read on demand', description: 'Read the latest Markdown for one page when the conversation needs it.'},
+      ],
+      resultLabel: 'Actual result',
+      result: 'Visible sources · Controlled scope · Last successful index retained',
+      boundary: 'The current Notion connection is read-only: it does not write back to remote pages or bulk-download page bodies when a conversation starts.',
+    },
+    final: {
+      eyebrow: 'Task · Source · Result',
+      title: 'Start with one real task.',
+      description: 'Open the workbench, state the goal, and choose the sources and workflow you need.',
+      primaryAction: 'Open workbench',
+      secondaryAction: 'Back to home',
+    },
+  },
+};
+
 type ExternalAwareLinkProps = {
   children: ReactNode;
   className?: string;
@@ -733,15 +905,21 @@ function App() {
     : undefined;
   const isBlogPage = normalizedPath === '/blog' || Boolean(currentArticle);
   const isPricingPage = normalizedPath === '/pricing' || normalizedPath === '/en/pricing';
+  const isUseCasesPage = normalizedPath === '/use-cases' || normalizedPath === '/en/use-cases';
   const locale: Locale =
     normalizedPath === '/en' || normalizedPath.startsWith('/en/') || currentArticle?.language === 'English' ? 'en' : 'zh';
   const copy = homeCopy[locale];
+  const useCasesCopy = useCasesPageCopy[locale];
   const pricingHref = locale === 'en' ? '/en/pricing/' : '/pricing/';
-  const languageHref = isPricingPage ? (locale === 'en' ? '/pricing/' : '/en/pricing/') : copy.languageHref;
+  const useCasesHref = locale === 'en' ? '/en/use-cases/' : '/use-cases/';
+  const languageHref =
+    isPricingPage ? (locale === 'en' ? '/pricing/' : '/en/pricing/')
+    : isUseCasesPage ? (locale === 'en' ? '/use-cases/' : '/en/use-cases/')
+    : copy.languageHref;
 
   const navItems: NavItem[] = [
     {label: copy.nav.how, href: `${copy.homeHref}#how-it-works`},
-    {label: copy.nav.memory, href: `${copy.homeHref}#use-cases`},
+    {label: copy.nav.memory, href: useCasesHref},
     {label: copy.nav.pricing, href: pricingHref},
     {label: copy.nav.blog, href: blogUrl},
   ];
@@ -835,22 +1013,29 @@ function App() {
       : isBlogPage ? 'zh-CN'
       : locale === 'en' ? 'en'
       : 'zh-CN';
-    document.body.dataset.page = isBlogPage ? 'portal-blog' : isPricingPage ? 'portal-pricing' : 'portal-home';
+    document.body.dataset.page =
+      isBlogPage ? 'portal-blog'
+      : isPricingPage ? 'portal-pricing'
+      : isUseCasesPage ? 'portal-use-cases'
+      : 'portal-home';
     document.title =
       currentArticle ? `${currentArticle.title} | Ink & Memory Blog`
       : isBlogPage ? 'Ink & Memory Blog | AI 写作记忆与工作空间设计'
       : isPricingPage ? (locale === 'en' ? 'Ink & Memory Pricing | Free, Dream, is Dreaming' : 'Ink & Memory 定价 | Free、Dream、is Dreaming')
+      : isUseCasesPage ? useCasesCopy.metaTitle
       : copy.metaTitle;
 
     const description =
       currentArticle?.summary ??
       (isBlogPage ? 'Ink & Memory Blog 收录 AI 写作、长期记忆、Workspace 状态管理和交互设计文章。'
       : isPricingPage ? copy.pricing.description
+      : isUseCasesPage ? useCasesCopy.metaDescription
       : copy.metaDescription);
     const canonicalUrl =
       currentArticle ? currentArticle.canonicalHref
       : isBlogPage ? 'https://ink-memory.suoxya.com/blog/'
       : isPricingPage ? (locale === 'en' ? 'https://ink-memory.suoxya.com/en/pricing/' : 'https://ink-memory.suoxya.com/pricing/')
+      : isUseCasesPage ? useCasesCopy.canonicalUrl
       : copy.canonicalUrl;
     const socialImageUrl = 'https://ink-memory.suoxya.com/og-image.png';
 
@@ -865,7 +1050,7 @@ function App() {
     document.querySelector('meta[name="twitter:title"]')?.setAttribute('content', document.title);
     document.querySelector('meta[name="twitter:description"]')?.setAttribute('content', description);
     document.querySelector('meta[name="twitter:image"]')?.setAttribute('content', socialImageUrl);
-  }, [currentArticle, isBlogPage, isPricingPage, locale, copy]);
+  }, [currentArticle, isBlogPage, isPricingPage, isUseCasesPage, locale, copy, useCasesCopy]);
 
   return (
     <>
@@ -937,7 +1122,8 @@ function App() {
       {currentArticle ? <BlogArticlePage article={currentArticle} />
       : isBlogPage ? <BlogPage />
       : isPricingPage ? <PricingPage copy={copy} />
-      : <HomePage copy={copy} />}
+      : isUseCasesPage ? <UseCasesPage copy={useCasesCopy} homeHref={copy.homeHref} />
+      : <HomePage copy={copy} useCasesHref={useCasesHref} />}
 
       <footer className="site-footer" aria-label="Project links">
         <div className="footer-brand">
@@ -946,6 +1132,7 @@ function App() {
         <div className="footer-links">
           <a href={startWritingUrl} rel="noreferrer" target="_blank">{copy.nav.write}</a>
           <a href={pricingHref}>{copy.nav.pricing}</a>
+          <a href={useCasesHref}>{copy.nav.memory}</a>
           <a href={blogUrl}>Blog</a>
           <a href={repositoryUrl} rel="noreferrer" target="_blank">GitHub</a>
           <a href="/sitemap.xml">Sitemap</a>
@@ -956,7 +1143,7 @@ function App() {
   );
 }
 
-function HomePage({copy}: {copy: HomeCopy}) {
+function HomePage({copy, useCasesHref}: {copy: HomeCopy; useCasesHref: string}) {
   const [activeStep, setActiveStep] = useState(0);
   const tabRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const storyRef = useRef<HTMLDivElement>(null);
@@ -1119,7 +1306,7 @@ function HomePage({copy}: {copy: HomeCopy}) {
             <a className="button button-primary" href={startWritingUrl} rel="noreferrer" target="_blank">
               <span>{copy.hero.primaryAction}</span><ArrowRight aria-hidden="true" size={19} />
             </a>
-            <a className="button button-secondary" href="#use-cases">
+            <a className="button button-secondary" href={useCasesHref}>
               <span>{copy.hero.secondaryAction}</span>
             </a>
           </div>
@@ -1166,6 +1353,9 @@ function HomePage({copy}: {copy: HomeCopy}) {
             </article>
           ))}
         </div>
+        <a className="scenario-page-link" href={useCasesHref}>
+          <span>{copy.useCases.action}</span><ArrowRight aria-hidden="true" size={18} />
+        </a>
       </section>
 
       <ProductExamples copy={copy.examples} />
@@ -1239,6 +1429,231 @@ function HomePage({copy}: {copy: HomeCopy}) {
             {copy.final.primaryAction}<ArrowRight aria-hidden="true" size={19} />
           </a>
           <a className="button button-on-dark" href="#real-decks">{copy.final.secondaryAction}</a>
+        </div>
+      </section>
+    </main>
+  );
+}
+
+function PlatformBrandMark({kind}: {kind: 'comfy' | 'notion'}) {
+  if (kind === 'notion') {
+    return (
+      <span className="platform-brand platform-brand--notion" aria-label="Notion">
+        <span className="platform-brand-symbol" aria-hidden="true"><span>N</span></span>
+        <strong>Notion</strong>
+      </span>
+    );
+  }
+
+  return (
+    <span className="platform-brand platform-brand--comfy" aria-label="ComfyUI">
+      <span className="platform-brand-symbol" aria-hidden="true">
+        <svg viewBox="0 0 32 32">
+          <path d="M7 8h8v7H7zM17 17h8v7h-8z" />
+          <path d="M15 11.5h4.5a3 3 0 0 1 3 3V17M17 20.5h-4.5a3 3 0 0 1-3-3V15" />
+        </svg>
+      </span>
+      <strong>ComfyUI</strong>
+    </span>
+  );
+}
+
+function UseCasesPage({copy, homeHref}: {copy: UseCasesPageCopy; homeHref: string}) {
+  const [activeComfyStep, setActiveComfyStep] = useState(0);
+  const storyRef = useRef<HTMLDivElement>(null);
+  const stageRef = useRef<HTMLDivElement>(null);
+  const panelRefs = useRef<Array<HTMLElement | null>>([]);
+
+  useLayoutEffect(() => {
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let animationFrame = 0;
+
+    const updateFromScroll = () => {
+      const story = storyRef.current;
+      const stage = stageRef.current;
+      if (!story || !stage) return;
+      const compact = window.matchMedia('(max-width: 820px)').matches;
+      if (compact || motionQuery.matches) {
+        story.style.setProperty('--use-case-progress', '100%');
+        panelRefs.current.forEach((panel) => {
+          panel?.style.setProperty('--case-reveal', '1');
+          panel?.style.setProperty('--case-inset', '0%');
+          panel?.style.setProperty('--case-shift', '0px');
+        });
+        return;
+      }
+
+      const stickyTop = 96;
+      const storyRect = story.getBoundingClientRect();
+      const track = Math.max(1, story.offsetHeight - stage.offsetHeight);
+      const progress = Math.min(1, Math.max(0, (stickyTop - storyRect.top) / track));
+      const nextStep = Math.min(copy.comfy.steps.length - 1, Math.floor(progress * copy.comfy.steps.length));
+      setActiveComfyStep((current) => current === nextStep ? current : nextStep);
+      story.style.setProperty('--use-case-progress', `${progress * 100}%`);
+
+      panelRefs.current.forEach((panel, index) => {
+        const start = index === 0 ? 0 : (index - 0.2) / copy.comfy.steps.length;
+        const end = Math.min(1, start + 0.19);
+        const linear = index === 0 ? 1 : Math.min(1, Math.max(0, (progress - start) / Math.max(0.01, end - start)));
+        const reveal = 1 - Math.pow(1 - linear, 3);
+        panel?.style.setProperty('--case-reveal', String(reveal));
+        panel?.style.setProperty('--case-inset', `${(1 - reveal) * 100}%`);
+        panel?.style.setProperty('--case-shift', `${(1 - reveal) * 34}px`);
+      });
+      animationFrame = 0;
+    };
+
+    const requestUpdate = () => {
+      if (!animationFrame) animationFrame = window.requestAnimationFrame(updateFromScroll);
+    };
+
+    updateFromScroll();
+    window.addEventListener('scroll', requestUpdate, {passive: true});
+    window.addEventListener('resize', requestUpdate);
+    motionQuery.addEventListener('change', requestUpdate);
+    return () => {
+      window.removeEventListener('scroll', requestUpdate);
+      window.removeEventListener('resize', requestUpdate);
+      motionQuery.removeEventListener('change', requestUpdate);
+      if (animationFrame) window.cancelAnimationFrame(animationFrame);
+    };
+  }, [copy.comfy.steps.length]);
+
+  return (
+    <main className="use-cases-page" id="main">
+      <section className="use-cases-hero" aria-labelledby="useCasesHeroTitle">
+        <p className="eyebrow">{copy.hero.eyebrow}</p>
+        <h1 id="useCasesHeroTitle">{copy.hero.title}</h1>
+        <p>{copy.hero.description}</p>
+        <div className="hero-actions">
+          <a className="button button-primary" href="#comfyui-use-case">{copy.hero.primaryAction}<ArrowRight aria-hidden="true" size={18} /></a>
+          <a className="button button-secondary" href="#notion-use-case">{copy.hero.secondaryAction}</a>
+        </div>
+      </section>
+
+      <section className="comfy-use-case" id="comfyui-use-case" aria-labelledby="comfyUseCaseTitle">
+        <header className="use-case-heading">
+          <div>
+            <PlatformBrandMark kind="comfy" />
+            <p className="eyebrow">{copy.comfy.eyebrow}</p>
+          </div>
+          <span className="use-case-status use-case-status--planned"><span aria-hidden="true" />{copy.status.planned}</span>
+          <h2 id="comfyUseCaseTitle">{copy.comfy.title}</h2>
+          <p>{copy.comfy.description}</p>
+        </header>
+
+        <div className="use-case-goal">
+          <span>{copy.comfy.goalLabel}</span>
+          <p>{copy.comfy.goal}</p>
+        </div>
+
+        <div className="comfy-scroll-story" ref={storyRef}>
+          <div className="comfy-sticky-stage" ref={stageRef}>
+            <ol className="comfy-step-rail" aria-label={copy.comfy.eyebrow}>
+              {copy.comfy.steps.map((step, index) => (
+                <li className={activeComfyStep === index ? 'is-active' : ''} aria-current={activeComfyStep === index ? 'step' : undefined} key={step.label}>
+                  <span>{String(index + 1).padStart(2, '0')}</span><strong>{step.label.replace(/^\d+\s·\s/, '')}</strong>
+                </li>
+              ))}
+            </ol>
+
+            <div className={`comfy-concept-canvas is-step-${activeComfyStep + 1}`} aria-label={`${copy.status.concept}: ${copy.comfy.goal}`}>
+              <div className="concept-canvas-toolbar">
+                <PlatformBrandMark kind="comfy" />
+                <span>{copy.status.concept}</span>
+              </div>
+              <div className="comfy-brief-card">
+                <FileText aria-hidden="true" size={18} />
+                <span>{copy.comfy.goalLabel}</span>
+                <p>{copy.comfy.goal}</p>
+              </div>
+              <div className="comfy-node-field" aria-hidden="true">
+                <span className="comfy-node-link comfy-node-link--1" />
+                <span className="comfy-node-link comfy-node-link--2" />
+                <span className="comfy-node-link comfy-node-link--3" />
+                <div className="comfy-node comfy-node--brief"><FileText size={17} /><span>Brief</span><small>role facts</small></div>
+                <div className="comfy-node comfy-node--model"><Layers3 size={17} /><span>Model</span><small>configured</small></div>
+                <div className="comfy-node comfy-node--run"><Play size={17} /><span>Run</span><small>pending</small></div>
+                <div className="comfy-node comfy-node--output"><ImageIcon size={17} /><span>Output</span><small>task asset</small></div>
+              </div>
+              <div className="comfy-run-state">
+                <span><Workflow aria-hidden="true" size={17} />{copy.comfy.steps[activeComfyStep].output}</span>
+                <span className="comfy-run-line"><i /></span>
+                <span>{String(activeComfyStep + 1).padStart(2, '0')} / 04</span>
+              </div>
+            </div>
+
+            <div className="comfy-copy-stack" aria-live="polite">
+              {copy.comfy.steps.map((step, index) => (
+                <article
+                  className={`comfy-copy-panel${activeComfyStep === index ? ' is-current' : ''}`}
+                  key={step.label}
+                  ref={(element) => {panelRefs.current[index] = element;}}
+                >
+                  <p>{step.label}</p>
+                  <h3>{step.title}</h3>
+                  <span aria-hidden="true" />
+                  <p>{step.description}</p>
+                  <small>{step.output}</small>
+                </article>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="use-case-result">
+          <CheckCircle aria-hidden="true" size={21} />
+          <div><span>{copy.comfy.resultLabel}</span><strong>{copy.comfy.result}</strong></div>
+        </div>
+        <p className="use-case-disclaimer"><span>{copy.status.concept}</span>{copy.comfy.disclaimer}</p>
+      </section>
+
+      <section className="notion-use-case" id="notion-use-case" aria-labelledby="notionUseCaseTitle">
+        <header className="use-case-heading use-case-heading--notion">
+          <div>
+            <PlatformBrandMark kind="notion" />
+            <p className="eyebrow">{copy.notion.eyebrow}</p>
+          </div>
+          <span className="use-case-status use-case-status--available"><span aria-hidden="true" />{copy.status.available}</span>
+          <h2 id="notionUseCaseTitle">{copy.notion.title}</h2>
+          <p>{copy.notion.description}</p>
+        </header>
+
+        <div className="notion-workflow">
+          <div className="notion-task">
+            <span><FileText aria-hidden="true" size={18} />{copy.notion.taskLabel}</span>
+            <p>{copy.notion.task}</p>
+            <div className="notion-selected-sources" aria-label={copy.notion.resultLabel}>
+              <span><FileText aria-hidden="true" size={15} />Early proposal</span>
+              <span><Link2 aria-hidden="true" size={15} />User feedback</span>
+              <span><FileText aria-hidden="true" size={15} />Launch record</span>
+            </div>
+          </div>
+          <ol className="notion-steps">
+            {copy.notion.steps.map((step, index) => (
+              <li key={step.title}>
+                <span>{String(index + 1).padStart(2, '0')}</span>
+                <div><strong>{step.title}</strong><p>{step.description}</p></div>
+                <Check aria-hidden="true" size={17} />
+              </li>
+            ))}
+          </ol>
+        </div>
+
+        <div className="use-case-result use-case-result--notion">
+          <CheckCircle aria-hidden="true" size={21} />
+          <div><span>{copy.notion.resultLabel}</span><strong>{copy.notion.result}</strong></div>
+        </div>
+        <p className="notion-boundary">{copy.notion.boundary}</p>
+      </section>
+
+      <section className="final-cta use-cases-final" aria-labelledby="useCasesFinalTitle">
+        <p className="eyebrow">{copy.final.eyebrow}</p>
+        <h2 id="useCasesFinalTitle">{copy.final.title}</h2>
+        <p>{copy.final.description}</p>
+        <div className="final-actions">
+          <a className="button button-light" href={startWritingUrl} rel="noreferrer" target="_blank">{copy.final.primaryAction}<ArrowRight aria-hidden="true" size={19} /></a>
+          <a className="button button-on-dark" href={homeHref}>{copy.final.secondaryAction}</a>
         </div>
       </section>
     </main>

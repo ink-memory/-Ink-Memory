@@ -10,6 +10,12 @@
 
 - https://github.com/glide-the/ink-and-memory
 
+## Use Cases
+
+- Use cases: https://ink-memory.suoxya.com/use-cases/
+- ComfyUI MCP Apps is a planned concept scenario; no production ComfyUI App or online generation service is claimed.
+- Notion is implemented as a read-only connector with user-selected page/database scope, lightweight index sync, and page Markdown retrieval on demand.
+
 ## Blog and Knowledge Base
 
 - Blog index: https://ink-memory.suoxya.com/blog/
