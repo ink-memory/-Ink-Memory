@@ -38,6 +38,24 @@
     <xhtml:link rel="alternate" hreflang="x-default" href="https://suoxya.com/pricing/" />
   </url>
   <url>
+    <loc>https://suoxya.com/use-cases/</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://suoxya.com/use-cases/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://suoxya.com/en/use-cases/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suoxya.com/use-cases/" />
+  </url>
+  <url>
+    <loc>https://suoxya.com/en/use-cases/</loc>
+    <lastmod>2026-09-06</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+    <xhtml:link rel="alternate" hreflang="zh-CN" href="https://suoxya.com/use-cases/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://suoxya.com/en/use-cases/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://suoxya.com/use-cases/" />
+  </url>
+  <url>
     <loc>https://suoxya.com/blog/</loc>
     <lastmod>2026-08-31</lastmod>
     <changefreq>weekly</changefreq>

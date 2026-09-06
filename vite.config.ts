@@ -18,6 +18,8 @@ export default defineConfig(() => {
           en: path.resolve(__dirname, 'en/index.html'),
           pricing: path.resolve(__dirname, 'pricing/index.html'),
           enPricing: path.resolve(__dirname, 'en/pricing/index.html'),
+          useCases: path.resolve(__dirname, 'use-cases/index.html'),
+          enUseCases: path.resolve(__dirname, 'en/use-cases/index.html'),
           blog: path.resolve(__dirname, 'blog/index.html'),
           blogAiWriting: path.resolve(__dirname, 'blog/how-does-an-ai-know-what-you-are-writing/index.html'),
           blogWorkspace: path.resolve(__dirname, 'blog/workspace-state-management/index.html'),

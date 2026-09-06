@@ -15,6 +15,7 @@ https://github.com/glide-the/ink-and-memory
 ## Features
 
 - AI writing workspace
+- Standalone use-case pages for the planned ComfyUI MCP Apps workflow and the implemented read-only Notion connector
 - AI journal and reflective writing memory
 - Writing timeline and past reflections
 - Memory-based chat for personal knowledge conversations
@@ -27,7 +28,7 @@ https://github.com/glide-the/ink-and-memory
 
 - `index.html` 提供 title、description、canonical、robots、Open Graph、Twitter Card、hreflang 和 Schema.org JSON-LD。
 - `public/robots.txt` 显式允许 OpenAI、Claude、Perplexity 等 AI 搜索爬虫和常规搜索爬虫访问，并指向 `https://suoxya.com/sitemap.xml`。
-- `public/sitemap.xml` 声明英文首页和中文入口。
+- `public/sitemap.xml` 声明中英文首页、使用场景、定价和 Blog 入口。
 - `public/llms.txt` 给 AI 搜索和引用系统提供项目摘要。
 - `public/og-image.png` 提供 1200x630 的 Open Graph / Twitter 预览图。
 - `.github/workflows/deploy-pages.yml` 可以把 Vite 构建产物部署到 GitHub Pages。
@@ -38,7 +39,8 @@ Search Console 应提交项目站点 `https://suoxya.com/` 和 sitemap，而不�
 ## 项目结构
 
 - `index.html`：Vite 应用入口与 SEO meta
-- `src/App.tsx`：中英双语落地页、Blog 路由、移动导航与四步工作方式交互
+- `use-cases/index.html`、`en/use-cases/index.html`：中英文使用场景 SEO 页面壳
+- `src/App.tsx`：中英双语落地页、使用场景、定价、Blog 路由、移动导航与滚动叙事交互
 - `src/index.css`：全站 Token、Blog 与公共样式
 - `src/landing.css`：落地页布局、组件状态和响应式样式
 - `assets/Ink & Memory UI Design v2.pdf`：落地页最高优先级视觉规范
